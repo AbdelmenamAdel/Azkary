@@ -1,5 +1,5 @@
 import 'package:azkar/core/utils/app_images.dart';
-import 'package:azkar/features/Azkar/azkar_view.dart';
+import 'package:azkar/features/Azkar/view/azkar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
