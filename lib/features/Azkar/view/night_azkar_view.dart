@@ -104,7 +104,7 @@ class ZekrSection extends StatelessWidget {
                 ),
           SizedBox(
             child: CircularStepProgressIndicator(
-              totalSteps: model.loop,
+              totalSteps: model.loop!,
               currentStep: cubit.upNightLoops[cubit.night.indexOf(model)],
               stepSize: 10,
               selectedColor: AppColors.blueGrey,
