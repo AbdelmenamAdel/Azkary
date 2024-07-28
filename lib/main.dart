@@ -9,7 +9,7 @@ void main() {
   runApp(
     DevicePreview(
       builder: (context) => BlocProvider(
-        create: (context) => ZekrCounterCubit()..fillLoops(),
+        create: (context) => ZekrCounterCubit(),
         child: const MyApp(),
       ),
     ),
