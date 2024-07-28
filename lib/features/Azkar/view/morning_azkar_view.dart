@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'widgets/zekr_card.dart';
 
 class MorningAzkarView extends StatelessWidget {
   const MorningAzkarView({super.key});
@@ -16,6 +17,7 @@ class MorningAzkarView extends StatelessWidget {
       color: AppColors.primary,
       child: SafeArea(
         child: Scaffold(
+          appBar: AppBar(),
           backgroundColor: AppColors.primary,
           body: BlocBuilder<ZekrCounterCubit, ZekrCounterState>(
             builder: (context, state) {
@@ -23,9 +25,9 @@ class MorningAzkarView extends StatelessWidget {
               return ListView.builder(
                 padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
                 itemBuilder: (context, index) {
-                  // cubit.getCurrentStep(index);
                   return ZekrCardWidget(
                     data: cubit.morning[index],
+                    zekrName: 'morning',
                     sort: index + 1,
                   );
                 },
@@ -39,69 +41,8 @@ class MorningAzkarView extends StatelessWidget {
   }
 }
 
-class ZekrCardWidget extends StatelessWidget {
-  const ZekrCardWidget({super.key, required this.data, required this.sort});
-  final Map<String, dynamic> data;
-  final int sort;
-  @override
-  Widget build(BuildContext context) {
-    var cubit = ZekrCounterCubit.get(context);
-
-    return InkWell(
-      onTap: () {
-        cubit.updateCurrentStep(sort - 1);
-      },
-      child: Card(
-        margin: const EdgeInsets.all(5),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Container(
-                height: 50.h,
-                width: 50.w,
-                decoration: const BoxDecoration(
-                    color: AppColors.blueGrey,
-                    borderRadius:
-                        BorderRadius.only(topRight: Radius.circular(3))),
-                child: Center(
-                  child: Text(
-                    "$sort",
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            ZekrSection(
-              data: data,
-            ),
-            const ShareWidget(),
-            const Positioned(
-              bottom: 0,
-              right: 0,
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.mosque_rounded,
-                  color: AppColors.blueGrey,
-                  size: 28,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ZekrSection extends StatelessWidget {
-  const ZekrSection({super.key, required this.data});
+class MorningZekrSection extends StatelessWidget {
+  const MorningZekrSection({super.key, required this.data});
   final Map<String, dynamic> data;
 
   @override
@@ -117,13 +58,14 @@ class ZekrSection extends StatelessWidget {
                   height: 18,
                 )
               : Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
+                  padding: const EdgeInsets.symmetric(vertical: 18.0),
                   child: Text(
                     data['title'],
                     style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Cairo'),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Cairo',
+                    ),
                   ),
                 ),
           SizedBox(
@@ -145,12 +87,21 @@ class ZekrSection extends StatelessWidget {
                 )
               : Padding(
                   padding: const EdgeInsets.only(top: 32, bottom: 12.0),
-                  child: Text(data['leading']),
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    textWidthBasis: TextWidthBasis.parent,
+                    data['leading'],
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Cairo',
+                        color: AppColors.secondary),
+                  ),
                 ),
           SizedBox(
             child: CircularStepProgressIndicator(
               totalSteps: data['loop'],
-              currentStep: cubit.upLoops[cubit.morning.indexOf(data)],
+              currentStep: cubit.upMorningLoops[cubit.morning.indexOf(data)],
               stepSize: 10,
               selectedColor: AppColors.blueGrey,
               unselectedColor: AppColors.secondary,
@@ -159,14 +110,15 @@ class ZekrSection extends StatelessWidget {
               selectedStepSize: 3,
               unselectedStepSize: 1,
               child: Center(
-                  child: cubit.downLoops[cubit.morning.indexOf(data)] == 0
+                  child: cubit.downMorningLoops[cubit.morning.indexOf(data)] ==
+                          0
                       ? const Icon(
                           Icons.check_rounded,
                           size: 38,
                           color: AppColors.blueGrey,
                         )
                       : Text(
-                          cubit.downLoops[cubit.morning.indexOf(data)]
+                          cubit.downMorningLoops[cubit.morning.indexOf(data)]
                               .toString(),
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -179,32 +131,6 @@ class ZekrSection extends StatelessWidget {
             height: 50.h,
           )
         ],
-      ),
-    );
-  }
-}
-
-class ShareWidget extends StatelessWidget {
-  const ShareWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      child: InkWell(
-        splashColor: Colors.white,
-        // highlightColor: Colors.white,
-        focusColor: Colors.white,
-        onTap: () {},
-        child: const Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Icon(
-            Icons.share,
-            color: AppColors.blueGrey,
-            size: 28,
-          ),
-        ),
       ),
     );
   }
