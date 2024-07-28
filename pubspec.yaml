@@ -33,6 +33,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_chat_bubble: ^2.0.2
   flutter_screenutil: ^5.9.3
   step_progress_indicator: ^1.0.2
 
