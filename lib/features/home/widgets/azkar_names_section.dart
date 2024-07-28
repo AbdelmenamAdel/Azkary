@@ -1,5 +1,7 @@
 import 'package:azkar/core/utils/app_images.dart';
-import 'package:azkar/features/Azkar/view/azkar_view.dart';
+import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
+import 'package:azkar/features/Azkar/view/morning_azkar_view.dart';
+import 'package:azkar/features/Azkar/view/night_azkar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,6 +31,8 @@ class AzkarNamesSection extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
+                        ZekrCounterCubit.get(context).fillMorningLoops();
+
                         return const MorningAzkarView();
                       },
                     ),
@@ -40,15 +44,26 @@ class AzkarNamesSection extends StatelessWidget {
         ),
         SizedBox(
           height: 180.h,
-          child: const Row(
+          child: Row(
             children: [
-              AzkarNameCard(
+              const AzkarNameCard(
                 azkarName: "Sleeping Azkar",
                 image: AppImages.sleepMoon,
               ),
               AzkarNameCard(
                 azkarName: "Night Azkar",
                 image: AppImages.nightMode,
+                onTap: () {
+                  ZekrCounterCubit.get(context).fillNightLoops();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const NightAzkarView();
+                      },
+                    ),
+                  );
+                },
               ),
             ],
           ),
