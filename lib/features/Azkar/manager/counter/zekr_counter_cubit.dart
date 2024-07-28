@@ -31,7 +31,7 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   List<int> upNightLoops = [];
   void fillNightLoops() {
     for (int i = 0; i < night.length; i++) {
-      downNightLoops.add(night[i].loop);
+      downNightLoops.add(night[i].loop!);
       upNightLoops.add(0);
     }
   }
@@ -51,7 +51,7 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   List<int> upafterPrayLoops = [];
   void fillafterPrayLoops() {
     for (int i = 0; i < afterPray.length; i++) {
-      downafterPrayLoops.add(afterPray[i].loop);
+      downafterPrayLoops.add(afterPray[i].loop!);
       upafterPrayLoops.add(0);
     }
   }
@@ -71,7 +71,7 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   List<int> upsleepingLoops = [];
   void fillsleepingLoops() {
     for (int i = 0; i < sleeping.length; i++) {
-      downsleepingLoops.add(sleeping[i].loop);
+      downsleepingLoops.add(sleeping[i].loop!);
       upsleepingLoops.add(0);
     }
   }
@@ -85,43 +85,43 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
     }
   }
 
-// ! ############### Roqiah Azkar Counter Cubit ###############
-  List<ZekrModel> roqiah = Azkar().roqiah;
-  List<int> downroqiahLoops = [];
-  List<int> uproqiahLoops = [];
-  void fillroqiahLoops() {
-    for (int i = 0; i < roqiah.length; i++) {
-      downroqiahLoops.add(roqiah[i].loop);
-      uproqiahLoops.add(0);
-    }
-  }
+// // ! ############### Roqiah Azkar Counter Cubit ###############
+//   List<ZekrModel> roqiah = Azkar().roqiah;
+//   List<int> downroqiahLoops = [];
+//   List<int> uproqiahLoops = [];
+//   void fillroqiahLoops() {
+//     for (int i = 0; i < roqiah.length; i++) {
+//       downroqiahLoops.add(roqiah[i].loop);
+//       uproqiahLoops.add(0);
+//     }
+//   }
 
-  void updateroqiahCurrentStep(index) {
-    if (downroqiahLoops[index] > 0) {
-      downroqiahLoops[index] -= 1;
-      uproqiahLoops[index] += 1;
+//   void updateroqiahCurrentStep(index) {
+//     if (downroqiahLoops[index] > 0) {
+//       downroqiahLoops[index] -= 1;
+//       uproqiahLoops[index] += 1;
 
-      emit(ZekrCounterUpdateSteps());
-    }
-  }
+//       emit(ZekrCounterUpdateSteps());
+//     }
+//   }
 
-// ! ############### Roqiah Azkar Counter Cubit ###############
-  List<ZekrModel> motafareqah = Azkar().motafareqah;
-  List<int> downmotafareqahLoops = [];
-  List<int> upmotafareqahLoops = [];
-  void fillmotafareqahLoops() {
-    for (int i = 0; i < motafareqah.length; i++) {
-      downmotafareqahLoops.add(motafareqah[i].loop);
-      upmotafareqahLoops.add(0);
-    }
-  }
+// // ! ############### Roqiah Azkar Counter Cubit ###############
+//   List<ZekrModel> motafareqah = Azkar().motafareqah;
+//   List<int> downmotafareqahLoops = [];
+//   List<int> upmotafareqahLoops = [];
+//   void fillmotafareqahLoops() {
+//     for (int i = 0; i < motafareqah.length; i++) {
+//       downmotafareqahLoops.add(motafareqah[i].loop);
+//       upmotafareqahLoops.add(0);
+//     }
+//   }
 
-  void updatemotafareqahCurrentStep(index) {
-    if (downmotafareqahLoops[index] > 0) {
-      downmotafareqahLoops[index] -= 1;
-      upmotafareqahLoops[index] += 1;
+//   void updatemotafareqahCurrentStep(index) {
+//     if (downmotafareqahLoops[index] > 0) {
+//       downmotafareqahLoops[index] -= 1;
+//       upmotafareqahLoops[index] += 1;
 
-      emit(ZekrCounterUpdateSteps());
-    }
-  }
+//       emit(ZekrCounterUpdateSteps());
+//     }
+//   }
 }
