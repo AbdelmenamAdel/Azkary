@@ -47,39 +47,38 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
 
 // ! ############### After Pray Azkar Counter Cubit ###############
   List<ZekrModel> afterPray = Azkar().afterPray;
-  List<int> downafterPrayLoops = [];
-  List<int> upafterPrayLoops = [];
-  void fillafterPrayLoops() {
+  List<int> downAfterPrayLoops = [];
+  List<int> upAfterPrayLoops = [];
+  void fillAfterPrayLoops() {
     for (int i = 0; i < afterPray.length; i++) {
-      downafterPrayLoops.add(afterPray[i].loop!);
-      upafterPrayLoops.add(0);
+      downAfterPrayLoops.add(afterPray[i].loop!);
+      upAfterPrayLoops.add(0);
     }
   }
 
-  void updateafterPrayCurrentStep(index) {
-    if (downafterPrayLoops[index] > 0) {
-      downafterPrayLoops[index] -= 1;
-      upafterPrayLoops[index] += 1;
-
+  void updateAfterPrayCurrentStep(index) {
+    if (downAfterPrayLoops[index] > 0) {
+      downAfterPrayLoops[index] -= 1;
+      upAfterPrayLoops[index] += 1;
       emit(ZekrCounterUpdateSteps());
     }
   }
 
 // ! ############### Sleeping Azkar Counter Cubit ###############
   List<ZekrModel> sleeping = Azkar().sleeping;
-  List<int> downsleepingLoops = [];
-  List<int> upsleepingLoops = [];
-  void fillsleepingLoops() {
+  List<int> downSleepingLoops = [];
+  List<int> upSleepingLoops = [];
+  void fillSleepingLoops() {
     for (int i = 0; i < sleeping.length; i++) {
-      downsleepingLoops.add(sleeping[i].loop!);
-      upsleepingLoops.add(0);
+      downSleepingLoops.add(sleeping[i].loop!);
+      upSleepingLoops.add(0);
     }
   }
 
-  void updatesleepingCurrentStep(index) {
-    if (downsleepingLoops[index] > 0) {
-      downsleepingLoops[index] -= 1;
-      upsleepingLoops[index] += 1;
+  void updateSleepingCurrentStep(index) {
+    if (downSleepingLoops[index] > 0) {
+      downSleepingLoops[index] -= 1;
+      upSleepingLoops[index] += 1;
 
       emit(ZekrCounterUpdateSteps());
     }
