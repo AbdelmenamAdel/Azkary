@@ -2,9 +2,10 @@ import 'package:azkar/core/utils/app_colors.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/Azkar/manager/model/zekr_model.dart';
 import 'package:azkar/features/Azkar/view/morning_azkar_view.dart';
-import 'package:azkar/features/Azkar/view/night_azkar_view.dart';
 import 'package:azkar/features/Azkar/view/widgets/share.dart';
 import 'package:flutter/material.dart';
+
+import 'zekr_section.dart';
 
 class ZekrCardWidget extends StatelessWidget {
   const ZekrCardWidget({
@@ -24,11 +25,19 @@ class ZekrCardWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        if (zekrName == 'morning') {
-          cubit.updateMorningCurrentStep(sort - 1);
-        }
-        if (zekrName == 'night') {
-          cubit.updateNightCurrentStep(sort - 1);
+        switch (zekrName) {
+          case 'morning':
+            cubit.updateMorningCurrentStep(sort - 1);
+            break;
+          case 'night':
+            cubit.updateNightCurrentStep(sort - 1);
+            break;
+          case 'afterPray':
+            cubit.updateAfterPrayCurrentStep(sort - 1);
+            break;
+          case 'sleeping':
+            cubit.updateSleepingCurrentStep(sort - 1);
+            break;
         }
       },
       child: Card(
@@ -63,7 +72,7 @@ class ZekrCardWidget extends StatelessWidget {
                 ? MorningZekrSection(
                     data: data!,
                   )
-                : ZekrSection(model: model!),
+                : ZekrSection(model: model!, zekrName: zekrName),
             const ShareWidget(),
             const Positioned(
               bottom: 0,
