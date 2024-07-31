@@ -21,7 +21,17 @@ class AzkarNamesSection extends StatelessWidget {
               AzkarNameCard(
                 azkarName: "Prayer's Azkar",
                 image: AppImages.openHand,
-                onTap: () {},
+                onTap: () {
+                  ZekrCounterCubit.get(context).fillAfterPrayLoops();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const AfterPrayAzkarView();
+                      },
+                    ),
+                  );
+                },
               ),
               AzkarNameCard(
                 azkarName: "Morning Azkar",
