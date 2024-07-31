@@ -38,36 +38,3 @@ class NightAzkarView extends StatelessWidget {
     );
   }
 }
-
-class AfterPrayAzkarView extends StatelessWidget {
-  const AfterPrayAzkarView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.primary,
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(),
-          backgroundColor: AppColors.primary,
-          body: BlocBuilder<ZekrCounterCubit, ZekrCounterState>(
-            builder: (context, state) {
-              var cubit = ZekrCounterCubit.get(context);
-              return ListView.builder(
-                padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-                itemBuilder: (context, index) {
-                  return ZekrCardWidget(
-                    model: cubit.afterPray[index],
-                    zekrName: 'afterPray',
-                    sort: index + 1,
-                  );
-                },
-                itemCount: Azkar().afterPray.length,
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
