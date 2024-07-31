@@ -1,10 +1,11 @@
 import 'package:azkar/core/utils/app_images.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
+import 'package:azkar/features/Azkar/view/after_pray_view.dart';
 import 'package:azkar/features/Azkar/view/morning_azkar_view.dart';
 import 'package:azkar/features/Azkar/view/night_azkar_view.dart';
+import 'package:azkar/features/Azkar/view/sleeping_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'azkar_name_card.dart';
 
 class AzkarNamesSection extends StatelessWidget {
@@ -56,9 +57,20 @@ class AzkarNamesSection extends StatelessWidget {
           height: 180.h,
           child: Row(
             children: [
-              const AzkarNameCard(
+              AzkarNameCard(
                 azkarName: "Sleeping Azkar",
                 image: AppImages.sleepMoon,
+                onTap: () {
+                  ZekrCounterCubit.get(context).fillSleepingLoops();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const SleepingAzkarView();
+                      },
+                    ),
+                  );
+                },
               ),
               AzkarNameCard(
                 azkarName: "Night Azkar",
