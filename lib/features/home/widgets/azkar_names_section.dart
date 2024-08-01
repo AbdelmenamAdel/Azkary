@@ -18,12 +18,12 @@ class AzkarNamesSection extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 180.h,
+          height: 190.h,
           child: Row(
             children: [
               AzkarNameCard(
-                azkarName: "Prayer's Azkar",
-                image: AppImages.openHand,
+                azkarName: "أذكار  بعد  الصلاة",
+                image: AppImages.pray,
                 onTap: () {
                   ZekrCounterCubit.get(context).fillAfterPrayLoops();
                   Navigator.push(
@@ -37,7 +37,7 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
               AzkarNameCard(
-                azkarName: "Morning Azkar",
+                azkarName: "أذكار  الصباح",
                 icon: Icons.sunny,
                 onTap: () {
                   Navigator.push(
@@ -56,11 +56,11 @@ class AzkarNamesSection extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 180.h,
+          height: 190.h,
           child: Row(
             children: [
               AzkarNameCard(
-                azkarName: "Sleeping Azkar",
+                azkarName: "أذكار  النوم",
                 image: AppImages.sleepMoon,
                 onTap: () {
                   ZekrCounterCubit.get(context).fillSleepingLoops();
@@ -75,7 +75,7 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
               AzkarNameCard(
-                azkarName: "Night Azkar",
+                azkarName: "أذكار  المساء",
                 image: AppImages.nightMode,
                 onTap: () {
                   ZekrCounterCubit.get(context).fillNightLoops();
@@ -93,11 +93,11 @@ class AzkarNamesSection extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 180.h,
+          height: 190.h,
           child: Row(
             children: [
               AzkarNameCard(
-                azkarName: "Favourite Azkar",
+                azkarName: "فضل  الذكر",
                 image: AppImages.love,
                 onTap: () {
                   Navigator.push(
@@ -113,8 +113,36 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
               AzkarNameCard(
-                azkarName: "Your Azkar",
-                image: AppImages.rosary,
+                azkarName: "أذكار  متفرقه",
+                image: AppImages.rosary1,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const WidgetsWithoutCounter(
+                          zekrName: "motafareqah",
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 190.h,
+          child: Row(
+            children: [
+              AzkarNameCard(
+                azkarName: "أسماء   الله   الحسني",
+                image: AppImages.allah1,
+                onTap: () {},
+              ),
+              AzkarNameCard(
+                azkarName: "جوامع   الدعاء",
+                image: AppImages.openHand,
                 onTap: () {
                   ZekrCounterCubit.get(context).fillGoame3Eldo3aLoops();
                   Navigator.push(
@@ -128,6 +156,26 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
             ],
+          ),
+        ),
+        SizedBox(
+          height: 190.h,
+          child: AzkarNameCard(
+            azkarName: "الرقية    الشرعية    من    الكتاب    والسنة",
+            image: AppImages.openHand,
+            onTap: () {
+              ZekrCounterCubit.get(context).fillGoame3Eldo3aLoops();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const WidgetsWithoutCounter(
+                      zekrName: "roqiah",
+                    );
+                  },
+                ),
+              );
+            },
           ),
         ),
       ],
