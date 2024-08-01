@@ -17,7 +17,6 @@ class MorningAzkarView extends StatelessWidget {
       color: AppColors.primary,
       child: SafeArea(
         child: Scaffold(
-          appBar: AppBar(),
           backgroundColor: AppColors.primary,
           body: BlocBuilder<ZekrCounterCubit, ZekrCounterState>(
             builder: (context, state) {
@@ -61,10 +60,11 @@ class MorningZekrSection extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 18.0),
                   child: Text(
                     data['title'],
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Cairo',
+                      color: AppColors.secondary,
                     ),
                   ),
                 ),
