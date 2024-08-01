@@ -41,7 +41,8 @@ class AzkarNameCard extends StatelessWidget {
                     alignment: Alignment.bottomLeft,
                     child: Icon(
                       icon,
-                      size: 32,
+                      size: 34,
+                      color: AppColors.secondary,
                     ),
                   ),
                 if (image != null)
@@ -49,7 +50,7 @@ class AzkarNameCard extends StatelessWidget {
                     alignment: Alignment.bottomLeft,
                     child: Image.asset(
                       image!,
-                      height: 32,
+                      height: 34,
                     ),
                   ),
               ],
