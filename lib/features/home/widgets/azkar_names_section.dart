@@ -1,7 +1,9 @@
 import 'package:azkar/core/utils/app_images.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/Azkar/view/after_pray_view.dart';
+import 'package:azkar/features/Azkar/view/goame3_eldo3a_view.dart';
 import 'package:azkar/features/Azkar/view/morning_azkar_view.dart';
+import 'package:azkar/features/Azkar/view/widgets_without_counter.dart';
 import 'package:azkar/features/Azkar/view/night_azkar_view.dart';
 import 'package:azkar/features/Azkar/view/sleeping_view.dart';
 import 'package:flutter/material.dart';
@@ -92,15 +94,38 @@ class AzkarNamesSection extends StatelessWidget {
         ),
         SizedBox(
           height: 180.h,
-          child: const Row(
+          child: Row(
             children: [
               AzkarNameCard(
                 azkarName: "Favourite Azkar",
                 image: AppImages.love,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const WidgetsWithoutCounter(
+                          zekrName: "fadlElzekr",
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               AzkarNameCard(
                 azkarName: "Your Azkar",
                 image: AppImages.rosary,
+                onTap: () {
+                  ZekrCounterCubit.get(context).fillGoame3Eldo3aLoops();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const Goame3Eldo3aView();
+                      },
+                    ),
+                  );
+                },
               ),
             ],
           ),
