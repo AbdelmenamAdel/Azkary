@@ -28,11 +28,14 @@ class ZekrSection extends StatelessWidget {
               : Padding(
                   padding: const EdgeInsets.symmetric(vertical: 18.0),
                   child: Text(
+                    textAlign: TextAlign.center,
+                    textWidthBasis: TextWidthBasis.parent,
                     model.title!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Cairo',
+                      color: AppColors.secondary,
                     ),
                   ),
                 ),
@@ -66,33 +69,34 @@ class ZekrSection extends StatelessWidget {
                         color: AppColors.secondary),
                   ),
                 ),
-          SizedBox(
-            child: CircularStepProgressIndicator(
-              totalSteps: model.loop!,
-              currentStep: _up(cubit),
-              stepSize: 10,
-              selectedColor: AppColors.blueGrey,
-              unselectedColor: AppColors.secondary,
-              width: 60,
-              height: 60,
-              selectedStepSize: 3,
-              unselectedStepSize: 1,
-              child: Center(
-                  child: _down(cubit) == 0
-                      ? const Icon(
-                          Icons.check_rounded,
-                          size: 38,
-                          color: AppColors.blueGrey,
-                        )
-                      : Text(
-                          _down(cubit).toString(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.blueGrey),
-                        )),
-              roundedCap: (_, __) => true,
+          if (model.loop != null)
+            SizedBox(
+              child: CircularStepProgressIndicator(
+                totalSteps: model.loop!,
+                currentStep: _up(cubit),
+                stepSize: 10,
+                selectedColor: AppColors.blueGrey,
+                unselectedColor: AppColors.secondary,
+                width: 60,
+                height: 60,
+                selectedStepSize: 3,
+                unselectedStepSize: 1,
+                child: Center(
+                    child: _down(cubit) == 0
+                        ? const Icon(
+                            Icons.check_rounded,
+                            size: 38,
+                            color: AppColors.blueGrey,
+                          )
+                        : Text(
+                            _down(cubit).toString(),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.blueGrey),
+                          )),
+                roundedCap: (_, __) => true,
+              ),
             ),
-          ),
           SizedBox(
             height: 50.h,
           )
@@ -111,6 +115,8 @@ class ZekrSection extends StatelessWidget {
         return cubit.downAfterPrayLoops[cubit.afterPray.indexOf(model)];
       case 'sleeping':
         return cubit.downSleepingLoops[cubit.sleeping.indexOf(model)];
+      case 'goame3Eldo3a':
+        return cubit.downGoame3Eldo3aLoops[cubit.goame3Eldo3a.indexOf(model)];
       default:
         return 0;
     }
@@ -126,6 +132,8 @@ class ZekrSection extends StatelessWidget {
         return cubit.upAfterPrayLoops[cubit.afterPray.indexOf(model)];
       case 'sleeping':
         return cubit.upSleepingLoops[cubit.sleeping.indexOf(model)];
+      case 'goame3Eldo3a':
+        return cubit.upGoame3Eldo3aLoops[cubit.goame3Eldo3a.indexOf(model)];
       default:
         return 0;
     }
