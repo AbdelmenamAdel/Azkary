@@ -27,25 +27,26 @@ class AzkarNameCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.topRight,
                     child: Text(
                       azkarName,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
+                        fontFamily: 'Nabi',
                         fontWeight: FontWeight.w600,
                       ),
                     )),
                 if (icon != null)
                   Align(
-                    alignment: Alignment.bottomRight,
+                    alignment: Alignment.bottomLeft,
                     child: Icon(
                       icon,
-                      size: 30,
+                      size: 32,
                     ),
                   ),
                 if (image != null)
                   Align(
-                    alignment: Alignment.bottomRight,
+                    alignment: Alignment.bottomLeft,
                     child: Image.asset(
                       image!,
                       height: 32,
