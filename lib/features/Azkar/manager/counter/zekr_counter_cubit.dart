@@ -84,43 +84,23 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
     }
   }
 
-// // ! ############### Roqiah Azkar Counter Cubit ###############
-//   List<ZekrModel> roqiah = Azkar().roqiah;
-//   List<int> downroqiahLoops = [];
-//   List<int> uproqiahLoops = [];
-//   void fillroqiahLoops() {
-//     for (int i = 0; i < roqiah.length; i++) {
-//       downroqiahLoops.add(roqiah[i].loop);
-//       uproqiahLoops.add(0);
-//     }
-//   }
+// ! ############### Goame3Eldo3a Azkar Counter Cubit ###############
+  List<ZekrModel> goame3Eldo3a = Azkar().goame3Eldo3a;
+  List<int> downGoame3Eldo3aLoops = [];
+  List<int> upGoame3Eldo3aLoops = [];
+  void fillGoame3Eldo3aLoops() {
+    for (int i = 0; i < goame3Eldo3a.length; i++) {
+      downGoame3Eldo3aLoops.add(goame3Eldo3a[i].loop!);
+      upGoame3Eldo3aLoops.add(0);
+    }
+  }
 
-//   void updateroqiahCurrentStep(index) {
-//     if (downroqiahLoops[index] > 0) {
-//       downroqiahLoops[index] -= 1;
-//       uproqiahLoops[index] += 1;
+  void updateGoame3Eldo3aCurrentStep(index) {
+    if (downGoame3Eldo3aLoops[index] > 0) {
+      downGoame3Eldo3aLoops[index] -= 1;
+      upGoame3Eldo3aLoops[index] += 1;
 
-//       emit(ZekrCounterUpdateSteps());
-//     }
-//   }
-
-// // ! ############### Roqiah Azkar Counter Cubit ###############
-//   List<ZekrModel> motafareqah = Azkar().motafareqah;
-//   List<int> downmotafareqahLoops = [];
-//   List<int> upmotafareqahLoops = [];
-//   void fillmotafareqahLoops() {
-//     for (int i = 0; i < motafareqah.length; i++) {
-//       downmotafareqahLoops.add(motafareqah[i].loop);
-//       upmotafareqahLoops.add(0);
-//     }
-//   }
-
-//   void updatemotafareqahCurrentStep(index) {
-//     if (downmotafareqahLoops[index] > 0) {
-//       downmotafareqahLoops[index] -= 1;
-//       upmotafareqahLoops[index] += 1;
-
-//       emit(ZekrCounterUpdateSteps());
-//     }
-//   }
+      emit(ZekrCounterUpdateSteps());
+    }
+  }
 }
