@@ -36,6 +36,7 @@ dependencies:
   flutter_chat_bubble: ^2.0.2
   flutter_screenutil: ^5.9.3
   step_progress_indicator: ^1.0.2
+  widget_zoom: ^0.0.4
 
 dev_dependencies:
   flutter_lints: ^3.0.0
