@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:azkar/core/utils/app_images.dart';
 import 'package:azkar/features/Azkar/view/widgets_without_counter.dart';
 import 'package:flutter/material.dart';
@@ -40,9 +42,18 @@ class DoaaImageSection extends StatelessWidget {
                   "فضل الدعاء",
                   style: TextStyle(
                     fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Nabi',
                   ),
                 ),
-              )
+              ),
+              Positioned(
+                bottom: 0,
+                child: Image.asset(
+                  AppImages.prayer,
+                  height: 150.h,
+                ),
+              ),
             ],
           ),
         ),
