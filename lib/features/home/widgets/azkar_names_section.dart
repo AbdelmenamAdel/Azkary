@@ -1,6 +1,7 @@
 import 'package:azkar/core/utils/app_images.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/Azkar/view/after_pray_view.dart';
+import 'package:azkar/features/Azkar/view/allah_names_view.dart';
 import 'package:azkar/features/Azkar/view/goame3_eldo3a_view.dart';
 import 'package:azkar/features/Azkar/view/morning_azkar_view.dart';
 import 'package:azkar/features/Azkar/view/widgets_without_counter.dart';
@@ -19,6 +20,7 @@ class AzkarNamesSection extends StatelessWidget {
       children: [
         SizedBox(
           height: 190.h,
+          width: double.infinity,
           child: Row(
             children: [
               AzkarNameCard(
@@ -57,6 +59,7 @@ class AzkarNamesSection extends StatelessWidget {
         ),
         SizedBox(
           height: 190.h,
+          width: double.infinity,
           child: Row(
             children: [
               AzkarNameCard(
@@ -94,6 +97,7 @@ class AzkarNamesSection extends StatelessWidget {
         ),
         SizedBox(
           height: 190.h,
+          width: double.infinity,
           child: Row(
             children: [
               AzkarNameCard(
@@ -133,12 +137,22 @@ class AzkarNamesSection extends StatelessWidget {
         ),
         SizedBox(
           height: 190.h,
+          width: double.infinity,
           child: Row(
             children: [
               AzkarNameCard(
                 azkarName: "أسماء   الله   الحسني",
                 image: AppImages.allah1,
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const AllahNamesView();
+                      },
+                    ),
+                  );
+                },
               ),
               AzkarNameCard(
                 azkarName: "جوامع   الدعاء",
@@ -160,9 +174,10 @@ class AzkarNamesSection extends StatelessWidget {
         ),
         SizedBox(
           height: 190.h,
+          width: double.infinity,
           child: AzkarNameCard(
             azkarName: "الرقية    الشرعية    من    الكتاب    والسنة",
-            image: AppImages.openHand,
+            image: AppImages.quran,
             onTap: () {
               ZekrCounterCubit.get(context).fillGoame3Eldo3aLoops();
               Navigator.push(
