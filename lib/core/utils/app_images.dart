@@ -13,5 +13,7 @@ class AppImages {
   static const String pray = "assets/images/pray.png";
   static const String allah = "assets/images/allah.png";
   static const String allah1 = "assets/images/allah1.png";
+  static const String allahnames = "assets/images/allahnames.webp";
   static const String prayer = "assets/images/prayer.png";
+  static const String quran = "assets/images/quran.png";
 }
