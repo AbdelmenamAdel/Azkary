@@ -29,6 +29,7 @@ class AzkarNameCard extends StatelessWidget {
                 Align(
                     alignment: Alignment.topRight,
                     child: Text(
+                      textAlign: TextAlign.right,
                       azkarName,
                       style: const TextStyle(
                         fontSize: 18,
