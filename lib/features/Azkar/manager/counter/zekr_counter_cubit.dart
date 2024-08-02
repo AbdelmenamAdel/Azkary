@@ -7,12 +7,12 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   ZekrCounterCubit() : super(ZekrCounterInitial());
   static ZekrCounterCubit get(context) => BlocProvider.of(context);
 // ! ############### Morning Azkar Counter Cubit ###############
-  List<Map<String, dynamic>> morning = Azkar().morning;
+  List<ZekrModel> morning = Azkar().morning;
   List<int> downMorningLoops = [];
   List<int> upMorningLoops = [];
   void fillMorningLoops() {
     for (int i = 0; i < morning.length; i++) {
-      downMorningLoops.add(morning[i]['loop']);
+      downMorningLoops.add(morning[i].loop!);
       upMorningLoops.add(0);
     }
   }
@@ -99,6 +99,26 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
     if (downGoame3Eldo3aLoops[index] > 0) {
       downGoame3Eldo3aLoops[index] -= 1;
       upGoame3Eldo3aLoops[index] += 1;
+
+      emit(ZekrCounterUpdateSteps());
+    }
+  }
+
+// ! ############### Werdak Azkar Counter Cubit ###############
+  List<ZekrModel> werdak = Azkar().werdak;
+  List<int> downWerdakLoops = [];
+  List<int> upWerdakLoops = [];
+  void fillWerdakLoops() {
+    for (int i = 0; i < werdak.length; i++) {
+      downWerdakLoops.add(werdak[i].loop!);
+      upWerdakLoops.add(0);
+    }
+  }
+
+  void updateWerdakCurrentStep(index) {
+    if (downWerdakLoops[index] > 0) {
+      downWerdakLoops[index] -= 1;
+      upWerdakLoops[index] += 1;
 
       emit(ZekrCounterUpdateSteps());
     }
