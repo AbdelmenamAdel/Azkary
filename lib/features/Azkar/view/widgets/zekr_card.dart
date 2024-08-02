@@ -1,7 +1,6 @@
 import 'package:azkar/core/utils/app_colors.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/Azkar/manager/model/zekr_model.dart';
-import 'package:azkar/features/Azkar/view/morning_azkar_view.dart';
 import 'package:azkar/features/Azkar/view/widgets/share.dart';
 import 'package:flutter/material.dart';
 
@@ -10,12 +9,10 @@ import 'zekr_section.dart';
 class ZekrCardWidget extends StatelessWidget {
   const ZekrCardWidget({
     super.key,
-    this.data,
     this.model,
     required this.sort,
     required this.zekrName,
   });
-  final Map<String, dynamic>? data;
   final ZekrModel? model;
   final String zekrName;
   final int sort;
@@ -37,6 +34,9 @@ class ZekrCardWidget extends StatelessWidget {
             break;
           case 'sleeping':
             cubit.updateSleepingCurrentStep(sort - 1);
+            break;
+          case 'werdak':
+            cubit.updateWerdakCurrentStep(sort - 1);
             break;
         }
       },
@@ -68,11 +68,7 @@ class ZekrCardWidget extends StatelessWidget {
                 ),
               ),
             ),
-            (data != null)
-                ? MorningZekrSection(
-                    data: data!,
-                  )
-                : ZekrSection(model: model!, zekrName: zekrName),
+            ZekrSection(model: model!, zekrName: zekrName),
             const ShareWidget(),
             const Positioned(
               bottom: 0,

@@ -117,6 +117,8 @@ class ZekrSection extends StatelessWidget {
         return cubit.downSleepingLoops[cubit.sleeping.indexOf(model)];
       case 'goame3Eldo3a':
         return cubit.downGoame3Eldo3aLoops[cubit.goame3Eldo3a.indexOf(model)];
+      case 'werdak':
+        return cubit.downWerdakLoops[cubit.werdak.indexOf(model)];
       default:
         return 0;
     }
@@ -134,6 +136,8 @@ class ZekrSection extends StatelessWidget {
         return cubit.upSleepingLoops[cubit.sleeping.indexOf(model)];
       case 'goame3Eldo3a':
         return cubit.upGoame3Eldo3aLoops[cubit.goame3Eldo3a.indexOf(model)];
+      case 'werdak':
+        return cubit.upWerdakLoops[cubit.werdak.indexOf(model)];
       default:
         return 0;
     }
