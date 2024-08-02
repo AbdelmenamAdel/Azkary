@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/zekr_card.dart';
 
-class NightAzkarView extends StatelessWidget {
-  const NightAzkarView({super.key});
+class WerdakAzkarView extends StatelessWidget {
+  const WerdakAzkarView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,12 @@ class NightAzkarView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
                 itemBuilder: (context, index) {
                   return ZekrCardWidget(
-                    model: cubit.night[index],
-                    zekrName: 'night',
+                    model: cubit.werdak[index],
+                    zekrName: 'werdak',
                     sort: index + 1,
                   );
                 },
-                itemCount: Azkar().night.length,
+                itemCount: Azkar().werdak.length,
               );
             },
           ),
