@@ -1,5 +1,10 @@
+import 'package:azkar/core/common/url_launcher.dart';
 import 'package:azkar/core/utils/app_images.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 
 class ERosarySection extends StatelessWidget {
   const ERosarySection({super.key});
@@ -18,18 +23,43 @@ class ERosarySection extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Electronic Rosary",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      Text(
+                      const Text(
                         """Rosary ia a different tool that enables you to Praise Allah with the traditional 'Sebha' with a counter of 99 or 33.""",
                         style: TextStyle(fontSize: 16),
+                      ),
+                      Row(
+                        children: [
+                          const Text(
+                            "This Link For More : ",
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              await urlLauncher(context,
+                                  "https://drive.google.com/drive/folders/1lX17PZ0SNJozKlH3wXeWQHy3y08O0hFH?usp=drive_link");
+                            },
+                            child: const Text(
+                              "click here",
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontFamily: 'Cairo',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
