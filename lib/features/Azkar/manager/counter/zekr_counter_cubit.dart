@@ -11,6 +11,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   List<int> downMorningLoops = [];
   List<int> upMorningLoops = [];
   void fillMorningLoops() {
+    downMorningLoops.clear();
+    upMorningLoops.clear();
     for (int i = 0; i < morning.length; i++) {
       downMorningLoops.add(morning[i].loop!);
       upMorningLoops.add(0);
@@ -30,6 +32,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   List<int> downNightLoops = [];
   List<int> upNightLoops = [];
   void fillNightLoops() {
+    downNightLoops.clear();
+    upNightLoops.clear();
     for (int i = 0; i < night.length; i++) {
       downNightLoops.add(night[i].loop!);
       upNightLoops.add(0);
@@ -50,6 +54,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   List<int> downAfterPrayLoops = [];
   List<int> upAfterPrayLoops = [];
   void fillAfterPrayLoops() {
+    downAfterPrayLoops.clear();
+    upAfterPrayLoops.clear();
     for (int i = 0; i < afterPray.length; i++) {
       downAfterPrayLoops.add(afterPray[i].loop!);
       upAfterPrayLoops.add(0);
@@ -69,6 +75,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   List<int> downSleepingLoops = [];
   List<int> upSleepingLoops = [];
   void fillSleepingLoops() {
+    downSleepingLoops.clear();
+    upSleepingLoops.clear();
     for (int i = 0; i < sleeping.length; i++) {
       downSleepingLoops.add(sleeping[i].loop!);
       upSleepingLoops.add(0);
@@ -89,6 +97,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   List<int> downGoame3Eldo3aLoops = [];
   List<int> upGoame3Eldo3aLoops = [];
   void fillGoame3Eldo3aLoops() {
+    downGoame3Eldo3aLoops.clear();
+    upGoame3Eldo3aLoops.clear();
     for (int i = 0; i < goame3Eldo3a.length; i++) {
       downGoame3Eldo3aLoops.add(goame3Eldo3a[i].loop!);
       upGoame3Eldo3aLoops.add(0);
@@ -109,6 +119,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   List<int> downWerdakLoops = [];
   List<int> upWerdakLoops = [];
   void fillWerdakLoops() {
+    downWerdakLoops.clear();
+    upWerdakLoops.clear();
     for (int i = 0; i < werdak.length; i++) {
       downWerdakLoops.add(werdak[i].loop!);
       upWerdakLoops.add(0);

@@ -214,7 +214,6 @@ class AzkarNamesSection extends StatelessWidget {
                 azkarName: " الجمعة  ومحمد  عليه  الصلاة  والسلام",
                 image: AppImages.heart,
                 onTap: () {
-                  ZekrCounterCubit.get(context).fillWerdakLoops();
                   Navigator.push(
                     context,
                     MaterialPageRoute(

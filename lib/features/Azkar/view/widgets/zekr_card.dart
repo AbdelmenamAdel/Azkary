@@ -38,6 +38,9 @@ class ZekrCardWidget extends StatelessWidget {
           case 'werdak':
             cubit.updateWerdakCurrentStep(sort - 1);
             break;
+          case 'goame3Eldo3a':
+            cubit.updateGoame3Eldo3aCurrentStep(sort - 1);
+            break;
         }
       },
       child: Card(
