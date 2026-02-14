@@ -1,7 +1,7 @@
 import 'package:azkar/core/common/custom_appbar.dart';
 import 'package:azkar/core/utils/app_colors.dart';
 import 'package:azkar/core/utils/app_images.dart';
-import 'package:azkar/core/common/custom_zoom_Image.dart';
+import 'package:azkar/core/common/custom_zoom_image.dart';
 import 'package:flutter/material.dart';
 import 'widgets/custom_card_animation.dart';
 

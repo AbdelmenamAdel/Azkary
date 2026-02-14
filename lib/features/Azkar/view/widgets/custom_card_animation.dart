@@ -8,16 +8,16 @@ class CustomCardAnimation extends StatefulWidget {
   const CustomCardAnimation({super.key});
 
   @override
-  _CustomCardAnimationState createState() => _CustomCardAnimationState();
+  State<CustomCardAnimation> createState() => _CustomCardAnimationState();
 }
 
 class _CustomCardAnimationState extends State<CustomCardAnimation> {
-  double _page = 99;
+  double _page = 10;
+  late PageController pageController;
 
   @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    PageController pageController;
+  void initState() {
+    super.initState();
     pageController = PageController(initialPage: 10);
     pageController.addListener(
       () {
@@ -28,6 +28,17 @@ class _CustomCardAnimationState extends State<CustomCardAnimation> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
 
     return Stack(
       children: [
@@ -66,7 +77,7 @@ class _CustomCardAnimationState extends State<CustomCardAnimation> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(.15),
+                            color: Colors.black.withValues(alpha: .15),
                             blurRadius: 10,
                             offset: const Offset(0, 5),
                           ),

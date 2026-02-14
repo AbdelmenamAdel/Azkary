@@ -77,6 +77,9 @@ flutter:
     - family: Nabi
       fonts:
         - asset: assets/fonts/Nabi.ttf
+    - family: Limelight
+      fonts:
+        - asset: assets/fonts/Limelight-Regular.ttf
      #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

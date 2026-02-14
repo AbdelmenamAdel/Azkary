@@ -1,10 +1,6 @@
 import 'package:azkar/core/common/url_launcher.dart';
 import 'package:azkar/core/utils/app_images.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 class ERosarySection extends StatelessWidget {
   const ERosarySection({super.key});

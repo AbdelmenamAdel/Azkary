@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:azkar/core/utils/app_images.dart';
 import 'package:azkar/features/Azkar/view/widgets_without_counter.dart';
 import 'package:flutter/material.dart';

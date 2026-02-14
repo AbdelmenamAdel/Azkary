@@ -21,7 +21,7 @@ class AuthorMedia extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    fontFamily: "Limelite",
+                    fontFamily: "Limelight",
                   ),
                 ),
               ],
@@ -84,7 +84,7 @@ class AuthorMedia extends StatelessWidget {
             Text(
               "Azkary",
               style: TextStyle(
-                fontFamily: 'Limelite',
+                fontFamily: 'Limelight',
                 color: Theme.of(context).textTheme.displaySmall!.color,
                 letterSpacing: 3,
                 fontSize: 32,
