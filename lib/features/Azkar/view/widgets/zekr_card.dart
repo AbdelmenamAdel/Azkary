@@ -54,21 +54,44 @@ class ZekrCardWidget extends StatelessWidget {
               top: 0,
               end: 0,
               child: Container(
-                height: 30,
-                width: 30,
+                height: 36,
+                width: 36,
                 decoration: BoxDecoration(
-                  color: colors.primary,
-                  borderRadius: const BorderRadiusDirectional.only(
-                    topEnd: Radius.circular(3),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      colors.secondary!,
+                      colors.secondary!.withValues(alpha: 0.8),
+                    ],
                   ),
+                  borderRadius: const BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(12),
+                    bottomStart: Radius.circular(12),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colors.secondary!.withValues(alpha: 0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Center(
                   child: Text(
                     "$sort",
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      fontSize: 16,
+                      color: colors.surface,
+                      shadows: const [
+                        Shadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 1),
+                          blurRadius: 2,
+                        ),
+                      ],
                     ),
                   ),
                 ),

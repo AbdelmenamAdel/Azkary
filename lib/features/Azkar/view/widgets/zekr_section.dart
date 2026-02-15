@@ -87,14 +87,23 @@ class ZekrSection extends StatelessWidget {
                     child: _down(cubit) == 0
                         ? Icon(
                             Icons.check_rounded,
-                            size: 38,
-                            color: colors.primary,
+                            size: 40,
+                            color: colors.secondary,
                           )
                         : Text(
                             _down(cubit).toString(),
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: colors.primary),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: colors.text,
+                              shadows: [
+                                Shadow(
+                                  color: colors.primary!.withValues(alpha: 0.3),
+                                  offset: const Offset(0, 1),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            ),
                           )),
                 roundedCap: (_, __) => true,
               ),
