@@ -10,7 +10,8 @@ PreferredSizeWidget? customAppbar(BuildContext context,
           Navigator.pop(context);
         },
         icon: const Icon(
-          Icons.arrow_back_ios,
+          Icons
+              .arrow_back_ios_new, // Automatically mirrors in most modern Flutter setups or handle manually
           color: AppColors.white,
         )),
     backgroundColor: backgroundColor ?? AppColors.primary,

@@ -27,9 +27,9 @@ class AzkarNameCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Align(
-                    alignment: Alignment.topRight,
+                    alignment: AlignmentDirectional.topStart,
                     child: Text(
-                      textAlign: TextAlign.right,
+                      textAlign: TextAlign.start,
                       azkarName,
                       style: const TextStyle(
                         fontSize: 18,
@@ -39,7 +39,7 @@ class AzkarNameCard extends StatelessWidget {
                     )),
                 if (icon != null)
                   Align(
-                    alignment: Alignment.bottomLeft,
+                    alignment: AlignmentDirectional.bottomEnd,
                     child: Icon(
                       icon,
                       size: 34,
@@ -48,7 +48,7 @@ class AzkarNameCard extends StatelessWidget {
                   ),
                 if (image != null)
                   Align(
-                    alignment: Alignment.bottomLeft,
+                    alignment: AlignmentDirectional.bottomEnd,
                     child: Image.asset(
                       image!,
                       height: 34,

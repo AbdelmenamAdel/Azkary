@@ -59,8 +59,12 @@ class _HomeViewState extends State<HomeView> {
                   style:
                       const TextStyle(color: Colors.white, fontFamily: 'Cairo'),
                 ),
-                trailing: const Icon(Icons.arrow_forward_ios,
-                    color: Colors.white54, size: 16),
+                trailing: RotatedBox(
+                  quarterTurns:
+                      Directionality.of(context) == TextDirection.rtl ? 2 : 0,
+                  child: const Icon(Icons.arrow_forward_ios,
+                      color: Colors.white54, size: 16),
+                ),
                 onTap: () {
                   _showLanguageDialog(context);
                 },
