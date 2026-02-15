@@ -41,6 +41,9 @@ class AppLocalizations {
       'meet_developer': 'تواصل مع المطور',
       'developer_name': 'عبدالمنعم عادل',
       'developer_title': 'مهندس برمجيات تطبيقات الهاتف المحمول',
+      'electronic_rosary': 'السبحة الإلكترونية',
+      'total_count': 'العدد الكلي',
+      'reset': 'إعادة ضبط',
     },
     'en': {
       'app_title': 'Azkary',
@@ -75,6 +78,9 @@ class AppLocalizations {
       'meet_developer': 'Meet the Developer',
       'developer_name': 'Abdelmoneim Adel',
       'developer_title': 'Software Mobile Application Engineer',
+      'electronic_rosary': 'Electronic Rosary',
+      'total_count': 'Total Count',
+      'reset': 'Reset',
     },
     'fr': {
       'app_title': 'Azkary',
@@ -109,6 +115,9 @@ class AppLocalizations {
       'meet_developer': 'Rencontrer le Développeur',
       'developer_name': 'Abdelmoneim Adel',
       'developer_title': 'Ingénieur Logiciel d\'Applications Mobiles',
+      'electronic_rosary': 'Chapelet Électronique',
+      'total_count': 'Compte Total',
+      'reset': 'Réinitialiser',
     },
     'de': {
       'app_title': 'Azkary',
@@ -142,6 +151,9 @@ class AppLocalizations {
       'meet_developer': 'Den Entwickler Treffen',
       'developer_name': 'Abdelmoneim Adel',
       'developer_title': 'Software-Ingenieur für Mobile Anwendungen',
+      'electronic_rosary': 'Elektronischer Rosenkranz',
+      'total_count': 'Gesamtzählung',
+      'reset': 'Zurücksetzen',
     },
   };
 

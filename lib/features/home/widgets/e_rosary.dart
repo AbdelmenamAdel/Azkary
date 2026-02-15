@@ -1,6 +1,7 @@
-import 'package:azkar/core/common/url_launcher.dart';
+import 'package:azkar/core/localization/app_localizations.dart';
 import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/core/utils/app_images.dart';
+import 'package:azkar/features/rosary/electronic_rosary_view.dart';
 import 'package:flutter/material.dart';
 
 class ERosarySection extends StatelessWidget {
@@ -9,72 +10,127 @@ class ERosarySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+
     return Padding(
-      padding: const EdgeInsets.all(3.0),
-      child: ClipRRect(
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        borderRadius: BorderRadius.circular(10),
-        child: Card(
-          elevation: 10,
-          color: colors.surface,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ElectronicRosaryView(),
+            ),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                colors.surface!,
+                colors.surface!.withValues(alpha: 0.85),
+              ],
+            ),
+            border: Border.all(
+              color: colors.secondary!.withValues(alpha: 0.3),
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: colors.primary!.withValues(alpha: 0.12),
+                blurRadius: 16,
+                spreadRadius: 1,
+                offset: const Offset(0, 6),
+              ),
+              BoxShadow(
+                color: colors.secondary!.withValues(alpha: 0.08),
+                blurRadius: 8,
+                spreadRadius: -1,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Stack(
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                // Gradient overlay
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          colors.secondary!.withValues(alpha: 0.05),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                // Content
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
                     children: [
-                      Text(
-                        "Electronic Rosary",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: colors.text,
+                      // Icon/Image
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: colors.secondary!.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: colors.secondary!.withValues(alpha: 0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: Image.asset(
+                          AppImages.eRosary,
+                          height: 60,
+                          width: 60,
                         ),
                       ),
-                      Text(
-                        """Rosary ia a different tool that enables you to Praise Allah with the traditional 'Sebha' with a counter of 99 or 33.""",
-                        style: TextStyle(fontSize: 16, color: colors.text),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "This Link For More : ",
-                            style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontWeight: FontWeight.bold,
-                              color: colors.text,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () async {
-                              await urlLauncher(context,
-                                  "https://drive.google.com/drive/folders/1lX17PZ0SNJozKlH3wXeWQHy3y08O0hFH?usp=drive_link");
-                            },
-                            child: Text(
-                              "click here",
+                      const SizedBox(width: 20),
+                      // Text
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              context.translate('electronic_rosary'),
                               style: TextStyle(
-                                color: colors.primary,
-                                fontFamily: 'Cairo',
+                                fontSize: 22,
                                 fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
-                                decorationColor: colors.primary,
+                                fontFamily: 'Cairo',
+                                color: colors.text,
+                                height: 1.3,
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 8),
+                            Text(
+                              'اضغط هنا لفتح السبحة الإلكترونية',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Cairo',
+                                color: colors.text!.withValues(alpha: 0.7),
+                                height: 1.4,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Arrow
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: colors.secondary,
+                        size: 24,
                       ),
                     ],
                   ),
                 ),
-                InkWell(
-                  child: Image.asset(
-                    AppImages.eRosary,
-                    height: 100,
-                  ),
-                )
               ],
             ),
           ),
