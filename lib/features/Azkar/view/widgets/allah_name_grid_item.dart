@@ -74,21 +74,25 @@ class AllahNameGridItem extends StatelessWidget {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      model.name,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontFamily: 'Nabi',
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFFFD700), // Premium Gold
-                        shadows: [
-                          Shadow(
-                            color: Colors.black45,
-                            offset: Offset(1, 1),
-                            blurRadius: 3,
-                          ),
-                        ],
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        model.name,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontFamily: 'Nabi',
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFFFD700), // Premium Gold
+                          shadows: [
+                            Shadow(
+                              color: Colors.black45,
+                              offset: Offset(1, 1),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

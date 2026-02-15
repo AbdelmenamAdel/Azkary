@@ -46,25 +46,31 @@ class AllahNamesView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned.directional(
-                    textDirection: Directionality.of(context),
+                  Positioned(
+                    // textDirection: Directionality.of(context),
                     bottom: 60,
-                    end: 20,
-                    child: Text(
-                      context.translate('allah_names'),
-                      style: TextStyle(
-                        color: const Color(0xFFFFD700), // Gold
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        fontFamily:
-                            locale.languageCode == 'ar' ? 'Cairo' : null,
-                        shadows: const [
-                          Shadow(
-                            color: Colors.black45,
-                            offset: Offset(2, 2),
-                            blurRadius: 4,
-                          ),
-                        ],
+                    left: 20,
+                    right: 20,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        context.translate('allah_names'),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: const Color(0xFFFFD700), // Gold
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                          fontFamily:
+                              locale.languageCode == 'ar' ? 'Cairo' : null,
+                          shadows: const [
+                            Shadow(
+                              color: Colors.black45,
+                              offset: Offset(2, 2),
+                              blurRadius: 4,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
