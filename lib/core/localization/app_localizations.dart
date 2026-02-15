@@ -10,7 +10,7 @@ class AppLocalizations {
 
   static const Map<String, Map<String, String>> _localizedValues = {
     'ar': {
-      'app_title': 'أذكاري',
+      'app_title': 'أَذْكَارِي',
       'morning_azkar': 'أذكار الصباح',
       'evening_azkar': 'أذكار المساء',
       'after_pray_azkar': 'أذكار بعد الصلاة',
@@ -47,7 +47,7 @@ class AppLocalizations {
       'tap_to_open_rosary': 'اضغط هنا لفتح السبحة الإلكترونية',
     },
     'en': {
-      'app_title': 'Azkary',
+      'app_title': 'Athkary',
       'morning_azkar': 'Morning Azkar',
       'evening_azkar': 'Evening Azkar',
       'after_pray_azkar': 'After Prayer Azkar',
@@ -85,7 +85,7 @@ class AppLocalizations {
       'tap_to_open_rosary': 'Tap here to open the electronic rosary',
     },
     'fr': {
-      'app_title': 'Azkary',
+      'app_title': 'Athkary',
       'morning_azkar': 'Azkar du Matin',
       'evening_azkar': 'Azkar du Soir',
       'after_pray_azkar': 'Azkar après la Prière',
@@ -123,7 +123,7 @@ class AppLocalizations {
       'tap_to_open_rosary': 'Appuyez ici pour ouvrir le chapelet électronique',
     },
     'de': {
-      'app_title': 'Azkary',
+      'app_title': 'Athkary',
       'morning_azkar': 'Morgendliche Azkar',
       'evening_azkar': 'Abendliche Azkar',
       'after_pray_azkar': 'Azkar nach dem Gebet',
