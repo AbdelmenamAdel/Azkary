@@ -1,4 +1,4 @@
-import 'package:azkar/core/utils/app_colors.dart';
+import 'package:azkar/core/theme/theme_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,6 +14,7 @@ void main() {
       providers: [
         BlocProvider(create: (context) => ZekrCounterCubit()),
         BlocProvider(create: (context) => LanguageCubit()),
+        BlocProvider(create: (context) => ThemeCubit()),
       ],
       child: const MyApp(),
     ),
@@ -32,38 +33,30 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return BlocBuilder<LanguageCubit, Locale>(
           builder: (context, locale) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              locale: locale,
-              supportedLocales: const [
-                Locale('ar'),
-                Locale('en'),
-                Locale('fr'),
-                Locale('de'),
-              ],
-              localizationsDelegates: [
-                const AppLocalizationsDelegate(),
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              theme: ThemeData(
-                primaryColor: AppColors.primary,
-                appBarTheme: const AppBarTheme(
-                  backgroundColor: AppColors.primary,
-                  elevation: 5,
-                  titleTextStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Cairo',
-                  ),
-                  iconTheme: IconThemeData(color: Colors.white),
-                ),
-                useMaterial3: false,
-                fontFamily: locale.languageCode == 'ar' ? 'Cairo' : null,
-              ),
-              home: HomeView(),
+            return BlocBuilder<ThemeCubit, AppTheme>(
+              builder: (context, themeState) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  locale: locale,
+                  supportedLocales: const [
+                    Locale('ar'),
+                    Locale('en'),
+                    Locale('fr'),
+                    Locale('de'),
+                  ],
+                  localizationsDelegates: [
+                    const AppLocalizationsDelegate(),
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  theme: context.read<ThemeCubit>().getThemeData(
+                        themeState,
+                        locale.languageCode,
+                      ),
+                  home: HomeView(),
+                );
+              },
             );
           },
         );
