@@ -4,4 +4,5 @@ enum AppTheme {
   rose,
   forest,
   sunset,
+  sepia,
 }

@@ -48,6 +48,16 @@ class AppThemes {
           subtext: const Color(0xFFF57C00),
           fontFamily: fontFamily,
         );
+      case AppTheme.sepia:
+        return _createTheme(
+          primary: const Color(0xFF704214),
+          secondary: const Color(0xFFD4A574),
+          background: const Color(0xFFF5E6D3),
+          surface: const Color(0xFFFAF3E8),
+          text: const Color(0xFF5D3A1A),
+          subtext: const Color(0xFF8B6F47),
+          fontFamily: fontFamily,
+        );
       case AppTheme.emerald:
         return _createTheme(
           primary: const Color(0xFF00695C),

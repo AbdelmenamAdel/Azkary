@@ -165,6 +165,8 @@ class _HomeViewState extends State<HomeView> {
                 context.translate('theme_forest'), const Color(0xFF064E3B)),
             _themeTile(context, AppTheme.sunset,
                 context.translate('theme_sunset'), const Color(0xFF7C2D12)),
+            _themeTile(context, AppTheme.sepia,
+                context.translate('theme_sepia'), const Color(0xFF704214)),
           ],
         ),
       ),

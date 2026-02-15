@@ -35,6 +35,7 @@ class AppLocalizations {
       'theme_rose': 'الوردي الدافئ',
       'theme_forest': 'الغابة الهادئة',
       'theme_sunset': 'الغروب الذهبي',
+      'theme_sepia': 'السيبيا الكلاسيكي',
     },
     'en': {
       'app_title': 'Azkary',
@@ -63,6 +64,7 @@ class AppLocalizations {
       'theme_rose': 'Desert Rose',
       'theme_forest': 'Forest Serenity',
       'theme_sunset': 'Sunset Harmony',
+      'theme_sepia': 'Classic Sepia',
     },
     'fr': {
       'app_title': 'Azkary',
@@ -91,6 +93,7 @@ class AppLocalizations {
       'theme_rose': 'Rose du Désert',
       'theme_forest': 'Forêt Sérénité',
       'theme_sunset': 'Harmonie du Coucher de Soleil',
+      'theme_sepia': 'Sépia Classique',
     },
     'de': {
       'app_title': 'Azkary',
@@ -118,6 +121,7 @@ class AppLocalizations {
       'theme_rose': 'Wüstenrose',
       'theme_forest': 'Waldstille',
       'theme_sunset': 'Sonnenuntergang Harmonie',
+      'theme_sepia': 'Klassisches Sepia',
     },
   };
 
