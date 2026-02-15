@@ -25,13 +25,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LanguageCubit, Locale>(
-      builder: (context, locale) {
-        return ScreenUtilInit(
-          designSize: const Size(630, 1280),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
+    return ScreenUtilInit(
+      designSize: const Size(630, 1280),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return BlocBuilder<LanguageCubit, Locale>(
+          builder: (context, locale) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               locale: locale,
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
                 useMaterial3: false,
                 fontFamily: locale.languageCode == 'ar' ? 'Cairo' : null,
               ),
-              home: const HomeView(),
+              home: HomeView(),
             );
           },
         );

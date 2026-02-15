@@ -8,12 +8,20 @@ import 'package:azkar/features/home/widgets/e_rosary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AppColors.primary,
       drawer: Drawer(
         child: Container(
@@ -66,11 +74,9 @@ class HomeView extends StatelessWidget {
         backgroundColor: AppColors.primary,
         elevation: 5,
         shadowColor: AppColors.blueGrey.withValues(alpha: 0.5),
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.menu, color: Colors.white),
+          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         title: Text(
           context.translate('app_title'),
@@ -130,9 +136,16 @@ class HomeView extends StatelessWidget {
     return ListTile(
       title: Text(label, style: const TextStyle(color: Colors.white)),
       onTap: () {
+        // 1. Pop the dialog immediately
+        Navigator.pop(context);
+
+        // 2. Pop the drawer if it's open
+        if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
+          Navigator.pop(_scaffoldKey.currentContext!);
+        }
+
+        // 3. Change language AFTER UI items are popped to ensure stability
         context.read<LanguageCubit>().changeLanguage(code);
-        Navigator.pop(context); // Close dialog
-        Navigator.pop(context); // Close drawer
       },
     );
   }
