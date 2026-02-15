@@ -2,7 +2,7 @@ import 'package:azkar/core/localization/app_localizations.dart';
 import 'package:azkar/core/manager/app_cubit.dart';
 import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/core/theme/app_theme_enum.dart';
-import 'package:azkar/features/home/widgets/auther_media.dart';
+import 'package:azkar/core/remote-config/auther_media.dart';
 import 'package:azkar/features/home/widgets/azkar_names_section.dart';
 import 'package:azkar/features/home/widgets/doaa_image_section.dart';
 import 'package:azkar/features/home/widgets/e_rosary.dart';
@@ -78,6 +78,24 @@ class _HomeViewState extends State<HomeView> {
                 },
               ),
               Divider(color: colors.text?.withValues(alpha: 0.1)),
+              ListTile(
+                leading: Icon(Icons.person, color: colors.secondary),
+                title: Text(
+                  context.translate('contact_developer'),
+                  style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios,
+                    color: colors.text?.withValues(alpha: 0.5), size: 16),
+                onTap: () {
+                  Navigator.pop(context);
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => const AutherMedia(),
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -107,7 +125,6 @@ class _HomeViewState extends State<HomeView> {
               DoaaImageSection(),
               AzkarNamesSection(),
               ERosarySection(),
-              AuthorMedia(),
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 class AppImages {
   static const String doaa = "assets/images/doaa.png";
+  static const String men3em = "assets/images/Men3em.png";
   static const String hanpDoaa = "assets/images/hand_doaa.png";
   static const String openHand = "assets/images/open-hands.png";
   static const String rosary1 = "assets/images/rosary1.png";

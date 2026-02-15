@@ -37,6 +37,10 @@ class AppLocalizations {
       'theme_sunset': 'الغروب الذهبي',
       'theme_sepia': 'السيبيا الكلاسيكي',
       'comprehensive_dua': 'جوامع الدعاء',
+      'contact_developer': 'تواصل مع المطور',
+      'meet_developer': 'تواصل مع المطور',
+      'developer_name': 'عبدالمنعم عادل',
+      'developer_title': 'مهندس برمجيات تطبيقات الهاتف المحمول',
     },
     'en': {
       'app_title': 'Azkary',
@@ -67,6 +71,10 @@ class AppLocalizations {
       'theme_sunset': 'Sunset Harmony',
       'theme_sepia': 'Classic Sepia',
       'comprehensive_dua': 'Comprehensive Supplications',
+      'contact_developer': 'Contact Developer',
+      'meet_developer': 'Meet the Developer',
+      'developer_name': 'Abdelmoneim Adel',
+      'developer_title': 'Software Mobile Application Engineer',
     },
     'fr': {
       'app_title': 'Azkary',
@@ -97,6 +105,10 @@ class AppLocalizations {
       'theme_sunset': 'Harmonie du Coucher de Soleil',
       'theme_sepia': 'Sépia Classique',
       'comprehensive_dua': 'Invocations Complètes',
+      'contact_developer': 'Contacter le Développeur',
+      'meet_developer': 'Rencontrer le Développeur',
+      'developer_name': 'Abdelmoneim Adel',
+      'developer_title': 'Ingénieur Logiciel d\'Applications Mobiles',
     },
     'de': {
       'app_title': 'Azkary',
@@ -126,6 +138,10 @@ class AppLocalizations {
       'theme_sunset': 'Sonnenuntergang Harmonie',
       'theme_sepia': 'Klassisches Sepia',
       'comprehensive_dua': 'Umfassende Bittgebete',
+      'contact_developer': 'Entwickler Kontaktieren',
+      'meet_developer': 'Den Entwickler Treffen',
+      'developer_name': 'Abdelmoneim Adel',
+      'developer_title': 'Software-Ingenieur für Mobile Anwendungen',
     },
   };
 
