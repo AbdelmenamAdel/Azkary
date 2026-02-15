@@ -1,6 +1,5 @@
 import 'package:azkar/core/common/custom_appbar.dart';
 import 'package:azkar/core/theme/app_colors_extension.dart';
-import 'package:azkar/core/utils/app_colors.dart';
 import 'package:azkar/core/utils/azkar.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_state.dart';

@@ -133,58 +133,84 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void _showLanguageDialog(BuildContext context) {
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: context.colors.surface,
-        surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(
-          context.translate('choose_language'),
-          style:
-              TextStyle(color: context.colors.secondary, fontFamily: 'Cairo'),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        decoration: BoxDecoration(
+          color: context.colors.background,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _languageTile(context, 'ar', 'العربية'),
-            _languageTile(context, 'en', 'English'),
-            _languageTile(context, 'fr', 'Français'),
-            _languageTile(context, 'de', 'Deutsch'),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                context.translate('choose_language'),
+                style: TextStyle(
+                  color: context.colors.secondary,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 22,
+                  fontFamily: 'Cairo',
+                  letterSpacing: 0.5,
+                ),
+              ),
+              const SizedBox(height: 24),
+              _languageTile(context, 'ar', 'العربية', '🇸🇦'),
+              _languageTile(context, 'en', 'English', '🇬🇧'),
+              _languageTile(context, 'fr', 'Français', '🇫🇷'),
+              _languageTile(context, 'de', 'Deutsch', '🇩🇪'),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
   }
 
   void _showThemeDialog(BuildContext context) {
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: context.colors.surface,
-        surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(
-          context.translate('choose_theme'),
-          style:
-              TextStyle(color: context.colors.secondary, fontFamily: 'Cairo'),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        decoration: BoxDecoration(
+          color: context.colors.background,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _themeTile(context, AppTheme.emerald,
-                context.translate('theme_emerald'), const Color(0xFF4EADAD)),
-            _themeTile(context, AppTheme.midnight,
-                context.translate('theme_midnight'), const Color(0xFF1E293B)),
-            _themeTile(context, AppTheme.rose, context.translate('theme_rose'),
-                const Color(0xFF881337)),
-            _themeTile(context, AppTheme.forest,
-                context.translate('theme_forest'), const Color(0xFF064E3B)),
-            _themeTile(context, AppTheme.sunset,
-                context.translate('theme_sunset'), const Color(0xFF7C2D12)),
-            _themeTile(context, AppTheme.sepia,
-                context.translate('theme_sepia'), const Color(0xFF704214)),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                context.translate('choose_theme'),
+                style: TextStyle(
+                  color: context.colors.secondary,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 22,
+                  fontFamily: 'Cairo',
+                  letterSpacing: 0.5,
+                ),
+              ),
+              const SizedBox(height: 24),
+              _themeTile(context, AppTheme.emerald,
+                  context.translate('theme_emerald'), const Color(0xFF4EADAD)),
+              _themeTile(context, AppTheme.midnight,
+                  context.translate('theme_midnight'), const Color(0xFF1E293B)),
+              _themeTile(context, AppTheme.rose,
+                  context.translate('theme_rose'), const Color(0xFF881337)),
+              _themeTile(context, AppTheme.forest,
+                  context.translate('theme_forest'), const Color(0xFF064E3B)),
+              _themeTile(context, AppTheme.sunset,
+                  context.translate('theme_sunset'), const Color(0xFF7C2D12)),
+              _themeTile(context, AppTheme.sepia,
+                  context.translate('theme_sepia'), const Color(0xFF704214)),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
@@ -193,38 +219,120 @@ class _HomeViewState extends State<HomeView> {
   Widget _themeTile(
       BuildContext context, AppTheme theme, String label, Color color) {
     final colors = context.colors;
-    return ListTile(
-      leading: CircleAvatar(backgroundColor: color, radius: 10),
-      title: Text(label, style: TextStyle(color: colors.text)),
-      onTap: () {
-        // 1. Pop the dialog
-        Navigator.pop(context);
-        // 2. Pop the drawer
-        if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
-          Navigator.pop(_scaffoldKey.currentContext!);
-        }
-        // 3. Change theme
-        context.read<AppCubit>().changeTheme(theme);
-      },
+    final cubit = context.read<AppCubit>();
+    final isSelected = cubit.state.theme == theme;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: isSelected ? colors.primary!.withValues(alpha: 0.1) : null,
+        border: Border.all(
+          color: isSelected
+              ? colors.secondary!.withValues(alpha: 0.5)
+              : colors.text!.withValues(alpha: 0.1),
+          width: isSelected ? 2 : 1,
+        ),
+      ),
+      child: ListTile(
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: color.withValues(alpha: 0.3),
+                blurRadius: 8,
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+          child: isSelected
+              ? Icon(Icons.check, color: Colors.white, size: 20)
+              : null,
+        ),
+        title: Text(
+          label,
+          style: TextStyle(
+            color: colors.text,
+            fontFamily: 'Cairo',
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+          ),
+        ),
+        trailing: isSelected
+            ? Icon(
+                Icons.check_circle,
+                color: colors.secondary,
+                size: 24,
+              )
+            : Icon(
+                Icons.arrow_forward_ios,
+                color: colors.text?.withValues(alpha: 0.5),
+                size: 16,
+              ),
+        onTap: () {
+          Navigator.pop(context);
+          if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
+            Navigator.pop(_scaffoldKey.currentContext!);
+          }
+          context.read<AppCubit>().changeTheme(theme);
+        },
+      ),
     );
   }
 
-  Widget _languageTile(BuildContext context, String code, String label) {
+  Widget _languageTile(
+      BuildContext context, String code, String label, String flag) {
     final colors = context.colors;
-    return ListTile(
-      title: Text(label, style: TextStyle(color: colors.text)),
-      onTap: () {
-        // 1. Pop the dialog immediately
-        Navigator.pop(context);
+    final cubit = context.read<AppCubit>();
+    final isSelected = cubit.state.locale.languageCode == code;
 
-        // 2. Pop the drawer if it's open
-        if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
-          Navigator.pop(_scaffoldKey.currentContext!);
-        }
-
-        // 3. Change language AFTER UI items are popped to ensure stability
-        context.read<AppCubit>().changeLanguage(code);
-      },
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: isSelected ? colors.primary!.withValues(alpha: 0.1) : null,
+        border: Border.all(
+          color: isSelected
+              ? colors.secondary!.withValues(alpha: 0.5)
+              : colors.text!.withValues(alpha: 0.1),
+          width: isSelected ? 2 : 1,
+        ),
+      ),
+      child: ListTile(
+        leading: Text(
+          flag,
+          style: const TextStyle(fontSize: 32),
+        ),
+        title: Text(
+          label,
+          style: TextStyle(
+            color: colors.text,
+            fontFamily: 'Cairo',
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+          ),
+        ),
+        trailing: isSelected
+            ? Icon(
+                Icons.check_circle,
+                color: colors.secondary,
+                size: 24,
+              )
+            : Icon(
+                Icons.arrow_forward_ios,
+                color: colors.text?.withValues(alpha: 0.5),
+                size: 16,
+              ),
+        onTap: () {
+          Navigator.pop(context);
+          if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
+            Navigator.pop(_scaffoldKey.currentContext!);
+          }
+          context.read<AppCubit>().changeLanguage(code);
+        },
+      ),
     );
   }
 }
