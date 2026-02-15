@@ -44,6 +44,7 @@ class AppLocalizations {
       'electronic_rosary': 'السبحة الإلكترونية',
       'total_count': 'العدد الكلي',
       'reset': 'إعادة ضبط',
+      'tap_to_open_rosary': 'اضغط هنا لفتح السبحة الإلكترونية',
     },
     'en': {
       'app_title': 'Azkary',
@@ -81,6 +82,7 @@ class AppLocalizations {
       'electronic_rosary': 'Electronic Rosary',
       'total_count': 'Total Count',
       'reset': 'Reset',
+      'tap_to_open_rosary': 'Tap here to open the electronic rosary',
     },
     'fr': {
       'app_title': 'Azkary',
@@ -118,6 +120,7 @@ class AppLocalizations {
       'electronic_rosary': 'Chapelet Électronique',
       'total_count': 'Compte Total',
       'reset': 'Réinitialiser',
+      'tap_to_open_rosary': 'Appuyez ici pour ouvrir le chapelet électronique',
     },
     'de': {
       'app_title': 'Azkary',
@@ -154,6 +157,8 @@ class AppLocalizations {
       'electronic_rosary': 'Elektronischer Rosenkranz',
       'total_count': 'Gesamtzählung',
       'reset': 'Zurücksetzen',
+      'tap_to_open_rosary':
+          'Tippen Sie hier, um den elektronischen Rosenkranz zu öffnen',
     },
   };
 

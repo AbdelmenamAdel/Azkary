@@ -96,7 +96,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                 child: Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back, color: colors.surface),
+                      icon: Icon(Icons.arrow_back, color: colors.secondary),
                       onPressed: () => Navigator.pop(context),
                     ),
                     Expanded(
@@ -107,7 +107,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Cairo',
-                          color: colors.surface,
+                          color: colors.secondary,
                         ),
                       ),
                     ),
@@ -137,18 +137,18 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                colors.secondary!,
-                                colors.secondary!.withValues(alpha: 0.7),
+                                colors.primary!,
+                                colors.primary!.withValues(alpha: 0.8),
                               ],
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: colors.secondary!.withValues(alpha: 0.4),
+                                color: colors.primary!.withValues(alpha: 0.4),
                                 blurRadius: 30,
                                 spreadRadius: 5,
                               ),
                               BoxShadow(
-                                color: colors.primary!.withValues(alpha: 0.3),
+                                color: colors.secondary!.withValues(alpha: 0.3),
                                 blurRadius: 50,
                                 spreadRadius: 10,
                               ),
@@ -162,9 +162,9 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                                   value: progress,
                                   strokeWidth: 8,
                                   backgroundColor:
-                                      colors.surface!.withValues(alpha: 0.3),
+                                      colors.background!.withValues(alpha: 0.3),
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                    colors.surface!,
+                                    colors.secondary!,
                                   ),
                                 ),
                               ),
@@ -178,12 +178,12 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                                       style: TextStyle(
                                         fontSize: 80,
                                         fontWeight: FontWeight.bold,
-                                        color: colors.surface,
+                                        color: colors.background,
                                         fontFamily: 'Cairo',
-                                        shadows: [
+                                        shadows: const [
                                           Shadow(
                                             color: Colors.black26,
-                                            offset: const Offset(2, 2),
+                                            offset: Offset(2, 2),
                                             blurRadius: 4,
                                           ),
                                         ],
@@ -193,7 +193,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                                       '/ $_maxCount',
                                       style: TextStyle(
                                         fontSize: 24,
-                                        color: colors.surface!
+                                        color: colors.background!
                                             .withValues(alpha: 0.8),
                                         fontFamily: 'Cairo',
                                       ),
@@ -217,10 +217,10 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 decoration: BoxDecoration(
-                  color: colors.surface!.withValues(alpha: 0.1),
+                  color: colors.primary!.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: colors.secondary!.withValues(alpha: 0.3),
+                    color: colors.secondary!.withValues(alpha: 0.5),
                     width: 2,
                   ),
                 ),
@@ -240,7 +240,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: colors.secondary,
+                        color: colors.subtext,
                         fontFamily: 'Cairo',
                       ),
                     ),
@@ -273,8 +273,8 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                 child: ElevatedButton(
                   onPressed: _resetCounter,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: colors.surface,
-                    foregroundColor: colors.primary,
+                    backgroundColor: colors.secondary,
+                    foregroundColor: colors.background,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 48, vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -285,7 +285,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.refresh, color: colors.primary),
+                      Icon(Icons.refresh, color: colors.background),
                       const SizedBox(width: 8),
                       Text(
                         context.translate('reset'),
@@ -293,7 +293,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Cairo',
-                          color: colors.primary,
+                          color: colors.background,
                         ),
                       ),
                     ],

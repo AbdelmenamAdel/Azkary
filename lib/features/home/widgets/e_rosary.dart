@@ -111,7 +111,7 @@ class ERosarySection extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'اضغط هنا لفتح السبحة الإلكترونية',
+                              context.translate('tap_to_open_rosary'),
                               style: TextStyle(
                                 fontSize: 14,
                                 fontFamily: 'Cairo',
