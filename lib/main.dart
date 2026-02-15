@@ -1,20 +1,21 @@
-import 'package:azkar/core/theme/theme_cubit.dart';
+import 'package:azkar/core/manager/app_cubit.dart';
+import 'package:azkar/core/manager/app_state.dart';
+import 'package:azkar/core/theme/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:azkar/core/localization/app_localizations.dart';
-import 'package:azkar/core/localization/language_cubit.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/home/home_view.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ZekrCounterCubit()),
-        BlocProvider(create: (context) => LanguageCubit()),
-        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => AppCubit()),
       ],
       child: const MyApp(),
     ),
@@ -31,32 +32,28 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return BlocBuilder<LanguageCubit, Locale>(
-          builder: (context, locale) {
-            return BlocBuilder<ThemeCubit, AppTheme>(
-              builder: (context, themeState) {
-                return MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  locale: locale,
-                  supportedLocales: const [
-                    Locale('ar'),
-                    Locale('en'),
-                    Locale('fr'),
-                    Locale('de'),
-                  ],
-                  localizationsDelegates: [
-                    const AppLocalizationsDelegate(),
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  theme: context.read<ThemeCubit>().getThemeData(
-                        themeState,
-                        locale.languageCode,
-                      ),
-                  home: HomeView(),
-                );
-              },
+        return BlocBuilder<AppCubit, AppState>(
+          builder: (context, state) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              locale: state.locale,
+              supportedLocales: const [
+                Locale('ar'),
+                Locale('en'),
+                Locale('fr'),
+                Locale('de'),
+              ],
+              localizationsDelegates: [
+                const AppLocalizationsDelegate(),
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              theme: AppThemes.getTheme(
+                state.theme,
+                state.locale.languageCode,
+              ),
+              home: HomeView(),
             );
           },
         );

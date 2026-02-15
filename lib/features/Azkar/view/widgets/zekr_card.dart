@@ -1,4 +1,4 @@
-import 'package:azkar/core/utils/app_colors.dart';
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/Azkar/manager/model/zekr_model.dart';
 import 'package:azkar/features/Azkar/view/widgets/share.dart';
@@ -19,6 +19,7 @@ class ZekrCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = ZekrCounterCubit.get(context);
+    final colors = context.colors;
 
     return InkWell(
       onTap: () {
@@ -44,6 +45,7 @@ class ZekrCardWidget extends StatelessWidget {
         }
       },
       child: Card(
+        color: colors.surface,
         margin: const EdgeInsets.all(5),
         child: Stack(
           children: [
@@ -54,9 +56,9 @@ class ZekrCardWidget extends StatelessWidget {
               child: Container(
                 height: 30,
                 width: 30,
-                decoration: const BoxDecoration(
-                  color: AppColors.blueGrey,
-                  borderRadius: BorderRadiusDirectional.only(
+                decoration: BoxDecoration(
+                  color: colors.primary,
+                  borderRadius: const BorderRadiusDirectional.only(
                     topEnd: Radius.circular(3),
                   ),
                 ),
@@ -74,14 +76,14 @@ class ZekrCardWidget extends StatelessWidget {
             ),
             ZekrSection(model: model!, zekrName: zekrName),
             const ShareWidget(),
-            const Positioned(
+            Positioned(
               bottom: 0,
               right: 0,
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Icon(
                   Icons.mosque_rounded,
-                  color: AppColors.blueGrey,
+                  color: colors.primary?.withValues(alpha: 0.1),
                   size: 28,
                 ),
               ),

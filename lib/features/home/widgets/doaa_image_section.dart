@@ -1,3 +1,4 @@
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/core/utils/app_images.dart';
 import 'package:azkar/features/Azkar/view/widgets_without_counter.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ class DoaaImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Padding(
       padding: const EdgeInsets.all(3.0),
       child: ClipRRect(
@@ -34,14 +36,15 @@ class DoaaImageSection extends StatelessWidget {
                 width: double.infinity,
                 fit: BoxFit.fill,
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "فضل الدعاء",
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Nabi',
+                    color: colors.primary,
                   ),
                 ),
               ),

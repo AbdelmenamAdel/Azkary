@@ -1,4 +1,4 @@
-import 'package:azkar/core/utils/app_colors.dart';
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/Azkar/manager/model/zekr_model.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ class ZekrSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = ZekrCounterCubit.get(context);
+    final colors = context.colors;
 
     return Padding(
       padding: const EdgeInsets.all(12.0),
@@ -35,7 +36,7 @@ class ZekrSection extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Cairo',
-                      color: AppColors.secondary,
+                      color: colors.secondary,
                     ),
                   ),
                 ),
@@ -45,10 +46,11 @@ class ZekrSection extends StatelessWidget {
               textAlign: TextAlign.center,
               textWidthBasis: TextWidthBasis.parent,
               model.zekr,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
                 fontFamily: "Nabi",
+                color: colors.text,
               ),
             ),
           ),
@@ -66,7 +68,7 @@ class ZekrSection extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Cairo',
-                        color: AppColors.secondary),
+                        color: colors.subtext),
                   ),
                 ),
           if (model.loop != null)
@@ -75,24 +77,24 @@ class ZekrSection extends StatelessWidget {
                 totalSteps: model.loop!,
                 currentStep: _up(cubit),
                 stepSize: 10,
-                selectedColor: AppColors.blueGrey,
-                unselectedColor: AppColors.secondary,
+                selectedColor: colors.primary!,
+                unselectedColor: colors.secondary!.withValues(alpha: 0.2),
                 width: 60,
                 height: 60,
                 selectedStepSize: 3,
                 unselectedStepSize: 1,
                 child: Center(
                     child: _down(cubit) == 0
-                        ? const Icon(
+                        ? Icon(
                             Icons.check_rounded,
                             size: 38,
-                            color: AppColors.blueGrey,
+                            color: colors.primary,
                           )
                         : Text(
                             _down(cubit).toString(),
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.blueGrey),
+                                color: colors.primary),
                           )),
                 roundedCap: (_, __) => true,
               ),

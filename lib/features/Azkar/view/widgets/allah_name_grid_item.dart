@@ -1,4 +1,4 @@
-import 'package:azkar/core/utils/app_colors.dart';
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/features/Azkar/manager/model/allah_names_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
@@ -15,6 +15,8 @@ class AllahNameGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return TweenAnimationBuilder<double>(
       duration: Duration(milliseconds: 500 + (index % 10 * 50)),
       tween: Tween(begin: 0.0, end: 1.0),
@@ -37,17 +39,17 @@ class AllahNameGridItem extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFF1E293B),
-                const Color(0xFF0F172A),
+                colors.surface!,
+                colors.surface!.withValues(alpha: 0.8),
               ],
             ),
             border: Border.all(
-              color: AppColors.secondary.withValues(alpha: 0.3),
+              color: colors.secondary!.withValues(alpha: 0.3),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.secondary.withValues(alpha: 0.1),
+                color: colors.primary!.withValues(alpha: 0.1),
                 blurRadius: 10,
                 spreadRadius: 1,
               ),
@@ -64,7 +66,7 @@ class AllahNameGridItem extends StatelessWidget {
                   child: Icon(
                     Icons.mosque,
                     size: 80,
-                    color: AppColors.secondary.withValues(alpha: 0.05),
+                    color: colors.secondary!.withValues(alpha: 0.05),
                   ),
                 ),
                 Center(
@@ -77,12 +79,12 @@ class AllahNameGridItem extends StatelessWidget {
                         fontFamily: 'Nabi',
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.secondary,
+                        color: colors.text,
                         shadows: [
                           Shadow(
-                            color: Colors.black.withValues(alpha: 0.5),
-                            offset: const Offset(2, 2),
-                            blurRadius: 4,
+                            color: Colors.black.withValues(alpha: 0.2),
+                            offset: const Offset(1, 1),
+                            blurRadius: 2,
                           ),
                         ],
                       ),
@@ -98,6 +100,7 @@ class AllahNameGridItem extends StatelessWidget {
   }
 
   void _showDetail(BuildContext context) {
+    final colors = context.colors;
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -108,11 +111,11 @@ class AllahNameGridItem extends StatelessWidget {
           child: Container(
             height: MediaQuery.of(context).size.height * 0.4,
             decoration: BoxDecoration(
-              color: const Color(0xFF0F172A).withValues(alpha: 0.9),
+              color: colors.background?.withValues(alpha: 0.9),
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(30)),
               border: Border.all(
-                color: AppColors.secondary.withValues(alpha: 0.2),
+                color: colors.secondary!.withValues(alpha: 0.2),
                 width: 1,
               ),
             ),
@@ -123,7 +126,7 @@ class AllahNameGridItem extends StatelessWidget {
                   width: 50,
                   height: 5,
                   decoration: BoxDecoration(
-                    color: AppColors.secondary.withValues(alpha: 0.3),
+                    color: colors.secondary!.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -134,7 +137,7 @@ class AllahNameGridItem extends StatelessWidget {
                     fontFamily: 'Nabi',
                     fontSize: 38,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.secondary,
+                    color: colors.secondary,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -144,10 +147,10 @@ class AllahNameGridItem extends StatelessWidget {
                     child: Text(
                       model.description,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontFamily: 'Cairo',
                         fontSize: 20,
-                        color: Colors.white,
+                        color: colors.text,
                         height: 1.6,
                       ),
                     ),

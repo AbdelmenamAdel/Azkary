@@ -1,4 +1,5 @@
 import 'package:azkar/core/common/url_launcher.dart';
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,13 +9,15 @@ class AuthorMedia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Card(
       margin: const EdgeInsets.all(12).r,
+      color: colors.surface,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const Row(
+            Row(
               children: [
                 Text(
                   "Auther Media",
@@ -22,6 +25,7 @@ class AuthorMedia extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                     fontFamily: "Limelight",
+                    color: colors.text,
                   ),
                 ),
               ],
@@ -61,9 +65,9 @@ class AuthorMedia extends StatelessWidget {
                       await urlLauncher(
                           context, "https://github.com/AbdelmenamAdel/");
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       FontAwesomeIcons.github,
-                      color: Colors.black,
+                      color: colors.text,
                       size: 32,
                     ),
                   ),
@@ -72,9 +76,9 @@ class AuthorMedia extends StatelessWidget {
                       await urlLauncher(context,
                           "https://www.linkedin.com/in/abdelmenam-adel-175b35265/");
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       FontAwesomeIcons.linkedinIn,
-                      color: Colors.blue[300]!,
+                      color: Color(0xFF0077B5),
                       size: 32,
                     ),
                   ),
@@ -85,7 +89,7 @@ class AuthorMedia extends StatelessWidget {
               "Azkary",
               style: TextStyle(
                 fontFamily: 'Limelight',
-                color: Theme.of(context).textTheme.displaySmall!.color,
+                color: colors.primary,
                 letterSpacing: 3,
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
