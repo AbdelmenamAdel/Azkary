@@ -36,20 +36,24 @@ class DoaaImageSection extends StatelessWidget {
                 width: double.infinity,
                 fit: BoxFit.fill,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "فضل الدعاء",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Nabi',
-                    color: colors.primary,
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "فضل الدعاء",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Cairo',
+                      color: colors.background,
+                    ),
                   ),
                 ),
               ),
               Positioned(
                 bottom: 0,
+                left: 0,
                 child: Image.asset(
                   AppImages.prayer,
                   height: 150.h,

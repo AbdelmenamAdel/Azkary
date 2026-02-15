@@ -36,6 +36,7 @@ class AppLocalizations {
       'theme_forest': 'الغابة الهادئة',
       'theme_sunset': 'الغروب الذهبي',
       'theme_sepia': 'السيبيا الكلاسيكي',
+      'comprehensive_dua': 'جوامع الدعاء',
     },
     'en': {
       'app_title': 'Azkary',
@@ -65,6 +66,7 @@ class AppLocalizations {
       'theme_forest': 'Forest Serenity',
       'theme_sunset': 'Sunset Harmony',
       'theme_sepia': 'Classic Sepia',
+      'comprehensive_dua': 'Comprehensive Supplications',
     },
     'fr': {
       'app_title': 'Azkary',
@@ -94,6 +96,7 @@ class AppLocalizations {
       'theme_forest': 'Forêt Sérénité',
       'theme_sunset': 'Harmonie du Coucher de Soleil',
       'theme_sepia': 'Sépia Classique',
+      'comprehensive_dua': 'Invocations Complètes',
     },
     'de': {
       'app_title': 'Azkary',
@@ -122,6 +125,7 @@ class AppLocalizations {
       'theme_forest': 'Waldstille',
       'theme_sunset': 'Sonnenuntergang Harmonie',
       'theme_sepia': 'Klassisches Sepia',
+      'comprehensive_dua': 'Umfassende Bittgebete',
     },
   };
 

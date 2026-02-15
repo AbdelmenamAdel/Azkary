@@ -158,7 +158,7 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
               AzkarNameCard(
-                azkarName: context.translate('dua_virtue'),
+                azkarName: context.translate('comprehensive_dua'),
                 image: AppImages.openHand,
                 onTap: () {
                   ZekrCounterCubit.get(context).fillGoame3Eldo3aLoops();
