@@ -1,5 +1,5 @@
 import 'package:azkar/core/common/custom_appbar.dart';
-import 'package:azkar/core/utils/app_colors.dart';
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/core/utils/azkar.dart';
 import 'package:azkar/features/Azkar/manager/model/zekr_model.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +34,10 @@ class WidgetsWithoutCounter extends StatelessWidget {
         length = 0;
     }
     return Container(
-      color: AppColors.primary,
+      color: context.colors.primary,
       child: SafeArea(
         child: Scaffold(
           appBar: customAppbar(context, title: title),
-          backgroundColor: AppColors.primary,
           body: ListView.builder(
             padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
             itemBuilder: (context, index) {

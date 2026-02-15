@@ -1,5 +1,5 @@
 import 'package:azkar/core/localization/app_localizations.dart';
-import 'package:azkar/core/utils/app_colors.dart';
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/core/utils/app_images.dart';
 import 'package:azkar/features/Azkar/manager/model/allah_names_model.dart';
 import 'package:azkar/features/Azkar/view/widgets/allah_name_grid_item.dart';
@@ -10,9 +10,10 @@ class AllahNamesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     final locale = Localizations.localeOf(context);
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
+      // backgroundColor is handled by global theme (primary)
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
@@ -20,7 +21,7 @@ class AllahNamesView extends StatelessWidget {
             expandedHeight: 280,
             floating: false,
             pinned: true,
-            backgroundColor: const Color(0xFF0F172A),
+            backgroundColor: colors.primary,
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
               icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
@@ -39,8 +40,8 @@ class AllahNamesView extends StatelessWidget {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: [
-                          const Color(0xFF0F172A),
-                          Colors.black.withValues(alpha: 0.3),
+                          colors.primary!,
+                          colors.primary!.withValues(alpha: 0.3),
                         ],
                       ),
                     ),
@@ -52,11 +53,18 @@ class AllahNamesView extends StatelessWidget {
                     child: Text(
                       context.translate('allah_names'),
                       style: TextStyle(
-                        color: AppColors.secondary,
+                        color: const Color(0xFFFFD700), // Gold
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
                         fontFamily:
                             locale.languageCode == 'ar' ? 'Cairo' : null,
+                        shadows: const [
+                          Shadow(
+                            color: Colors.black45,
+                            offset: Offset(2, 2),
+                            blurRadius: 4,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -69,10 +77,11 @@ class AllahNamesView extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.03),
+                color: colors.surface?.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: AppColors.secondary.withValues(alpha: 0.2),
+                  color: const Color(0xFFFFD700)
+                      .withValues(alpha: 0.3), // Gold border
                   width: 1,
                 ),
               ),
@@ -81,11 +90,18 @@ class AllahNamesView extends StatelessWidget {
                   Text(
                     context.translate('allah_verse'),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Nabi',
                       fontSize: 24,
-                      color: AppColors.secondary,
+                      color: Color(0xFFFFD700), // Premium Gold
                       height: 1.8,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -94,7 +110,8 @@ class AllahNamesView extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Cairo',
                       fontSize: 16,
-                      color: Colors.white.withValues(alpha: 0.6),
+                      color: colors.text?.withValues(alpha: 0.75),
+                      letterSpacing: 0.5,
                     ),
                   ),
                 ],

@@ -1,5 +1,5 @@
 import 'package:azkar/core/common/custom_appbar.dart';
-import 'package:azkar/core/utils/app_colors.dart';
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/core/utils/azkar.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_state.dart';
@@ -13,11 +13,10 @@ class WerdakAzkarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primary,
+      color: context.colors.primary,
       child: SafeArea(
         child: Scaffold(
           appBar: customAppbar(context, title: "وردك اليومي"),
-          backgroundColor: AppColors.primary,
           body: BlocBuilder<ZekrCounterCubit, ZekrCounterState>(
             builder: (context, state) {
               var cubit = ZekrCounterCubit.get(context);

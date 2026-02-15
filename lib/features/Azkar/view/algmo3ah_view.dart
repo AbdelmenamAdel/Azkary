@@ -1,6 +1,6 @@
 import 'package:azkar/core/common/custom_appbar.dart';
 import 'package:azkar/core/common/custom_zoom_image.dart';
-import 'package:azkar/core/utils/app_colors.dart';
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/core/utils/app_images.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +10,10 @@ class Algmo3ahView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primary,
+      color: context.colors.primary,
       child: SafeArea(
         child: Scaffold(
           appBar: customAppbar(context, title: "سنن الجمعة"),
-          backgroundColor: AppColors.primary,
           body: const Padding(
             padding: EdgeInsets.all(24.0),
             child: SingleChildScrollView(

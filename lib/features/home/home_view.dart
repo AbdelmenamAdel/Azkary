@@ -25,7 +25,6 @@ class _HomeViewState extends State<HomeView> {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: colors.background,
       drawer: Drawer(
         child: Container(
           color: colors.background,
@@ -60,12 +59,8 @@ class _HomeViewState extends State<HomeView> {
                   context.translate('language'),
                   style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
                 ),
-                trailing: RotatedBox(
-                  quarterTurns:
-                      Directionality.of(context) == TextDirection.rtl ? 2 : 0,
-                  child: Icon(Icons.arrow_forward_ios,
-                      color: colors.text?.withValues(alpha: 0.5), size: 16),
-                ),
+                trailing: Icon(Icons.arrow_forward_ios,
+                    color: colors.text?.withValues(alpha: 0.5), size: 16),
                 onTap: () {
                   _showLanguageDialog(context);
                 },
@@ -104,8 +99,8 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(3.0),
+      body: const Padding(
+        padding: EdgeInsets.all(3.0),
         child: SingleChildScrollView(
           child: Column(
             children: [

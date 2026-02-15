@@ -72,7 +72,8 @@ class AppThemes {
   }) {
     return ThemeData(
       primaryColor: primary,
-      scaffoldBackgroundColor: background,
+      scaffoldBackgroundColor:
+          background, // Slightly different from header for better depth
       appBarTheme: AppBarTheme(
         backgroundColor: primary,
         elevation: 0,

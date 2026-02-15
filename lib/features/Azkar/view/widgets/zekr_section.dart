@@ -78,7 +78,7 @@ class ZekrSection extends StatelessWidget {
                 currentStep: _up(cubit),
                 stepSize: 10,
                 selectedColor: colors.primary!,
-                unselectedColor: colors.secondary!.withValues(alpha: 0.2),
+                unselectedColor: colors.secondary!.withValues(alpha: 0.5),
                 width: 60,
                 height: 60,
                 selectedStepSize: 3,

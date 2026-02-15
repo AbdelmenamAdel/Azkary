@@ -44,7 +44,8 @@ class AllahNameGridItem extends StatelessWidget {
               ],
             ),
             border: Border.all(
-              color: colors.secondary!.withValues(alpha: 0.3),
+              color:
+                  const Color(0xFFFFD700).withValues(alpha: 0.4), // Gold border
               width: 1.5,
             ),
             boxShadow: [
@@ -66,7 +67,8 @@ class AllahNameGridItem extends StatelessWidget {
                   child: Icon(
                     Icons.mosque,
                     size: 80,
-                    color: colors.secondary!.withValues(alpha: 0.05),
+                    color: const Color(0xFFFFD700)
+                        .withValues(alpha: 0.1), // Gold accent icon
                   ),
                 ),
                 Center(
@@ -75,16 +77,16 @@ class AllahNameGridItem extends StatelessWidget {
                     child: Text(
                       model.name,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Nabi',
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
-                        color: colors.text,
+                        color: Color(0xFFFFD700), // Premium Gold
                         shadows: [
                           Shadow(
-                            color: Colors.black.withValues(alpha: 0.2),
-                            offset: const Offset(1, 1),
-                            blurRadius: 2,
+                            color: Colors.black45,
+                            offset: Offset(1, 1),
+                            blurRadius: 3,
                           ),
                         ],
                       ),
@@ -133,11 +135,11 @@ class AllahNameGridItem extends StatelessWidget {
                 const SizedBox(height: 30),
                 Text(
                   model.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Nabi',
                     fontSize: 38,
                     fontWeight: FontWeight.bold,
-                    color: colors.secondary,
+                    color: Color(0xFFFFD700), // Premium Gold
                   ),
                 ),
                 const SizedBox(height: 20),
