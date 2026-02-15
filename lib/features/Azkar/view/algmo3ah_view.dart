@@ -13,7 +13,7 @@ class Algmo3ahView extends StatelessWidget {
       color: AppColors.primary,
       child: SafeArea(
         child: Scaffold(
-          appBar: customAppbar(context),
+          appBar: customAppbar(context, title: "سنن الجمعة"),
           backgroundColor: AppColors.primary,
           body: const Padding(
             padding: EdgeInsets.all(24.0),

@@ -47,16 +47,17 @@ class ZekrCardWidget extends StatelessWidget {
         margin: const EdgeInsets.all(5),
         child: Stack(
           children: [
-            Positioned(
+            Positioned.directional(
+              textDirection: Directionality.of(context),
               top: 0,
-              right: 0,
+              end: 0,
               child: Container(
                 height: 30,
                 width: 30,
                 decoration: const BoxDecoration(
                   color: AppColors.blueGrey,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(3),
+                  borderRadius: BorderRadiusDirectional.only(
+                    topEnd: Radius.circular(3),
                   ),
                 ),
                 child: Center(

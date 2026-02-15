@@ -12,17 +12,22 @@ class WidgetsWithoutCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     late ZekrModel model;
     late int length;
+    String title = "أذكاري";
     switch (zekrName) {
       case 'motafareqah':
+        title = "أذكار متفرقة";
         length = Azkar().motafareqah.length;
         break;
       case 'roqiah':
+        title = "الرقية الشرعية";
         length = Azkar().roqiah.length;
         break;
       case 'fadlElzekr':
+        title = "فضل الذكر";
         length = Azkar().fadlElzekr.length;
         break;
       case 'fadlEldo3a':
+        title = "فضل الدعاء";
         length = Azkar().fadlEldo3a.length;
         break;
       default:
@@ -32,7 +37,7 @@ class WidgetsWithoutCounter extends StatelessWidget {
       color: AppColors.primary,
       child: SafeArea(
         child: Scaffold(
-          appBar: customAppbar(context),
+          appBar: customAppbar(context, title: title),
           backgroundColor: AppColors.primary,
           body: ListView.builder(
             padding: const EdgeInsets.only(top: 5, left: 5, right: 5),

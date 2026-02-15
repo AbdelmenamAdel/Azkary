@@ -12,6 +12,7 @@ import 'package:azkar/features/Azkar/view/sleeping_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'azkar_name_card.dart';
+import 'package:azkar/core/localization/app_localizations.dart';
 
 class AzkarNamesSection extends StatelessWidget {
   const AzkarNamesSection({super.key});
@@ -26,7 +27,7 @@ class AzkarNamesSection extends StatelessWidget {
           child: Row(
             children: [
               AzkarNameCard(
-                azkarName: "أذكار  بعد  الصلاة",
+                azkarName: context.translate('after_pray_azkar'),
                 image: AppImages.pray,
                 onTap: () {
                   ZekrCounterCubit.get(context).fillAfterPrayLoops();
@@ -41,7 +42,7 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
               AzkarNameCard(
-                azkarName: "أذكار  الصباح",
+                azkarName: context.translate('morning_azkar'),
                 icon: Icons.sunny,
                 onTap: () {
                   Navigator.push(
@@ -65,7 +66,7 @@ class AzkarNamesSection extends StatelessWidget {
           child: Row(
             children: [
               AzkarNameCard(
-                azkarName: "أذكار  النوم",
+                azkarName: context.translate('sleep_azkar'),
                 image: AppImages.sleepMoon,
                 onTap: () {
                   ZekrCounterCubit.get(context).fillSleepingLoops();
@@ -80,7 +81,7 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
               AzkarNameCard(
-                azkarName: "أذكار  المساء",
+                azkarName: context.translate('evening_azkar'),
                 image: AppImages.nightMode,
                 onTap: () {
                   ZekrCounterCubit.get(context).fillNightLoops();
@@ -103,7 +104,7 @@ class AzkarNamesSection extends StatelessWidget {
           child: Row(
             children: [
               AzkarNameCard(
-                azkarName: "فضل  الذكر",
+                azkarName: context.translate('dhikr_virtue'),
                 image: AppImages.love,
                 onTap: () {
                   Navigator.push(
@@ -119,7 +120,7 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
               AzkarNameCard(
-                azkarName: "أذكار  متفرقه",
+                azkarName: context.translate('various_azkar'),
                 image: AppImages.rosary1,
                 onTap: () {
                   Navigator.push(
@@ -143,7 +144,7 @@ class AzkarNamesSection extends StatelessWidget {
           child: Row(
             children: [
               AzkarNameCard(
-                azkarName: "أسماء   الله   الحسني",
+                azkarName: context.translate('allah_names'),
                 image: AppImages.allah1,
                 onTap: () {
                   Navigator.push(
@@ -157,7 +158,7 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
               AzkarNameCard(
-                azkarName: "جوامع   الدعاء",
+                azkarName: context.translate('dua_virtue'),
                 image: AppImages.openHand,
                 onTap: () {
                   ZekrCounterCubit.get(context).fillGoame3Eldo3aLoops();
@@ -180,7 +181,7 @@ class AzkarNamesSection extends StatelessWidget {
           child: Row(
             children: [
               AzkarNameCard(
-                azkarName: "الرقية    الشرعية    من    الكتاب    والسنة",
+                azkarName: context.translate('roqiah'),
                 image: AppImages.quran,
                 onTap: () {
                   Navigator.push(
@@ -196,7 +197,7 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
               AzkarNameCard(
-                azkarName: "وردك  من  الأذكار",
+                azkarName: context.translate('daily_werd'),
                 image: AppImages.sunny,
                 onTap: () {
                   ZekrCounterCubit.get(context).fillWerdakLoops();
@@ -211,7 +212,7 @@ class AzkarNamesSection extends StatelessWidget {
                 },
               ),
               AzkarNameCard(
-                azkarName: " الجمعة  ومحمد  عليه  الصلاة  والسلام",
+                azkarName: context.translate('friday_sunan'),
                 image: AppImages.heart,
                 onTap: () {
                   Navigator.push(

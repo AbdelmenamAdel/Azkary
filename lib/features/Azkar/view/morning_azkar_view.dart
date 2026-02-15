@@ -16,7 +16,7 @@ class MorningAzkarView extends StatelessWidget {
       color: AppColors.primary,
       child: SafeArea(
         child: Scaffold(
-          appBar: customAppbar(context),
+          appBar: customAppbar(context, title: "أذكار الصباح"),
           backgroundColor: AppColors.primary,
           body: BlocBuilder<ZekrCounterCubit, ZekrCounterState>(
             builder: (context, state) {

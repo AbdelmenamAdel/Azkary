@@ -1,36 +1,130 @@
-import 'package:azkar/core/common/custom_appbar.dart';
+import 'package:azkar/core/localization/app_localizations.dart';
 import 'package:azkar/core/utils/app_colors.dart';
 import 'package:azkar/core/utils/app_images.dart';
-import 'package:azkar/core/common/custom_zoom_image.dart';
+import 'package:azkar/features/Azkar/manager/model/allah_names_model.dart';
+import 'package:azkar/features/Azkar/view/widgets/allah_name_grid_item.dart';
 import 'package:flutter/material.dart';
-import 'widgets/custom_card_animation.dart';
 
 class AllahNamesView extends StatelessWidget {
   const AllahNamesView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.primary,
-      child: SafeArea(
-        child: Scaffold(
-          appBar: customAppbar(context),
-          backgroundColor: AppColors.primary,
-          body: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              child: Column(
+    final locale = Localizations.localeOf(context);
+    return Scaffold(
+      backgroundColor: const Color(0xFF0F172A),
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 280,
+            floating: false,
+            pinned: true,
+            backgroundColor: const Color(0xFF0F172A),
+            leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                fit: StackFit.expand,
                 children: [
-                  CustomZoomImage(
-                    tag: 'allah_names',
-                    image: AppImages.allahnames,
+                  Image.asset(
+                    AppImages.allahnames,
+                    fit: BoxFit.cover,
                   ),
-                  CustomCardAnimation(),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          const Color(0xFF0F172A),
+                          Colors.black.withValues(alpha: 0.3),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned.directional(
+                    textDirection: Directionality.of(context),
+                    bottom: 60,
+                    end: 20,
+                    child: Text(
+                      context.translate('allah_names'),
+                      style: TextStyle(
+                        color: AppColors.secondary,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        fontFamily:
+                            locale.languageCode == 'ar' ? 'Cairo' : null,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-        ),
+          SliverToBoxAdapter(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.03),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: AppColors.secondary.withValues(alpha: 0.2),
+                  width: 1,
+                ),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    context.translate('allah_verse'),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Nabi',
+                      fontSize: 24,
+                      color: AppColors.secondary,
+                      height: 1.8,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    context.translate('subhan_allah'),
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 16,
+                      color: Colors.white.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 1,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return AllahNameGridItem(
+                    model: AllahNamesModel.allahNames[index],
+                    index: index,
+                  );
+                },
+                childCount: AllahNamesModel.allahNames.length,
+              ),
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 50),
+          ),
+        ],
       ),
     );
   }

@@ -16,7 +16,7 @@ class Goame3Eldo3aView extends StatelessWidget {
       color: AppColors.primary,
       child: SafeArea(
         child: Scaffold(
-          appBar: customAppbar(context),
+          appBar: customAppbar(context, title: "جوامع الدعاء"),
           backgroundColor: AppColors.primary,
           body: BlocBuilder<ZekrCounterCubit, ZekrCounterState>(
             builder: (context, state) {

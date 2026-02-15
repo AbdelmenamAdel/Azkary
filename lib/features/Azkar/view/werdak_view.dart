@@ -16,7 +16,7 @@ class WerdakAzkarView extends StatelessWidget {
       color: AppColors.primary,
       child: SafeArea(
         child: Scaffold(
-          appBar: customAppbar(context),
+          appBar: customAppbar(context, title: "وردك اليومي"),
           backgroundColor: AppColors.primary,
           body: BlocBuilder<ZekrCounterCubit, ZekrCounterState>(
             builder: (context, state) {
