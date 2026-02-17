@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:azkar/core/localization/app_localizations.dart';
 import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _rotationAnimation;
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -37,11 +39,13 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
   @override
   void dispose() {
     _animationController.dispose();
+    _audioPlayer.dispose();
     super.dispose();
   }
 
   void _incrementCounter() {
     HapticFeedback.lightImpact();
+    _audioPlayer.play(AssetSource('sounds/click_sepha.mp3'));
     _animationController.forward().then((_) => _animationController.reverse());
 
     setState(() {

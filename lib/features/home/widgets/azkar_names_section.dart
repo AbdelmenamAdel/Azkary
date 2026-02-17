@@ -21,10 +21,9 @@ class AzkarNamesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 190.h,
-          width: double.infinity,
+        IntrinsicHeight(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AzkarNameCard(
                 azkarName: context.translate('after_pray_azkar'),
@@ -60,10 +59,9 @@ class AzkarNamesSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 190.h,
-          width: double.infinity,
+        IntrinsicHeight(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AzkarNameCard(
                 azkarName: context.translate('sleep_azkar'),
@@ -98,10 +96,9 @@ class AzkarNamesSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 190.h,
-          width: double.infinity,
+        IntrinsicHeight(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AzkarNameCard(
                 azkarName: context.translate('dhikr_virtue'),
@@ -138,10 +135,9 @@ class AzkarNamesSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 190.h,
-          width: double.infinity,
+        IntrinsicHeight(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AzkarNameCard(
                 azkarName: context.translate('allah_names'),
@@ -175,10 +171,9 @@ class AzkarNamesSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 350.h,
-          width: double.infinity,
+        IntrinsicHeight(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AzkarNameCard(
                 azkarName: context.translate('roqiah'),

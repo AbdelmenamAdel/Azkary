@@ -101,6 +101,7 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: colors.primary,
         elevation: 5,
         shadowColor: colors.primary?.withValues(alpha: 0.5),
