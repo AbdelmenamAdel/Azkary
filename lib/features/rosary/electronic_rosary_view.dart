@@ -45,7 +45,6 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
 
   void _incrementCounter() {
     HapticFeedback.lightImpact();
-    _audioPlayer.play(AssetSource('sounds/click_sepha.mp3'));
     _animationController.forward().then((_) => _animationController.reverse());
 
     setState(() {
@@ -53,7 +52,10 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
       _totalCounter++;
       if (_counter >= _maxCount) {
         _counter = 0;
-        HapticFeedback.mediumImpact();
+        HapticFeedback.heavyImpact();
+        _audioPlayer.play(AssetSource('sounds/full_sound.mp3'));
+      } else {
+        _audioPlayer.play(AssetSource('sounds/click_sepha.mp3'));
       }
     });
   }
