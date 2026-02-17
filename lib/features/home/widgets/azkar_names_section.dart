@@ -176,6 +176,7 @@ class AzkarNamesSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AzkarNameCard(
+                height: 280.h,
                 azkarName: context.translate('roqiah'),
                 image: AppImages.quran,
                 onTap: () {

@@ -1,5 +1,6 @@
 import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AzkarNameCard extends StatefulWidget {
   const AzkarNameCard({
@@ -8,10 +9,12 @@ class AzkarNameCard extends StatefulWidget {
     this.icon,
     this.image,
     this.onTap,
+    this.height,
   });
   final String azkarName;
   final IconData? icon;
   final String? image;
+  final double? height;
   final void Function()? onTap;
 
   @override
@@ -64,7 +67,7 @@ class _AzkarNameCardState extends State<AzkarNameCard>
         child: ScaleTransition(
           scale: _scaleAnimation,
           child: Container(
-            // height: 200,
+            height: widget.height ?? 220.h,
             margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
