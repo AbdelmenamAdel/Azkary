@@ -53,6 +53,10 @@ class AppLocalizations {
       'history': 'سجل الأذكار',
       'monthly_report': 'التقرير الشهري',
       'count_suffix': 'عدة',
+      'daily_record': 'اليوم',
+      'best': 'أفضل أداء للذكر',
+      'overall_best': 'أفضل مجموع يومي',
+      'insights': 'إحصائيات الذكر',
     },
     'en': {
       'app_title': 'Athkary',
@@ -99,6 +103,10 @@ class AppLocalizations {
       'history': 'Zikr History',
       'monthly_report': 'Monthly Report',
       'count_suffix': 'counts',
+      'daily_record': 'Today',
+      'best': 'Zekr Best',
+      'overall_best': 'Overall Daily Best',
+      'insights': 'Rosary Insights',
     },
     'fr': {
       'app_title': 'Athkary',

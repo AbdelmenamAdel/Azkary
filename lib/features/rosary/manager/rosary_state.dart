@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class RosaryState {
   final int counter;
   final int totalToday;
@@ -36,6 +38,29 @@ class RosaryState {
       ],
       currentZekr: 'سبحان الله',
     );
+  }
+
+  int get currentZekrToday {
+    final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    return detailedHistory[today]?[currentZekr] ?? 0;
+  }
+
+  int get currentZekrAllTimeMax {
+    int max = 0;
+    for (var dateMap in detailedHistory.values) {
+      final count = dateMap[currentZekr] ?? 0;
+      if (count > max) max = count;
+    }
+    return max;
+  }
+
+  int get overallAllTimeMax {
+    int max = 0;
+    for (var dateMap in detailedHistory.values) {
+      final dailyTotal = dateMap.values.fold(0, (sum, count) => sum + count);
+      if (dailyTotal > max) max = dailyTotal;
+    }
+    return max;
   }
 
   RosaryState copyWith({

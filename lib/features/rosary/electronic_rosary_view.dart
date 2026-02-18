@@ -118,7 +118,22 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                             color: colors.secondary,
                           ),
                         ),
-                        _buildStreakWidget(state, colors),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.bar_chart_rounded,
+                                color: colors.secondary,
+                              ),
+                              onPressed: () => _showDetailedStatsBottomSheet(
+                                context,
+                                state,
+                                colors,
+                              ),
+                            ),
+                            _buildStreakWidget(state, colors),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -186,13 +201,19 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          '${state.counter}',
-                                          style: TextStyle(
-                                            fontSize: 70,
-                                            fontWeight: FontWeight.bold,
-                                            color: colors.background,
-                                            fontFamily: 'Cairo',
+                                        SizedBox(
+                                          width: 180,
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              '${state.counter}',
+                                              style: TextStyle(
+                                                fontSize: 75,
+                                                fontWeight: FontWeight.bold,
+                                                color: colors.background,
+                                                fontFamily: 'Cairo',
+                                              ),
+                                            ),
                                           ),
                                         ),
                                         Text(
@@ -215,11 +236,6 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                       },
                     ),
                   ),
-
-                  const SizedBox(height: 30),
-
-                  // History & Daily Stats
-                  _buildDailyStats(context, state, colors),
 
                   const Spacer(),
 
@@ -439,7 +455,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
           ElevatedButton(
             onPressed: () {
               if (_customZekrController.text.isNotEmpty) {
-                this.context.read<RosaryCubit>().addCustomZekr(
+                context.read<RosaryCubit>().addCustomZekr(
                   _customZekrController.text,
                 );
                 _customZekrController.clear();
@@ -457,64 +473,284 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
     );
   }
 
+  void _showDetailedStatsBottomSheet(
+    BuildContext context,
+    RosaryState state,
+    dynamic colors,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.55,
+        decoration: BoxDecoration(
+          color: colors.background,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        child: Column(
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: colors.text!.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              context.translate('insights'),
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: colors.secondary,
+                fontFamily: 'Cairo',
+              ),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(child: _buildCurrentZekrStats(context, state, colors)),
+                const SizedBox(width: 16),
+                Expanded(child: _buildDailyStats(context, state, colors)),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: colors.secondary!.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(25),
+                border: Border.all(
+                  color: colors.secondary!.withValues(alpha: 0.2),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: colors.secondary!.withValues(alpha: 0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.workspace_premium_rounded,
+                      color: colors.secondary,
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.translate('overall_best'),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: colors.secondary,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Cairo',
+                        ),
+                      ),
+                      Text(
+                        '${state.overallAllTimeMax}',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: colors.secondary,
+                          fontFamily: 'Cairo',
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            TextButton.icon(
+              onPressed: () {
+                Navigator.pop(context);
+                _showMonthlyCalendar(context, state, colors);
+              },
+              icon: Icon(Icons.calendar_month, color: colors.secondary),
+              label: Text(
+                context.translate('monthly_report'),
+                style: TextStyle(
+                  color: colors.secondary,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Cairo',
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCurrentZekrStats(
+    BuildContext context,
+    RosaryState state,
+    dynamic colors,
+  ) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: colors.secondary!.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(25),
+        border: Border.all(color: colors.secondary!.withValues(alpha: 0.3)),
+      ),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: colors.secondary!.withValues(alpha: 0.2),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.stars_rounded, size: 20, color: colors.secondary),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.translate('best'),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 11,
+              color: colors.secondary,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Cairo',
+            ),
+          ),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              '${state.currentZekrAllTimeMax}',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: colors.secondary,
+                fontFamily: 'Cairo',
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '${context.translate('daily_record')}: ${state.currentZekrToday}',
+            style: TextStyle(
+              fontSize: 9,
+              color: colors.secondary,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Cairo',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildDailyStats(
     BuildContext context,
     RosaryState state,
     dynamic colors,
   ) {
     return GestureDetector(
-      onTap: () => _showHistoryBottomSheet(context, state, colors),
+      onTap: () {
+        Navigator.pop(context);
+        _showHistoryBottomSheet(context, state, colors);
+      },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: colors.primary!.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: colors.secondary!.withValues(alpha: 0.4)),
+          color: colors.text!.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(color: colors.text!.withValues(alpha: 0.1)),
         ),
         child: Column(
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.calendar_today, size: 16, color: colors.text),
-                const SizedBox(width: 8),
-                Text(
-                  context.translate('total_today'),
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: colors.text!.withValues(alpha: 0.7),
-                    fontFamily: 'Cairo',
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              '${state.totalToday}',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: colors.text!.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.calendar_today_rounded,
+                size: 20,
                 color: colors.text,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              context.translate('total_today'),
+              style: TextStyle(
+                fontSize: 11,
+                color: colors.text!.withValues(alpha: 0.6),
+                fontWeight: FontWeight.bold,
                 fontFamily: 'Cairo',
               ),
             ),
+            FittedBox(
+              child: Text(
+                '${state.totalToday}',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: colors.text,
+                  fontFamily: 'Cairo',
+                ),
+              ),
+            ),
+            const SizedBox(height: 4),
             Row(
-              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   context.translate('view_history'),
                   style: TextStyle(
-                    fontSize: 12,
-                    color: colors.text,
+                    fontSize: 9,
+                    color: colors.text!.withValues(alpha: 0.6),
                     decoration: TextDecoration.underline,
                     fontFamily: 'Cairo',
                   ),
                 ),
-                Icon(Icons.chevron_right, size: 14, color: colors.text),
+                Icon(
+                  Icons.chevron_right,
+                  size: 10,
+                  color: colors.text!.withValues(alpha: 0.6),
+                ),
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMaxCountButton(BuildContext context, int count, dynamic colors) {
+    final isSelected = _maxCount == count;
+    return GestureDetector(
+      onTap: () => _changeMaxCount(context, count),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected ? colors.secondary : Colors.transparent,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: isSelected
+                ? colors.secondary!
+                : colors.secondary!.withValues(alpha: 0.5),
+          ),
+        ),
+        child: Text(
+          '$count',
+          style: TextStyle(
+            color: isSelected ? colors.background : colors.secondary,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Cairo',
+          ),
         ),
       ),
     );
@@ -601,145 +837,63 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                     return Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
-                        color: colors.primary!.withValues(alpha: 0.05),
+                        color: colors.surface!.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: colors.secondary!.withValues(alpha: 0.2),
+                          color: colors.secondary!.withValues(alpha: 0.1),
                         ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: colors.secondary!.withValues(alpha: 0.1),
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(20),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.calendar_today,
-                                      size: 16,
-                                      color: colors.secondary,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      date,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: colors.secondary,
-                                        fontFamily: 'Cairo',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  '$totalForDate',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: colors.secondary,
-                                    fontSize: 18,
-                                    fontFamily: 'Cairo',
-                                  ),
-                                ),
-                              ],
-                            ),
+                      child: ExpansionTile(
+                        shape: const RoundedRectangleBorder(
+                          side: BorderSide.none,
+                        ),
+                        title: Text(
+                          date ==
+                                  DateFormat(
+                                    'yyyy-MM-dd',
+                                  ).format(DateTime.now())
+                              ? context.translate('today')
+                              : date,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: colors.text,
+                            fontFamily: 'Cairo',
                           ),
-                          ...sortedZekrs.map(
-                            (zekr) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      zekr,
-                                      style: TextStyle(
-                                        color: colors.text,
-                                        fontSize: 16,
-                                        fontFamily: 'Cairo',
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 4,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: colors.secondary!.withValues(
-                                        alpha: 0.05,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      '${zekrCounts[zekr]}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: colors.secondary,
-                                        fontFamily: 'Cairo',
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                        ),
+                        subtitle: Text(
+                          '${context.translate('total_count')}: $totalForDate',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: colors.text!.withValues(alpha: 0.6),
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
+                        children: sortedZekrs.map((zekr) {
+                          return ListTile(
+                            title: Text(
+                              zekr,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: colors.text,
+                                fontFamily: 'Cairo',
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                        ],
+                            trailing: Text(
+                              '${zekrCounts[zekr]}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: colors.secondary,
+                                fontFamily: 'Cairo',
+                              ),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     );
                   },
                 ),
               ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMaxCountButton(BuildContext context, int count, colors) {
-    final isSelected = _maxCount == count;
-    return GestureDetector(
-      onTap: () => _changeMaxCount(context, count),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          gradient: isSelected
-              ? LinearGradient(
-                  colors: [
-                    colors.secondary!,
-                    colors.secondary!.withValues(alpha: 0.8),
-                  ],
-                )
-              : null,
-          color: isSelected ? null : colors.surface!.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSelected
-                ? colors.secondary!
-                : colors.text!.withValues(alpha: 0.3),
-            width: 2,
-          ),
-        ),
-        child: Text(
-          '$count',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: isSelected ? colors.surface : colors.text,
-            fontFamily: 'Cairo',
-          ),
         ),
       ),
     );
@@ -757,48 +911,31 @@ class _MonthlyCalendarSheet extends StatefulWidget {
 }
 
 class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
-  late DateTime _focusedMonth;
+  DateTime _viewDate = DateTime.now();
 
-  @override
-  void initState() {
-    super.initState();
-    _focusedMonth = DateTime.now();
+  void _nextMonth() {
+    setState(() {
+      _viewDate = DateTime(_viewDate.year, _viewDate.month + 1);
+    });
   }
 
-  void _prevMonth() => setState(() {
-    _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month - 1);
-  });
-
-  void _nextMonth() => setState(() {
-    _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month + 1);
-  });
+  void _prevMonth() {
+    setState(() {
+      _viewDate = DateTime(_viewDate.year, _viewDate.month - 1);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = widget.colors;
-    final state = widget.state;
-
-    final monthName = DateFormat.MMMM(
-      Localizations.localeOf(context).languageCode,
-    ).format(_focusedMonth);
-    final year = _focusedMonth.year;
-
-    final firstDayOfMonth = DateTime(
-      _focusedMonth.year,
-      _focusedMonth.month,
-      1,
-    );
-    final lastDayOfMonth = DateTime(
-      _focusedMonth.year,
-      _focusedMonth.month + 1,
-      0,
-    );
-    final daysInMonth = lastDayOfMonth.day;
-    final startWeekday = firstDayOfMonth.weekday % 7; // Sunday = 0
+    final firstDay = DateTime(_viewDate.year, _viewDate.month, 1);
+    final lastDay = DateTime(_viewDate.year, _viewDate.month + 1, 0);
+    final daysInMonth = lastDay.day;
+    final startWeekday = firstDay.weekday % 7;
 
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.6,
+      height: MediaQuery.of(context).size.height * 0.7,
       decoration: BoxDecoration(
         color: colors.background,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
@@ -815,116 +952,89 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
             ),
           ),
           const SizedBox(height: 20),
-          // Month Header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 20,
-                  color: colors.secondary,
-                ),
+                icon: Icon(Icons.chevron_left, color: colors.secondary),
                 onPressed: _prevMonth,
               ),
               Text(
-                '$monthName $year',
+                DateFormat('MMMM yyyy').format(_viewDate),
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: colors.secondary,
                   fontFamily: 'Cairo',
                 ),
               ),
               IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                  color: colors.secondary,
-                ),
+                icon: Icon(Icons.chevron_right, color: colors.secondary),
                 onPressed: _nextMonth,
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          // Weekdays
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-                .map(
-                  (d) => SizedBox(
-                    width: 40,
-                    child: Text(
-                      d,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: colors.text!.withValues(alpha: 0.5),
-                        fontFamily: 'Cairo',
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-          const SizedBox(height: 12),
-          // Grid
+          const SizedBox(height: 16),
+          _buildWeekdayHeader(colors),
+          const SizedBox(height: 8),
           Expanded(
             child: GridView.builder(
-              itemCount: 42, // 6 weeks
+              itemCount: startWeekday + daysInMonth,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 7,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
               ),
               itemBuilder: (context, index) {
-                final dayNumber = index - startWeekday + 1;
-                if (dayNumber < 1 || dayNumber > daysInMonth)
-                  return const SizedBox.shrink();
-
-                final date = DateTime(
-                  _focusedMonth.year,
-                  _focusedMonth.month,
-                  dayNumber,
-                );
+                if (index < startWeekday) return const SizedBox();
+                final dayNum = index - startWeekday + 1;
+                final date = DateTime(_viewDate.year, _viewDate.month, dayNum);
                 final dateKey = DateFormat('yyyy-MM-dd').format(date);
+                final zekrCounts = widget.state.detailedHistory[dateKey] ?? {};
+                final totalCount = zekrCounts.values.fold(
+                  0,
+                  (sum, c) => sum + c,
+                );
 
-                int totalDay = 0;
-                if (state.detailedHistory.containsKey(dateKey)) {
-                  totalDay = state.detailedHistory[dateKey]!.values.fold(
-                    0,
-                    (sum, c) => sum + c,
-                  );
-                }
-
-                return _buildDayCell(dayNumber, totalDay, date);
+                return _buildDayCell(dayNum, totalCount, date);
               },
             ),
           ),
-          // Legend
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildLegendItem('0', colors.surface!.withValues(alpha: 0.2)),
-                const SizedBox(width: 8),
-                _buildLegendItem(
-                  '1-99',
-                  colors.secondary!.withValues(alpha: 0.3),
-                ),
-                const SizedBox(width: 8),
-                _buildLegendItem(
-                  '100-299',
-                  colors.secondary!.withValues(alpha: 0.6),
-                ),
-                const SizedBox(width: 8),
-                _buildLegendItem('300+', colors.secondary!),
-              ],
-            ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildLegendItem('0', colors.surface!.withValues(alpha: 0.1)),
+              _buildLegendItem(
+                '1-100',
+                colors.secondary!.withValues(alpha: 0.2),
+              ),
+              _buildLegendItem(
+                '100-500',
+                colors.secondary!.withValues(alpha: 0.4),
+              ),
+              _buildLegendItem('1000+', colors.secondary!),
+            ],
           ),
+          const SizedBox(height: 16),
         ],
       ),
+    );
+  }
+
+  Widget _buildWeekdayHeader(dynamic colors) {
+    final weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: weekdays.map((d) {
+        return Text(
+          d,
+          style: TextStyle(
+            color: colors.text!.withValues(alpha: 0.5),
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -953,15 +1063,22 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
 
     if (count > 0) {
       if (count < 100) {
-        cellColor = colors.secondary!.withValues(alpha: 0.3);
-      } else if (count < 300) {
-        cellColor = colors.secondary!.withValues(alpha: 0.6);
+        cellColor = colors.secondary!.withValues(alpha: 0.2);
+      } else if (count < 500) {
+        cellColor = colors.secondary!.withValues(alpha: 0.4);
+        textColor = colors.background;
+      } else if (count < 1000) {
+        cellColor = colors.secondary!.withValues(alpha: 0.7);
         textColor = colors.background;
       } else {
         cellColor = colors.secondary!;
         textColor = colors.background;
       }
     }
+
+    String displayCount = count > 9999
+        ? '${(count / 1000).toStringAsFixed(1)}k'
+        : '$count';
 
     return Container(
       decoration: BoxDecoration(
@@ -992,10 +1109,11 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
             ),
             if (count > 0)
               Text(
-                '$count',
+                displayCount,
                 style: TextStyle(
-                  fontSize: 8,
-                  color: textColor.withValues(alpha: 0.7),
+                  fontSize: 7,
+                  fontWeight: FontWeight.bold,
+                  color: textColor.withValues(alpha: 0.8),
                   fontFamily: 'Cairo',
                 ),
               ),
