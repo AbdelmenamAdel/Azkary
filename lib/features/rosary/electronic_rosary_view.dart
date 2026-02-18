@@ -54,8 +54,8 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
 
     context.read<RosaryCubit>().increment();
 
-    if (state.counter + 1 >= _maxCount) {
-      context.read<RosaryCubit>().resetCounter();
+    final nextCount = state.counter + 1;
+    if (nextCount > 0 && nextCount % _maxCount == 0) {
       HapticFeedback.heavyImpact();
       _audioPlayer.play(AssetSource('sounds/full_sound.mp3'));
     } else {
@@ -81,7 +81,12 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
 
     return BlocBuilder<RosaryCubit, RosaryState>(
       builder: (context, state) {
-        final progress = state.counter / _maxCount;
+        double progress = (state.counter % _maxCount) / _maxCount;
+        if (progress == 0 &&
+            state.counter > 0 &&
+            state.counter % _maxCount == 0) {
+          progress = 1.0;
+        }
 
         return Scaffold(
           backgroundColor: colors.background,
@@ -501,9 +506,10 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
             ),
             const SizedBox(height: 24),
             Text(
-              context.translate('insights'),
+              '${context.translate('insights_for')} ${state.currentZekr}',
+              textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: colors.secondary,
                 fontFamily: 'Cairo',

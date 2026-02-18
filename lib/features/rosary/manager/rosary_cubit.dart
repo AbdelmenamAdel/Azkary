@@ -120,9 +120,11 @@ class RosaryCubit extends Cubit<RosaryState> {
       newLastDate = today;
     }
 
+    final int updatedZekrCount = newDetailedHistory[today]![currentZekr] ?? 0;
+
     emit(
       state.copyWith(
-        counter: state.counter + 1,
+        counter: updatedZekrCount,
         totalToday: newTotalToday,
         detailedHistory: newDetailedHistory,
         streak: newStreak,
@@ -138,7 +140,9 @@ class RosaryCubit extends Cubit<RosaryState> {
   }
 
   Future<void> changeZekr(String zekr) async {
-    emit(state.copyWith(currentZekr: zekr, counter: 0));
+    final today = _getToday();
+    final todayCount = state.detailedHistory[today]?[zekr] ?? 0;
+    emit(state.copyWith(currentZekr: zekr, counter: todayCount));
   }
 
   Future<void> addCustomZekr(String zekr) async {

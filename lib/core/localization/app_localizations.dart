@@ -57,6 +57,7 @@ class AppLocalizations {
       'best': 'أفضل أداء للذكر',
       'overall_best': 'أفضل مجموع يومي',
       'insights': 'إحصائيات الذكر',
+      'insights_for': 'إحصائيات لـ',
     },
     'en': {
       'app_title': 'Athkary',
@@ -107,6 +108,7 @@ class AppLocalizations {
       'best': 'Zekr Best',
       'overall_best': 'Overall Daily Best',
       'insights': 'Rosary Insights',
+      'insights_for': 'Insights for',
     },
     'fr': {
       'app_title': 'Athkary',
