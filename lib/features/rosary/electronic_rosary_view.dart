@@ -79,77 +79,86 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
   Widget build(BuildContext context) {
     final colors = context.colors;
 
-    return BlocBuilder<RosaryCubit, RosaryState>(
-      builder: (context, state) {
-        double progress = (state.counter % _maxCount) / _maxCount;
-        if (progress == 0 &&
-            state.counter > 0 &&
-            state.counter % _maxCount == 0) {
-          progress = 1.0;
-        }
-
-        return Scaffold(
-          backgroundColor: colors.background,
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [colors.primary!, colors.background!],
-              ),
-            ),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  // AppBar
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 8.0,
+    return Scaffold(
+      backgroundColor: colors.background,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [colors.primary!, colors.background!],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // AppBar
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back, color: colors.secondary),
+                      onPressed: () => Navigator.pop(context),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Text(
+                      context.translate('electronic_rosary'),
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Cairo',
+                        color: colors.secondary,
+                      ),
+                    ),
+                    Row(
                       children: [
                         IconButton(
-                          icon: Icon(Icons.arrow_back, color: colors.secondary),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        Text(
-                          context.translate('electronic_rosary'),
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Cairo',
+                          icon: Icon(
+                            Icons.bar_chart_rounded,
                             color: colors.secondary,
                           ),
+                          onPressed: () => _showDetailedStatsBottomSheet(
+                            context,
+                            context.read<RosaryCubit>().state,
+                            colors,
+                          ),
                         ),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.bar_chart_rounded,
-                                color: colors.secondary,
-                              ),
-                              onPressed: () => _showDetailedStatsBottomSheet(
-                                context,
-                                state,
-                                colors,
-                              ),
-                            ),
-                            _buildStreakWidget(state, colors),
-                          ],
+                        BlocSelector<RosaryCubit, RosaryState, int>(
+                          selector: (state) => state.streak,
+                          builder: (context, streak) {
+                            return _buildStreakWidget(streak, colors);
+                          },
                         ),
                       ],
                     ),
-                  ),
+                  ],
+                ),
+              ),
 
-                  // Zekr Selection
-                  _buildZekrSelector(context, state, colors),
+              // Zekr Selection (Needs its own BlocBuilder for current/custom list)
+              _buildZekrSelector(
+                context,
+                context.read<RosaryCubit>().state,
+                colors,
+              ),
 
-                  const Spacer(),
+              const Spacer(),
 
-                  // Main Counter Display
-                  GestureDetector(
+              // Main Counter Display
+              BlocBuilder<RosaryCubit, RosaryState>(
+                buildWhen: (p, c) => p.counter != c.counter,
+                builder: (context, state) {
+                  double progress = (state.counter % _maxCount) / _maxCount;
+                  if (progress == 0 &&
+                      state.counter > 0 &&
+                      state.counter % _maxCount == 0) {
+                    progress = 1.0;
+                  }
+                  return GestureDetector(
                     onTap: () => _incrementCounter(context, state),
                     child: AnimatedBuilder(
                       animation: _animationController,
@@ -240,78 +249,78 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                         );
                       },
                     ),
-                  ),
-
-                  const Spacer(),
-
-                  // Max Count Selector
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildMaxCountButton(context, 33, colors),
-                        const SizedBox(width: 12),
-                        _buildMaxCountButton(context, 99, colors),
-                        const SizedBox(width: 12),
-                        _buildMaxCountButton(context, 100, colors),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Reset Button
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: ElevatedButton(
-                      onPressed: () => _resetCounter(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: colors.secondary,
-                        foregroundColor: colors.background,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 12,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.refresh,
-                            color: colors.background,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            context.translate('reset'),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Cairo',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 24),
-                ],
+                  );
+                },
               ),
-            ),
+
+              const Spacer(),
+
+              // Max Count Selector (Static UI)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildMaxCountButton(context, 33, colors),
+                    const SizedBox(width: 12),
+                    _buildMaxCountButton(context, 99, colors),
+                    const SizedBox(width: 12),
+                    _buildMaxCountButton(context, 100, colors),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Reset Button
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: ElevatedButton(
+                  onPressed: () => _resetCounter(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colors.secondary,
+                    foregroundColor: colors.background,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.refresh, color: colors.background, size: 20),
+                      const SizedBox(width: 8),
+                      Text(
+                        context.translate('reset'),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Cairo',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 24),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
-  Widget _buildStreakWidget(RosaryState state, dynamic colors) {
+  Widget _buildStreakWidget(int streak, dynamic colors) {
     return GestureDetector(
-      onTap: () => _showMonthlyCalendar(context, state, colors),
+      onTap: () => _showMonthlyCalendar(
+        context,
+        context.read<RosaryCubit>().state,
+        colors,
+      ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
@@ -325,7 +334,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
             Icon(FontAwesomeIcons.fire, color: Colors.orange, size: 16),
             const SizedBox(width: 6),
             Text(
-              '${state.streak}',
+              '$streak',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: colors.secondary,
@@ -343,69 +352,75 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
     RosaryState state,
     dynamic colors,
   ) {
-    return Column(
-      children: [
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 50,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: state.customZekrs.length + 1,
-            itemBuilder: (context, index) {
-              if (index == state.customZekrs.length) {
-                return _buildAddZekrButton(context, colors);
-              }
-              final zekr = state.customZekrs[index];
-              final isSelected = state.currentZekr == zekr;
-              return GestureDetector(
-                onTap: () => context.read<RosaryCubit>().changeZekr(zekr),
-                child: Container(
-                  margin: const EdgeInsets.only(right: 8),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? colors.secondary
-                        : colors.surface!.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(
-                      color: isSelected
-                          ? colors.secondary!
-                          : colors.secondary!.withValues(alpha: 0.3),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      zekr,
-                      style: TextStyle(
-                        color: isSelected ? colors.background : colors.text,
-                        fontWeight: isSelected
-                            ? FontWeight.bold
-                            : FontWeight.normal,
-                        fontFamily: 'Cairo',
+    return BlocBuilder<RosaryCubit, RosaryState>(
+      buildWhen: (p, c) =>
+          p.currentZekr != c.currentZekr || p.customZekrs != c.customZekrs,
+      builder: (context, state) {
+        return Column(
+          children: [
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: state.customZekrs.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == state.customZekrs.length) {
+                    return _buildAddZekrButton(context, colors);
+                  }
+                  final zekr = state.customZekrs[index];
+                  final isSelected = state.currentZekr == zekr;
+                  return GestureDetector(
+                    onTap: () => context.read<RosaryCubit>().changeZekr(zekr),
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? colors.secondary
+                            : colors.surface!.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(
+                          color: isSelected
+                              ? colors.secondary!
+                              : colors.secondary!.withValues(alpha: 0.3),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          zekr,
+                          style: TextStyle(
+                            color: isSelected ? colors.background : colors.text,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          state.currentZekr,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: colors.secondary,
-            fontFamily: 'Cairo',
-          ),
-        ),
-      ],
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              state.currentZekr,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: colors.secondary,
+                fontFamily: 'Cairo',
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

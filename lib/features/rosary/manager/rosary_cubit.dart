@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -6,6 +7,7 @@ import 'rosary_state.dart';
 
 class RosaryCubit extends Cubit<RosaryState> {
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  Timer? _saveTimer;
 
   RosaryCubit() : super(RosaryState.initial()) {
     loadData();
@@ -132,7 +134,14 @@ class RosaryCubit extends Cubit<RosaryState> {
       ),
     );
 
-    await _saveData();
+    _debouncedSave();
+  }
+
+  void _debouncedSave() {
+    _saveTimer?.cancel();
+    _saveTimer = Timer(const Duration(seconds: 2), () {
+      _saveData();
+    });
   }
 
   Future<void> resetCounter() async {
@@ -160,5 +169,12 @@ class RosaryCubit extends Cubit<RosaryState> {
     );
     await _storage.write(key: _streakKey, value: state.streak.toString());
     await _storage.write(key: _lastDateKey, value: state.lastDate);
+  }
+
+  @override
+  Future<void> close() {
+    _saveTimer?.cancel();
+    _saveData(); // Save one last time before closing
+    return super.close();
   }
 }

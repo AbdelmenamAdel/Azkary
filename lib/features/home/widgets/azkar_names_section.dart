@@ -21,178 +21,140 @@ class AzkarNamesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AzkarNameCard(
-                azkarName: context.translate('after_pray_azkar'),
-                image: AppImages.pray,
-                onTap: () {
-                  ZekrCounterCubit.get(context).fillAfterPrayLoops();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const AfterPrayAzkarView();
-                      },
-                    ),
-                  );
-                },
-              ),
-              AzkarNameCard(
-                azkarName: context.translate('morning_azkar'),
-                icon: Icons.sunny,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        ZekrCounterCubit.get(context).fillMorningLoops();
-
-                        return const MorningAzkarView();
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 2,
+          mainAxisSpacing: 0,
+          crossAxisSpacing: 0,
+          padding: const EdgeInsets.all(2),
+          childAspectRatio: 1.4,
+          children: [
+            AzkarNameCard(
+              azkarName: context.translate('after_pray_azkar'),
+              image: AppImages.pray,
+              onTap: () {
+                ZekrCounterCubit.get(context).fillAfterPrayLoops();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AfterPrayAzkarView(),
+                  ),
+                );
+              },
+            ),
+            AzkarNameCard(
+              azkarName: context.translate('morning_azkar'),
+              icon: Icons.sunny,
+              onTap: () {
+                ZekrCounterCubit.get(context).fillMorningLoops();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MorningAzkarView(),
+                  ),
+                );
+              },
+            ),
+            AzkarNameCard(
+              azkarName: context.translate('sleep_azkar'),
+              image: AppImages.sleepMoon,
+              onTap: () {
+                ZekrCounterCubit.get(context).fillSleepingLoops();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SleepingAzkarView(),
+                  ),
+                );
+              },
+            ),
+            AzkarNameCard(
+              azkarName: context.translate('evening_azkar'),
+              image: AppImages.nightMode,
+              onTap: () {
+                ZekrCounterCubit.get(context).fillNightLoops();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NightAzkarView(),
+                  ),
+                );
+              },
+            ),
+            AzkarNameCard(
+              azkarName: context.translate('dhikr_virtue'),
+              image: AppImages.love,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const WidgetsWithoutCounter(zekrName: "fadlElzekr"),
+                  ),
+                );
+              },
+            ),
+            AzkarNameCard(
+              azkarName: context.translate('various_azkar'),
+              image: AppImages.rosary1,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const WidgetsWithoutCounter(zekrName: "motafareqah"),
+                  ),
+                );
+              },
+            ),
+            AzkarNameCard(
+              azkarName: context.translate('allah_names'),
+              image: AppImages.allah1,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AllahNamesView(),
+                  ),
+                );
+              },
+            ),
+            AzkarNameCard(
+              azkarName: context.translate('comprehensive_dua'),
+              image: AppImages.openHand,
+              onTap: () {
+                ZekrCounterCubit.get(context).fillGoame3Eldo3aLoops();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Goame3Eldo3aView(),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-        IntrinsicHeight(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AzkarNameCard(
-                azkarName: context.translate('sleep_azkar'),
-                image: AppImages.sleepMoon,
-                onTap: () {
-                  ZekrCounterCubit.get(context).fillSleepingLoops();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const SleepingAzkarView();
-                      },
-                    ),
-                  );
-                },
-              ),
-              AzkarNameCard(
-                azkarName: context.translate('evening_azkar'),
-                image: AppImages.nightMode,
-                onTap: () {
-                  ZekrCounterCubit.get(context).fillNightLoops();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const NightAzkarView();
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-        IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AzkarNameCard(
-                azkarName: context.translate('dhikr_virtue'),
-                image: AppImages.love,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const WidgetsWithoutCounter(
-                          zekrName: "fadlElzekr",
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-              AzkarNameCard(
-                azkarName: context.translate('various_azkar'),
-                image: AppImages.rosary1,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const WidgetsWithoutCounter(
-                          zekrName: "motafareqah",
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-        IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AzkarNameCard(
-                azkarName: context.translate('allah_names'),
-                image: AppImages.allah1,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const AllahNamesView();
-                      },
-                    ),
-                  );
-                },
-              ),
-              AzkarNameCard(
-                azkarName: context.translate('comprehensive_dua'),
-                image: AppImages.openHand,
-                onTap: () {
-                  ZekrCounterCubit.get(context).fillGoame3Eldo3aLoops();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const Goame3Eldo3aView();
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-        IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AzkarNameCard(
-                height: 280.h,
+                height: 250.h,
                 azkarName: context.translate('roqiah'),
                 image: AppImages.quran,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) {
-                        return const WidgetsWithoutCounter(
-                          zekrName: "roqiah",
-                        );
-                      },
+                      builder: (context) =>
+                          const WidgetsWithoutCounter(zekrName: "roqiah"),
                     ),
                   );
                 },
               ),
               AzkarNameCard(
+                height: 250.h,
                 azkarName: context.translate('daily_werd'),
                 image: AppImages.sunny,
                 onTap: () {
@@ -200,23 +162,20 @@ class AzkarNamesSection extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) {
-                        return const WerdakAzkarView();
-                      },
+                      builder: (context) => const WerdakAzkarView(),
                     ),
                   );
                 },
               ),
               AzkarNameCard(
+                height: 250.h,
                 azkarName: context.translate('friday_sunan'),
                 image: AppImages.heart,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) {
-                        return const Algmo3ahView();
-                      },
+                      builder: (context) => const Algmo3ahView(),
                     ),
                   );
                 },

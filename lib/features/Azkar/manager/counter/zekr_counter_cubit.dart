@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ZekrCounterCubit extends Cubit<ZekrCounterState> {
   ZekrCounterCubit() : super(ZekrCounterInitial());
   static ZekrCounterCubit get(context) => BlocProvider.of(context);
-// ! ############### Morning Azkar Counter Cubit ###############
-  List<ZekrModel> morning = Azkar().morning;
+  // ! ############### Morning Azkar Counter Cubit ###############
+  List<ZekrModel> get morning => Azkar().morning;
   List<int> downMorningLoops = [];
   List<int> upMorningLoops = [];
   void fillMorningLoops() {
@@ -27,8 +27,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
     }
   }
 
-// ! ############### Night Azkar Counter Cubit ###############
-  List<ZekrModel> night = Azkar().night;
+  // ! ############### Night Azkar Counter Cubit ###############
+  List<ZekrModel> get night => Azkar().night;
   List<int> downNightLoops = [];
   List<int> upNightLoops = [];
   void fillNightLoops() {
@@ -49,8 +49,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
     }
   }
 
-// ! ############### After Pray Azkar Counter Cubit ###############
-  List<ZekrModel> afterPray = Azkar().afterPray;
+  // ! ############### After Pray Azkar Counter Cubit ###############
+  List<ZekrModel> get afterPray => Azkar().afterPray;
   List<int> downAfterPrayLoops = [];
   List<int> upAfterPrayLoops = [];
   void fillAfterPrayLoops() {
@@ -70,8 +70,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
     }
   }
 
-// ! ############### Sleeping Azkar Counter Cubit ###############
-  List<ZekrModel> sleeping = Azkar().sleeping;
+  // ! ############### Sleeping Azkar Counter Cubit ###############
+  List<ZekrModel> get sleeping => Azkar().sleeping;
   List<int> downSleepingLoops = [];
   List<int> upSleepingLoops = [];
   void fillSleepingLoops() {
@@ -92,8 +92,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
     }
   }
 
-// ! ############### Goame3Eldo3a Azkar Counter Cubit ###############
-  List<ZekrModel> goame3Eldo3a = Azkar().goame3Eldo3a;
+  // ! ############### Goame3Eldo3a Azkar Counter Cubit ###############
+  List<ZekrModel> get goame3Eldo3a => Azkar().goame3Eldo3a;
   List<int> downGoame3Eldo3aLoops = [];
   List<int> upGoame3Eldo3aLoops = [];
   void fillGoame3Eldo3aLoops() {
@@ -114,8 +114,8 @@ class ZekrCounterCubit extends Cubit<ZekrCounterState> {
     }
   }
 
-// ! ############### Werdak Azkar Counter Cubit ###############
-  List<ZekrModel> werdak = Azkar().werdak;
+  // ! ############### Werdak Azkar Counter Cubit ###############
+  List<ZekrModel> get werdak => Azkar().werdak;
   List<int> downWerdakLoops = [];
   List<int> upWerdakLoops = [];
   void fillWerdakLoops() {
