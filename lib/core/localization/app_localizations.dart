@@ -51,6 +51,8 @@ class AppLocalizations {
       'total_today': 'مجموع اليوم',
       'view_history': 'عرض السجل',
       'history': 'سجل الأذكار',
+      'monthly_report': 'التقرير الشهري',
+      'count_suffix': 'عدة',
     },
     'en': {
       'app_title': 'Athkary',
@@ -95,6 +97,8 @@ class AppLocalizations {
       'total_today': 'Total Today',
       'view_history': 'View History',
       'history': 'Zikr History',
+      'monthly_report': 'Monthly Report',
+      'count_suffix': 'counts',
     },
     'fr': {
       'app_title': 'Athkary',

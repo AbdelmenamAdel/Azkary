@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class ElectronicRosaryView extends StatefulWidget {
   const ElectronicRosaryView({super.key});
@@ -288,27 +289,30 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
   }
 
   Widget _buildStreakWidget(RosaryState state, dynamic colors) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: colors.secondary!.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: colors.secondary!.withValues(alpha: 0.3)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(FontAwesomeIcons.fire, color: Colors.orange, size: 16),
-          const SizedBox(width: 6),
-          Text(
-            '${state.streak}',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: colors.secondary,
-              fontFamily: 'Cairo',
+    return GestureDetector(
+      onTap: () => _showMonthlyCalendar(context, state, colors),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: colors.secondary!.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: colors.secondary!.withValues(alpha: 0.3)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(FontAwesomeIcons.fire, color: Colors.orange, size: 16),
+            const SizedBox(width: 6),
+            Text(
+              '${state.streak}',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: colors.secondary,
+                fontFamily: 'Cairo',
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -513,6 +517,19 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
           ],
         ),
       ),
+    );
+  }
+
+  void _showMonthlyCalendar(
+    BuildContext context,
+    RosaryState state,
+    dynamic colors,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _MonthlyCalendarSheet(state: state, colors: colors),
     );
   }
 
@@ -723,6 +740,266 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
             color: isSelected ? colors.surface : colors.text,
             fontFamily: 'Cairo',
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MonthlyCalendarSheet extends StatefulWidget {
+  final RosaryState state;
+  final dynamic colors;
+
+  const _MonthlyCalendarSheet({required this.state, required this.colors});
+
+  @override
+  State<_MonthlyCalendarSheet> createState() => _MonthlyCalendarSheetState();
+}
+
+class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
+  late DateTime _focusedMonth;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusedMonth = DateTime.now();
+  }
+
+  void _prevMonth() => setState(() {
+    _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month - 1);
+  });
+
+  void _nextMonth() => setState(() {
+    _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month + 1);
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = widget.colors;
+    final state = widget.state;
+
+    final monthName = DateFormat.MMMM(
+      Localizations.localeOf(context).languageCode,
+    ).format(_focusedMonth);
+    final year = _focusedMonth.year;
+
+    final firstDayOfMonth = DateTime(
+      _focusedMonth.year,
+      _focusedMonth.month,
+      1,
+    );
+    final lastDayOfMonth = DateTime(
+      _focusedMonth.year,
+      _focusedMonth.month + 1,
+      0,
+    );
+    final daysInMonth = lastDayOfMonth.day;
+    final startWeekday = firstDayOfMonth.weekday % 7; // Sunday = 0
+
+    return Container(
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height * 0.6,
+      decoration: BoxDecoration(
+        color: colors.background,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Column(
+        children: [
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: colors.text!.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 20),
+          // Month Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  size: 20,
+                  color: colors.secondary,
+                ),
+                onPressed: _prevMonth,
+              ),
+              Text(
+                '$monthName $year',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: colors.secondary,
+                  fontFamily: 'Cairo',
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                  color: colors.secondary,
+                ),
+                onPressed: _nextMonth,
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          // Weekdays
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+                .map(
+                  (d) => SizedBox(
+                    width: 40,
+                    child: Text(
+                      d,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: colors.text!.withValues(alpha: 0.5),
+                        fontFamily: 'Cairo',
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+          const SizedBox(height: 12),
+          // Grid
+          Expanded(
+            child: GridView.builder(
+              itemCount: 42, // 6 weeks
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 7,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+              ),
+              itemBuilder: (context, index) {
+                final dayNumber = index - startWeekday + 1;
+                if (dayNumber < 1 || dayNumber > daysInMonth)
+                  return const SizedBox.shrink();
+
+                final date = DateTime(
+                  _focusedMonth.year,
+                  _focusedMonth.month,
+                  dayNumber,
+                );
+                final dateKey = DateFormat('yyyy-MM-dd').format(date);
+
+                int totalDay = 0;
+                if (state.detailedHistory.containsKey(dateKey)) {
+                  totalDay = state.detailedHistory[dateKey]!.values.fold(
+                    0,
+                    (sum, c) => sum + c,
+                  );
+                }
+
+                return _buildDayCell(dayNumber, totalDay, date);
+              },
+            ),
+          ),
+          // Legend
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildLegendItem('0', colors.surface!.withValues(alpha: 0.2)),
+                const SizedBox(width: 8),
+                _buildLegendItem(
+                  '1-99',
+                  colors.secondary!.withValues(alpha: 0.3),
+                ),
+                const SizedBox(width: 8),
+                _buildLegendItem(
+                  '100-299',
+                  colors.secondary!.withValues(alpha: 0.6),
+                ),
+                const SizedBox(width: 8),
+                _buildLegendItem('300+', colors.secondary!),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLegendItem(String label, Color color) {
+    return Row(
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 4),
+        Text(label, style: const TextStyle(fontSize: 10, fontFamily: 'Cairo')),
+      ],
+    );
+  }
+
+  Widget _buildDayCell(int day, int count, DateTime date) {
+    final colors = widget.colors;
+    final isToday =
+        DateFormat('yyyy-MM-dd').format(date) ==
+        DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+    Color cellColor = colors.surface!.withValues(alpha: 0.1);
+    Color textColor = colors.text;
+
+    if (count > 0) {
+      if (count < 100) {
+        cellColor = colors.secondary!.withValues(alpha: 0.3);
+      } else if (count < 300) {
+        cellColor = colors.secondary!.withValues(alpha: 0.6);
+        textColor = colors.background;
+      } else {
+        cellColor = colors.secondary!;
+        textColor = colors.background;
+      }
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        color: cellColor,
+        shape: BoxShape.circle,
+        border: isToday ? Border.all(color: colors.primary!, width: 2) : null,
+        boxShadow: isToday
+            ? [
+                BoxShadow(
+                  color: colors.primary!.withValues(alpha: 0.3),
+                  blurRadius: 4,
+                ),
+              ]
+            : null,
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '$day',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: isToday ? FontWeight.bold : FontWeight.normal,
+                color: textColor,
+                fontFamily: 'Cairo',
+              ),
+            ),
+            if (count > 0)
+              Text(
+                '$count',
+                style: TextStyle(
+                  fontSize: 8,
+                  color: textColor.withValues(alpha: 0.7),
+                  fontFamily: 'Cairo',
+                ),
+              ),
+          ],
         ),
       ),
     );
