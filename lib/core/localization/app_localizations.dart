@@ -45,6 +45,12 @@ class AppLocalizations {
       'total_count': 'العدد الكلي',
       'reset': 'إعادة ضبط',
       'tap_to_open_rosary': 'اضغط هنا لفتح السبحة الإلكترونية',
+      'add_zekr': 'إضافة ذكر جديد',
+      'cancel': 'إلغاء',
+      'add': 'إضافة',
+      'total_today': 'مجموع اليوم',
+      'view_history': 'عرض السجل',
+      'history': 'سجل الأذكار',
     },
     'en': {
       'app_title': 'Athkary',
@@ -83,6 +89,12 @@ class AppLocalizations {
       'total_count': 'Total Count',
       'reset': 'Reset',
       'tap_to_open_rosary': 'Tap here to open the electronic rosary',
+      'add_zekr': 'Add New Zekr',
+      'cancel': 'Cancel',
+      'add': 'Add',
+      'total_today': 'Total Today',
+      'view_history': 'View History',
+      'history': 'Zikr History',
     },
     'fr': {
       'app_title': 'Athkary',
@@ -121,6 +133,12 @@ class AppLocalizations {
       'total_count': 'Compte Total',
       'reset': 'Réinitialiser',
       'tap_to_open_rosary': 'Appuyez ici pour ouvrir le chapelet électronique',
+      'add_zekr': 'Ajouter un nouveau Zekr',
+      'cancel': 'Annuler',
+      'add': 'Ajouter',
+      'total_today': 'Total Aujourd\'hui',
+      'view_history': 'Voir l\'historique',
+      'history': 'Historique du Zikr',
     },
     'de': {
       'app_title': 'Athkary',
@@ -159,6 +177,12 @@ class AppLocalizations {
       'reset': 'Zurücksetzen',
       'tap_to_open_rosary':
           'Tippen Sie hier, um den elektronischen Rosenkranz zu öffnen',
+      'add_zekr': 'Neuen Zekr hinzufügen',
+      'cancel': 'Abbrechen',
+      'add': 'Hinzufügen',
+      'total_today': 'Heute Insgesamt',
+      'view_history': 'Verlauf anzeigen',
+      'history': 'Zikr-Verlauf',
     },
   };
 
