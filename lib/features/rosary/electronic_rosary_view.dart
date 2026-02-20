@@ -1166,8 +1166,11 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
       }
     }
 
-    String displayCount = count > 9999
-        ? '${(count / 1000).toStringAsFixed(1)}k'
+    String displayCount = count > 999
+        ? '${(count / 1000).toStringAsFixed(2)}k'.replaceAll(
+            RegExp(r"([.]0+|0+$)"),
+            "",
+          )
         : '$count';
 
     return Container(
