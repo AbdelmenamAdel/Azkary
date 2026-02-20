@@ -21,9 +21,7 @@ class DoaaImageSection extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return const WidgetsWithoutCounter(
-                    zekrName: "fadlEldo3a",
-                  );
+                  return const WidgetsWithoutCounter(zekrName: "fadlEldo3a");
                 },
               ),
             );
@@ -32,7 +30,7 @@ class DoaaImageSection extends StatelessWidget {
             children: [
               Image.asset(
                 AppImages.doaa,
-                height: 380.h,
+                height: 350.h,
                 width: double.infinity,
                 fit: BoxFit.fill,
               ),
@@ -54,10 +52,7 @@ class DoaaImageSection extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 left: 0,
-                child: Image.asset(
-                  AppImages.prayer,
-                  height: 150.h,
-                ),
+                child: Image.asset(AppImages.prayer, height: 150.h),
               ),
             ],
           ),

@@ -72,8 +72,8 @@ class ZekrSection extends StatelessWidget {
                 totalSteps: model.loop!,
                 currentStep: _up(cubit),
                 stepSize: 10,
-                selectedColor: colors.primary!,
-                unselectedColor: colors.secondary!.withValues(alpha: 0.5),
+                selectedColor: context.colors.text!,
+                unselectedColor: context.colors.text!.withValues(alpha: 0.4),
                 width: 60,
                 height: 60,
                 selectedStepSize: 3.2,
@@ -83,17 +83,19 @@ class ZekrSection extends StatelessWidget {
                       ? Icon(
                           Icons.check_rounded,
                           size: 40,
-                          color: colors.primary,
+                          color: context.colors.text!,
                         )
                       : Text(
                           _down(cubit).toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: colors.text,
+                            fontSize: 16,
+                            color: context.colors.text,
                             shadows: [
                               Shadow(
-                                color: colors.primary!.withValues(alpha: 0.3),
+                                color: context.colors.secondary!.withValues(
+                                  alpha: 0.3,
+                                ),
                                 offset: const Offset(0, 1),
                                 blurRadius: 2,
                               ),
