@@ -58,6 +58,8 @@ class AppLocalizations {
       'overall_best': 'أفضل مجموع يومي',
       'insights': 'إحصائيات الذكر',
       'insights_for': 'إحصائيات لـ',
+      'today': 'اليوم',
+      'no_history_yet': 'لا يوجد سجل بعد',
     },
     'en': {
       'app_title': 'Athkary',
@@ -109,6 +111,8 @@ class AppLocalizations {
       'overall_best': 'Overall Daily Best',
       'insights': 'Rosary Insights',
       'insights_for': 'Insights for',
+      'today': 'Today',
+      'no_history_yet': 'No history yet',
     },
     'fr': {
       'app_title': 'Athkary',
@@ -153,6 +157,8 @@ class AppLocalizations {
       'total_today': 'Total Aujourd\'hui',
       'view_history': 'Voir l\'historique',
       'history': 'Historique du Zikr',
+      'today': 'Aujourd\'hui',
+      'no_history_yet': 'Pas encore d\'historique',
     },
     'de': {
       'app_title': 'Athkary',
@@ -197,6 +203,8 @@ class AppLocalizations {
       'total_today': 'Heute Insgesamt',
       'view_history': 'Verlauf anzeigen',
       'history': 'Zikr-Verlauf',
+      'today': 'Heute',
+      'no_history_yet': 'Noch kein Verlauf',
     },
   };
 

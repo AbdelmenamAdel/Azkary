@@ -509,112 +509,118 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        // height: 800.h,
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.9,
+        ),
         decoration: BoxDecoration(
           color: colors.background,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: colors.text!.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 24),
-            Text(
-              '${context.translate('insights_for')} ${state.currentZekr}',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: colors.secondary,
-                fontFamily: 'Cairo',
-              ),
-            ),
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                Expanded(child: _buildCurrentZekrStats(context, state, colors)),
-                const SizedBox(width: 16),
-                Expanded(child: _buildDailyStats(context, state, colors)),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: colors.secondary!.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(
-                  color: colors.secondary!.withValues(alpha: 0.2),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: colors.text!.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: colors.secondary!.withValues(alpha: 0.2),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.workspace_premium_rounded,
-                      color: colors.secondary,
-                      size: 28,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        context.translate('overall_best'),
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: colors.secondary,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Cairo',
-                        ),
-                      ),
-                      Text(
-                        '${state.overallAllTimeMax}',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: colors.secondary,
-                          fontFamily: 'Cairo',
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            // const Spacer(),
-            const SizedBox(height: 16),
-            TextButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-                _showMonthlyCalendar(context, state, colors);
-              },
-              icon: Icon(Icons.calendar_month, color: colors.secondary),
-              label: Text(
-                context.translate('monthly_report'),
+              const SizedBox(height: 24),
+              Text(
+                '${context.translate('insights_for')} ${state.currentZekr}',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: colors.secondary,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: colors.secondary,
                   fontFamily: 'Cairo',
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-          ],
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildCurrentZekrStats(context, state, colors),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(child: _buildDailyStats(context, state, colors)),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: colors.secondary!.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(
+                    color: colors.secondary!.withValues(alpha: 0.2),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: colors.secondary!.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.workspace_premium_rounded,
+                        color: colors.secondary,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.translate('overall_best'),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: colors.secondary,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
+                        Text(
+                          '${state.overallAllTimeMax}',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: colors.secondary,
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              // const Spacer(),
+              const SizedBox(height: 16),
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _showMonthlyCalendar(context, state, colors);
+                },
+                icon: Icon(Icons.calendar_month, color: colors.secondary),
+                label: Text(
+                  context.translate('monthly_report'),
+                  style: TextStyle(
+                    color: colors.secondary,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Cairo',
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
@@ -812,14 +818,16 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.7,
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.85,
+        ),
         decoration: BoxDecoration(
           color: colors.background,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         child: Column(
-          // mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               width: 40,
@@ -844,7 +852,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Text(
-                  'No history yet',
+                  context.translate('no_history_yet'),
                   style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
                 ),
               )
@@ -870,10 +878,15 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                         color: colors.surface!.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: colors.secondary!.withValues(alpha: 0.1),
+                          color: colors.secondary!.withValues(alpha: 0.2),
                         ),
                       ),
                       child: ExpansionTile(
+                        // trailing: Icon(
+                        //   Icons.arrow_forward_ios,
+                        //   size: 16,
+                        //   color: colors.text!.withValues(alpha: 0.8),
+                        // ),
                         shape: const RoundedRectangleBorder(
                           side: BorderSide.none,
                         ),
@@ -965,13 +978,16 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
 
     return Container(
       width: double.infinity,
-      // height: MediaQuery.of(context).size.height * 0.7,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.9,
+      ),
       decoration: BoxDecoration(
         color: colors.background,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             width: 40,
@@ -1007,8 +1023,9 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
           const SizedBox(height: 16),
           _buildWeekdayHeader(colors),
           const SizedBox(height: 8),
-          Expanded(
+          Flexible(
             child: GridView.builder(
+              shrinkWrap: true,
               itemCount: startWeekday + daysInMonth,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 7,
@@ -1140,7 +1157,7 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
             ),
             if (count > 0)
               Text(
-                "displayCount",
+                displayCount,
                 style: TextStyle(
                   fontSize: 7,
                   fontWeight: FontWeight.bold,
