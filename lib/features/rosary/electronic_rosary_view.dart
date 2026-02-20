@@ -106,13 +106,18 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                       icon: Icon(Icons.arrow_back, color: colors.secondary),
                       onPressed: () => Navigator.pop(context),
                     ),
-                    Text(
-                      context.translate('electronic_rosary'),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Cairo',
-                        color: colors.secondary,
+                    Expanded(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          context.translate('electronic_rosary'),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Cairo',
+                            color: colors.secondary,
+                          ),
+                        ),
                       ),
                     ),
                     Row(

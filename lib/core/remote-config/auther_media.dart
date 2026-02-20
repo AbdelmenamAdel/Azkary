@@ -14,7 +14,7 @@ class AutherMedia extends StatelessWidget {
     final colors = context.colors;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
+      // margin: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
         color: colors.background,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
@@ -40,7 +40,7 @@ class AutherMedia extends StatelessWidget {
               style: TextStyle(
                 color: colors.secondary,
                 fontWeight: FontWeight.w700,
-                fontSize: 22,
+                fontSize: 18,
                 fontFamily: 'Cairo',
                 letterSpacing: 0.5,
               ),
@@ -118,8 +118,8 @@ class AutherMedia extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 12.dg,
+                        mainAxisAlignment: .center,
+                        spacing: 4,
                         children: [
                           _buildSocialButton(
                             context,

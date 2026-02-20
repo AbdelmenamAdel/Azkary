@@ -21,14 +21,16 @@ class AzkarNamesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GridView.count(
+        GridView(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 2,
-          mainAxisSpacing: 0,
-          crossAxisSpacing: 0,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 0,
+            crossAxisSpacing: 0,
+            mainAxisExtent: 250.h,
+          ),
           padding: const EdgeInsets.all(2),
-          childAspectRatio: 1.4,
           children: [
             AzkarNameCard(
               azkarName: context.translate('after_pray_azkar'),
@@ -141,7 +143,7 @@ class AzkarNamesSection extends StatelessWidget {
             children: [
               Expanded(
                 child: AzkarNameCard(
-                  height: 250.h,
+                  height: 300.h,
                   azkarName: context.translate('roqiah'),
                   image: AppImages.quran,
                   onTap: () {
@@ -157,7 +159,7 @@ class AzkarNamesSection extends StatelessWidget {
               ),
               Expanded(
                 child: AzkarNameCard(
-                  height: 250.h,
+                  height: 300.h,
                   azkarName: context.translate('daily_werd'),
                   image: AppImages.sunny,
                   onTap: () {
@@ -173,7 +175,7 @@ class AzkarNamesSection extends StatelessWidget {
               ),
               Expanded(
                 child: AzkarNameCard(
-                  height: 250.h,
+                  height: 300.h,
                   azkarName: context.translate('friday_sunan'),
                   image: AppImages.heart,
                   onTap: () {
