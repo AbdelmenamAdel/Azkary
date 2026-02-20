@@ -25,6 +25,8 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
   late Animation<double> _rotationAnimation;
   final AudioPlayer _audioPlayer = AudioPlayer();
   final TextEditingController _customZekrController = TextEditingController();
+  final ScrollController _zekrScrollController = ScrollController();
+  final Map<int, GlobalKey> _zekrKeys = {};
 
   @override
   void initState() {
@@ -46,6 +48,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
     _animationController.dispose();
     _audioPlayer.dispose();
     _customZekrController.dispose();
+    _zekrScrollController.dispose();
     super.dispose();
   }
 
@@ -54,6 +57,12 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
     _animationController.forward().then((_) => _animationController.reverse());
 
     context.read<RosaryCubit>().increment();
+
+    // Auto-scroll to current zikr when tapping the counter
+    final currentIndex = state.customZekrs.indexOf(state.currentZekr);
+    if (currentIndex != -1) {
+      _scrollToZekr(currentIndex);
+    }
 
     final nextCount = state.counter + 1;
     if (nextCount > 0 && nextCount % _maxCount == 0) {
@@ -74,6 +83,20 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
       _maxCount = newMax;
     });
     context.read<RosaryCubit>().resetCounter();
+  }
+
+  void _scrollToZekr(int index) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final key = _zekrKeys[index];
+      if (key?.currentContext != null) {
+        Scrollable.ensureVisible(
+          key!.currentContext!,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          alignment: 0.5,
+        );
+      }
+    });
   }
 
   @override
@@ -368,6 +391,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
             SizedBox(
               height: 50,
               child: ListView.builder(
+                controller: _zekrScrollController,
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 itemCount: state.customZekrs.length + 1,
@@ -377,8 +401,17 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                   }
                   final zekr = state.customZekrs[index];
                   final isSelected = state.currentZekr == zekr;
+                  final itemKey = _zekrKeys.putIfAbsent(
+                    index,
+                    () => GlobalKey(),
+                  );
+
                   return GestureDetector(
-                    onTap: () => context.read<RosaryCubit>().changeZekr(zekr),
+                    key: itemKey,
+                    onTap: () {
+                      context.read<RosaryCubit>().changeZekr(zekr);
+                      _scrollToZekr(index);
+                    },
                     child: Container(
                       margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.symmetric(
@@ -1005,13 +1038,18 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
                 icon: Icon(Icons.chevron_left, color: colors.secondary),
                 onPressed: _prevMonth,
               ),
-              Text(
-                DateFormat('MMMM yyyy').format(_viewDate),
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: colors.secondary,
-                  fontFamily: 'Cairo',
+              Expanded(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    DateFormat('MMMM yyyy').format(_viewDate),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: colors.secondary,
+                      fontFamily: 'Cairo',
+                    ),
+                  ),
                 ),
               ),
               IconButton(
@@ -1051,14 +1089,14 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildLegendItem('0', colors.surface!.withValues(alpha: 0.1)),
+              _buildLegendItem('0', colors.surface!.withValues(alpha: 0.2)),
               _buildLegendItem(
                 '1-100',
-                colors.secondary!.withValues(alpha: 0.2),
+                colors.secondary!.withValues(alpha: 0.4),
               ),
               _buildLegendItem(
                 '100-500',
-                colors.secondary!.withValues(alpha: 0.4),
+                colors.secondary!.withValues(alpha: 0.7),
               ),
               _buildLegendItem('1000+', colors.secondary!),
             ],
@@ -1074,11 +1112,16 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: weekdays.map((d) {
-        return Text(
-          d,
-          style: TextStyle(
-            color: colors.text!.withValues(alpha: 0.5),
-            fontWeight: FontWeight.bold,
+        return FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            d,
+            style: TextStyle(
+              fontSize: 14,
+              color: colors.text!.withValues(alpha: 0.5),
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Cairo',
+            ),
           ),
         );
       }).toList(),
@@ -1146,23 +1189,29 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '$day',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: isToday ? FontWeight.bold : FontWeight.normal,
-                color: textColor,
-                fontFamily: 'Cairo',
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                '$day',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: isToday ? FontWeight.w900 : FontWeight.normal,
+                  color: textColor,
+                  fontFamily: 'Cairo',
+                ),
               ),
             ),
             if (count > 0)
-              Text(
-                displayCount,
-                style: TextStyle(
-                  fontSize: 7,
-                  fontWeight: FontWeight.bold,
-                  color: textColor.withValues(alpha: 0.8),
-                  fontFamily: 'Cairo',
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  displayCount,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: textColor.withValues(alpha: 0.8),
+                    fontFamily: 'Cairo',
+                  ),
                 ),
               ),
           ],

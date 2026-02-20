@@ -99,24 +99,31 @@ class ERosarySection extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              context.translate('electronic_rosary'),
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Cairo',
-                                color: colors.text,
-                                height: 1.3,
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                context.translate('electronic_rosary'),
+                                style: TextStyle(
+                                  fontSize: 22,
+
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Cairo',
+                                  color: colors.text,
+                                  height: 1.3,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 8),
-                            Text(
-                              context.translate('tap_to_open_rosary'),
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'Cairo',
-                                color: colors.text!.withValues(alpha: 0.7),
-                                height: 1.4,
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                context.translate('tap_to_open_rosary'),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Cairo',
+                                  color: colors.text!.withValues(alpha: 0.7),
+                                  height: 1.4,
+                                ),
                               ),
                             ),
                           ],

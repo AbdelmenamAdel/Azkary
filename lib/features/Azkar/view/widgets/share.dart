@@ -1,4 +1,4 @@
-import 'package:azkar/core/utils/app_colors.dart';
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:flutter/material.dart';
 
 class ShareWidget extends StatelessWidget {
@@ -9,18 +9,11 @@ class ShareWidget extends StatelessWidget {
     return Positioned(
       bottom: 0,
       left: 0,
-      child: InkWell(
-        splashColor: Colors.white,
-        // highlightColor: Colors.white,
-        focusColor: Colors.white,
+      child: GestureDetector(
         onTap: () {},
-        child: const Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Icon(
-            Icons.share,
-            color: AppColors.blueGrey,
-            size: 28,
-          ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Icon(Icons.share, color: context.colors.secondary, size: 28),
         ),
       ),
     );

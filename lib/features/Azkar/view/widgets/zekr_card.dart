@@ -67,7 +67,7 @@ class ZekrCardWidget extends StatelessWidget {
                   ),
                   borderRadius: const BorderRadiusDirectional.only(
                     topEnd: Radius.circular(12),
-                    bottomStart: Radius.circular(12),
+                    bottomStart: Radius.circular(4),
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -106,7 +106,7 @@ class ZekrCardWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(
                   Icons.mosque_rounded,
-                  color: colors.primary?.withValues(alpha: 0.1),
+                  color: colors.secondary?.withValues(alpha: 0.8),
                   size: 28,
                 ),
               ),
