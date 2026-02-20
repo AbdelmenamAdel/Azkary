@@ -8,16 +8,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:azkar/core/localization/app_localizations.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/home/home_view.dart';
+import 'package:azkar/core/services/services_locator.dart';
 import 'package:azkar/features/rosary/manager/rosary_cubit.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initServiceLocator();
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ZekrCounterCubit()),
-        BlocProvider(create: (context) => AppCubit()),
-        BlocProvider(create: (context) => RosaryCubit()),
+        BlocProvider(create: (context) => sl<ZekrCounterCubit>()),
+        BlocProvider(create: (context) => sl<AppCubit>()),
+        BlocProvider(create: (context) => sl<RosaryCubit>()),
       ],
       child: const MyApp(),
     ),

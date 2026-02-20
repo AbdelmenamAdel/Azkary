@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:azkar/core/localization/app_localizations.dart';
 import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/features/rosary/manager/rosary_cubit.dart';
@@ -6,8 +5,9 @@ import 'package:azkar/features/rosary/manager/rosary_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:azkar/core/services/sound_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:azkar/core/services/services_locator.dart';
 import 'package:intl/intl.dart';
 
 class ElectronicRosaryView extends StatefulWidget {
@@ -23,7 +23,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _rotationAnimation;
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  final SoundService _soundService = sl<SoundService>();
   final TextEditingController _customZekrController = TextEditingController();
   final ScrollController _zekrScrollController = ScrollController();
   final Map<int, GlobalKey> _zekrKeys = {};
@@ -46,7 +46,6 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
   @override
   void dispose() {
     _animationController.dispose();
-    _audioPlayer.dispose();
     _customZekrController.dispose();
     _zekrScrollController.dispose();
     super.dispose();
@@ -67,9 +66,9 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
     final nextCount = state.counter + 1;
     if (nextCount > 0 && nextCount % _maxCount == 0) {
       HapticFeedback.heavyImpact();
-      _audioPlayer.play(AssetSource('sounds/full_sound.mp3'));
+      _soundService.playFull();
     } else {
-      _audioPlayer.play(AssetSource('sounds/click_sepha.mp3'));
+      _soundService.playClick();
     }
   }
 

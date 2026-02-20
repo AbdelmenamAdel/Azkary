@@ -6,10 +6,10 @@ import 'package:intl/intl.dart';
 import 'rosary_state.dart';
 
 class RosaryCubit extends Cubit<RosaryState> {
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  final FlutterSecureStorage _storage;
   Timer? _saveTimer;
 
-  RosaryCubit() : super(RosaryState.initial()) {
+  RosaryCubit(this._storage) : super(RosaryState.initial()) {
     loadData();
   }
 

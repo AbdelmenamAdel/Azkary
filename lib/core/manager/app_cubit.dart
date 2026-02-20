@@ -5,10 +5,10 @@ import '../theme/app_theme_enum.dart';
 import 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  final FlutterSecureStorage _storage;
 
-  AppCubit()
-      : super(AppState(locale: const Locale('ar'), theme: AppTheme.emerald)) {
+  AppCubit(this._storage)
+    : super(AppState(locale: const Locale('ar'), theme: AppTheme.emerald)) {
     loadSettings();
   }
 
