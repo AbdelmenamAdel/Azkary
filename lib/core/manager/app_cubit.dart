@@ -7,10 +7,13 @@ import 'app_state.dart';
 class AppCubit extends Cubit<AppState> {
   final FlutterSecureStorage _storage;
 
-  AppCubit(this._storage)
-    : super(AppState(locale: const Locale('ar'), theme: AppTheme.emerald)) {
-    loadSettings();
-  }
+  AppCubit(this._storage, {Locale? initialLocale, AppTheme? initialTheme})
+    : super(
+        AppState(
+          locale: initialLocale ?? const Locale('ar'),
+          theme: initialTheme ?? AppTheme.emerald,
+        ),
+      );
 
   static const String _langKey = 'lang_code';
   static const String _themeKey = 'theme_index';
