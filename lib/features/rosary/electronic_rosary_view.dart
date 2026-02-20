@@ -104,6 +104,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
 
     return Scaffold(
       backgroundColor: colors.background,
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -129,17 +130,21 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                       onPressed: () => Navigator.pop(context),
                     ),
                     Expanded(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          context.translate('electronic_rosary'),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Cairo',
-                            color: colors.secondary,
+                      child: Row(
+                        children: [
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              context.translate('electronic_rosary'),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Cairo',
+                                color: colors.secondary,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                     Row(
@@ -411,6 +416,9 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                       context.read<RosaryCubit>().changeZekr(zekr);
                       _scrollToZekr(index);
                     },
+                    onLongPress: () {
+                      _showDeleteZekrDialog(context, zekr, colors);
+                    },
                     child: Container(
                       margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.symmetric(
@@ -524,6 +532,47 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
             child: Text(
               context.translate('add'),
               style: TextStyle(color: colors.background),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteZekrDialog(
+    BuildContext context,
+    String zekr,
+    dynamic colors,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: colors.background,
+        title: Text(
+          context.translate('delete_zekr'),
+          style: TextStyle(color: colors.secondary, fontFamily: 'Cairo'),
+        ),
+        content: Text(
+          '${context.translate('confirm_delete')} "$zekr"؟',
+          style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              context.translate('cancel'),
+              style: TextStyle(color: colors.text),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              context.read<RosaryCubit>().removeZekr(zekr);
+              Navigator.pop(context);
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+            child: Text(
+              context.translate('delete'),
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ],

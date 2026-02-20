@@ -162,6 +162,31 @@ class RosaryCubit extends Cubit<RosaryState> {
     await _storage.write(key: _customZekrsKey, value: jsonEncode(newList));
   }
 
+  Future<void> removeZekr(String zekr) async {
+    if (state.customZekrs.length <= 1) return;
+
+    final newList = List<String>.from(state.customZekrs)..remove(zekr);
+
+    String newCurrentZekr = state.currentZekr;
+    int newCounter = state.counter;
+
+    if (state.currentZekr == zekr) {
+      newCurrentZekr = newList[0];
+      final today = _getToday();
+      newCounter = state.detailedHistory[today]?[newCurrentZekr] ?? 0;
+    }
+
+    emit(
+      state.copyWith(
+        customZekrs: newList,
+        currentZekr: newCurrentZekr,
+        counter: newCounter,
+      ),
+    );
+
+    await _storage.write(key: _customZekrsKey, value: jsonEncode(newList));
+  }
+
   Future<void> _saveData() async {
     await _storage.write(
       key: _detailedHistoryKey,

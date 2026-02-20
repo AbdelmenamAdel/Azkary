@@ -60,6 +60,9 @@ class AppLocalizations {
       'insights_for': 'إحصائيات لـ',
       'today': 'اليوم',
       'no_history_yet': 'لا يوجد سجل بعد',
+      'delete_zekr': 'حذف الذكر',
+      'confirm_delete': 'هل أنت متأكد من حذف',
+      'delete': 'حذف',
     },
     'en': {
       'app_title': 'Athkary',
@@ -113,6 +116,9 @@ class AppLocalizations {
       'insights_for': 'Insights for',
       'today': 'Today',
       'no_history_yet': 'No history yet',
+      'delete_zekr': 'Delete Dhikr',
+      'confirm_delete': 'Are you sure you want to delete',
+      'delete': 'Delete',
     },
     'fr': {
       'app_title': 'Athkary',
@@ -159,6 +165,9 @@ class AppLocalizations {
       'history': 'Historique du Zikr',
       'today': 'Aujourd\'hui',
       'no_history_yet': 'Pas encore d\'historique',
+      'delete_zekr': 'Supprimer le Dhikr',
+      'confirm_delete': 'Voulez-vous vraiment supprimer',
+      'delete': 'Supprimer',
     },
     'de': {
       'app_title': 'Athkary',
@@ -205,6 +214,9 @@ class AppLocalizations {
       'history': 'Zikr-Verlauf',
       'today': 'Heute',
       'no_history_yet': 'Noch kein Verlauf',
+      'delete_zekr': 'Dhikr löschen',
+      'confirm_delete': 'Sind Sie sicher, dass Sie löschen möchten',
+      'delete': 'Löschen',
     },
   };
 
