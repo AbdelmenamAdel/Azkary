@@ -59,8 +59,11 @@ class _HomeViewState extends State<HomeView> {
                   context.translate('language'),
                   style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios,
-                    color: colors.text?.withValues(alpha: 0.5), size: 16),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: colors.text?.withValues(alpha: 0.5),
+                  size: 16,
+                ),
                 onTap: () {
                   _showLanguageDialog(context);
                 },
@@ -71,8 +74,11 @@ class _HomeViewState extends State<HomeView> {
                   context.translate('themes'),
                   style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios,
-                    color: colors.text?.withValues(alpha: 0.5), size: 16),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: colors.text?.withValues(alpha: 0.5),
+                  size: 16,
+                ),
                 onTap: () {
                   _showThemeDialog(context);
                 },
@@ -84,8 +90,11 @@ class _HomeViewState extends State<HomeView> {
                   context.translate('contact_developer'),
                   style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
                 ),
-                trailing: Icon(Icons.arrow_forward_ios,
-                    color: colors.text?.withValues(alpha: 0.5), size: 16),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: colors.text?.withValues(alpha: 0.5),
+                  size: 16,
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   showModalBottomSheet(
@@ -197,18 +206,42 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
               const SizedBox(height: 24),
-              _themeTile(context, AppTheme.emerald,
-                  context.translate('theme_emerald'), const Color(0xFF4EADAD)),
-              _themeTile(context, AppTheme.midnight,
-                  context.translate('theme_midnight'), const Color(0xFF1E293B)),
-              _themeTile(context, AppTheme.rose,
-                  context.translate('theme_rose'), const Color(0xFF881337)),
-              _themeTile(context, AppTheme.forest,
-                  context.translate('theme_forest'), const Color(0xFF064E3B)),
-              _themeTile(context, AppTheme.sunset,
-                  context.translate('theme_sunset'), const Color(0xFF7C2D12)),
-              _themeTile(context, AppTheme.sepia,
-                  context.translate('theme_sepia'), const Color(0xFF704214)),
+              _themeTile(
+                context,
+                AppTheme.emerald,
+                context.translate('theme_emerald'),
+                const Color(0xFF4EADAD),
+              ),
+              _themeTile(
+                context,
+                AppTheme.midnight,
+                context.translate('theme_midnight'),
+                const Color(0xFF1E293B),
+              ),
+              _themeTile(
+                context,
+                AppTheme.rose,
+                context.translate('theme_rose'),
+                const Color(0xFF881337),
+              ),
+              _themeTile(
+                context,
+                AppTheme.forest,
+                context.translate('theme_forest'),
+                const Color(0xFF064E3B),
+              ),
+              _themeTile(
+                context,
+                AppTheme.sunset,
+                context.translate('theme_sunset'),
+                const Color(0xFF7C2D12),
+              ),
+              _themeTile(
+                context,
+                AppTheme.sepia,
+                context.translate('theme_sepia'),
+                const Color(0xFF704214),
+              ),
               const SizedBox(height: 16),
             ],
           ),
@@ -218,7 +251,11 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _themeTile(
-      BuildContext context, AppTheme theme, String label, Color color) {
+    BuildContext context,
+    AppTheme theme,
+    String label,
+    Color color,
+  ) {
     final colors = context.colors;
     final cubit = context.read<AppCubit>();
     final isSelected = cubit.state.theme == theme;
@@ -251,7 +288,7 @@ class _HomeViewState extends State<HomeView> {
             ],
           ),
           child: isSelected
-              ? Icon(Icons.check, color: Colors.white, size: 20)
+              ? const Icon(Icons.check, color: Colors.white, size: 20)
               : null,
         ),
         title: Text(
@@ -263,11 +300,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         trailing: isSelected
-            ? Icon(
-                Icons.check_circle,
-                color: colors.secondary,
-                size: 24,
-              )
+            ? Icon(Icons.check_circle, color: colors.secondary, size: 24)
             : Icon(
                 Icons.arrow_forward_ios,
                 color: colors.text?.withValues(alpha: 0.5),
@@ -285,7 +318,11 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _languageTile(
-      BuildContext context, String code, String label, String flag) {
+    BuildContext context,
+    String code,
+    String label,
+    String flag,
+  ) {
     final colors = context.colors;
     final cubit = context.read<AppCubit>();
     final isSelected = cubit.state.locale.languageCode == code;
@@ -303,10 +340,7 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       child: ListTile(
-        leading: Text(
-          flag,
-          style: const TextStyle(fontSize: 32),
-        ),
+        leading: Text(flag, style: const TextStyle(fontSize: 32)),
         title: Text(
           label,
           style: TextStyle(
@@ -316,11 +350,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         trailing: isSelected
-            ? Icon(
-                Icons.check_circle,
-                color: colors.secondary,
-                size: 24,
-              )
+            ? Icon(Icons.check_circle, color: colors.secondary, size: 24)
             : Icon(
                 Icons.arrow_forward_ios,
                 color: colors.text?.withValues(alpha: 0.5),

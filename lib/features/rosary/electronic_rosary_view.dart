@@ -6,6 +6,7 @@ import 'package:azkar/features/rosary/manager/rosary_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -108,7 +109,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                     Text(
                       context.translate('electronic_rosary'),
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Cairo',
                         color: colors.secondary,
@@ -295,7 +296,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                       const SizedBox(width: 8),
                       Text(
                         context.translate('reset'),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Cairo',
@@ -331,7 +332,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(FontAwesomeIcons.fire, color: Colors.orange, size: 16),
+            const Icon(FontAwesomeIcons.fire, color: Colors.orange, size: 16),
             const SizedBox(width: 6),
             Text(
               '$streak',
@@ -503,13 +504,14 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.55,
+        // height: 800.h,
         decoration: BoxDecoration(
           color: colors.background,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               width: 40,
@@ -589,7 +591,8 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                 ],
               ),
             ),
-            const Spacer(),
+            // const Spacer(),
+            const SizedBox(height: 16),
             TextButton.icon(
               onPressed: () {
                 Navigator.pop(context);
@@ -605,7 +608,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -811,6 +814,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
         ),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         child: Column(
+          // mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               width: 40,
@@ -956,7 +960,7 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
 
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.7,
+      // height: MediaQuery.of(context).size.height * 0.7,
       decoration: BoxDecoration(
         color: colors.background,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
@@ -1003,8 +1007,8 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
               itemCount: startWeekday + daysInMonth,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 7,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
+                mainAxisSpacing: 0,
+                crossAxisSpacing: 0,
               ),
               itemBuilder: (context, index) {
                 if (index < startWeekday) return const SizedBox();
@@ -1117,6 +1121,7 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
       ),
       child: Center(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
@@ -1130,7 +1135,7 @@ class _MonthlyCalendarSheetState extends State<_MonthlyCalendarSheet> {
             ),
             if (count > 0)
               Text(
-                displayCount,
+                "displayCount",
                 style: TextStyle(
                   fontSize: 7,
                   fontWeight: FontWeight.bold,

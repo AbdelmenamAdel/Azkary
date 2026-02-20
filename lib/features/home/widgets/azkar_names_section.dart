@@ -139,46 +139,52 @@ class AzkarNamesSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Row(
             children: [
-              AzkarNameCard(
-                height: 250.h,
-                azkarName: context.translate('roqiah'),
-                image: AppImages.quran,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          const WidgetsWithoutCounter(zekrName: "roqiah"),
-                    ),
-                  );
-                },
+              Expanded(
+                child: AzkarNameCard(
+                  height: 250.h,
+                  azkarName: context.translate('roqiah'),
+                  image: AppImages.quran,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const WidgetsWithoutCounter(zekrName: "roqiah"),
+                      ),
+                    );
+                  },
+                ),
               ),
-              AzkarNameCard(
-                height: 250.h,
-                azkarName: context.translate('daily_werd'),
-                image: AppImages.sunny,
-                onTap: () {
-                  ZekrCounterCubit.get(context).fillWerdakLoops();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WerdakAzkarView(),
-                    ),
-                  );
-                },
+              Expanded(
+                child: AzkarNameCard(
+                  height: 250.h,
+                  azkarName: context.translate('daily_werd'),
+                  image: AppImages.sunny,
+                  onTap: () {
+                    ZekrCounterCubit.get(context).fillWerdakLoops();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WerdakAzkarView(),
+                      ),
+                    );
+                  },
+                ),
               ),
-              AzkarNameCard(
-                height: 250.h,
-                azkarName: context.translate('friday_sunan'),
-                image: AppImages.heart,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Algmo3ahView(),
-                    ),
-                  );
-                },
+              Expanded(
+                child: AzkarNameCard(
+                  height: 250.h,
+                  azkarName: context.translate('friday_sunan'),
+                  image: AppImages.heart,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Algmo3ahView(),
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),

@@ -45,14 +45,14 @@ class MyApp extends StatelessWidget {
                 Locale('fr'),
                 Locale('de'),
               ],
-              localizationsDelegates: [
-                const AppLocalizationsDelegate(),
+              localizationsDelegates: const [
+                AppLocalizationsDelegate(),
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
               theme: AppThemes.getTheme(state.theme, state.locale.languageCode),
-              home: HomeView(),
+              home: const HomeView(),
             );
           },
         );
