@@ -22,13 +22,13 @@ class NotificationService {
     tz.initializeTimeZones();
 
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mip-map/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
-          requestAlertPermission: false,
-          requestBadgePermission: false,
-          requestSoundPermission: false,
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
         );
 
     const InitializationSettings initializationSettings =
@@ -93,6 +93,18 @@ class NotificationService {
       await Permission.notification.request();
     }
 
+    if (await Permission.scheduleExactAlarm.isDenied) {
+      await Permission.scheduleExactAlarm.request();
+    }
+
+    // iOS specific permissions
+    await _notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+        >()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
+
+    // Android specific channel creation
     await _notificationsPlugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
@@ -114,12 +126,15 @@ class NotificationService {
     final allAzkar = _getAllAzkar();
     final random = Random();
 
+    // Check if we can use exact alarms
+    final bool canScheduleExact = await Permission.scheduleExactAlarm.isGranted;
+
     // Schedule 50 notifications for today
     // We'll spread them between 6 AM and 11 PM
     const startHour = 3;
     const endHour = 24;
     const totalHours = endHour - startHour;
-    final intervalMinutes = (totalHours * 60) / 50;
+    const intervalMinutes = (totalHours * 60) / 50;
 
     for (int i = 0; i < 50; i++) {
       final zekr = allAzkar[random.nextInt(allAzkar.length)];
@@ -128,7 +143,13 @@ class NotificationService {
       );
 
       // If the time is too late today, it will naturally be scheduled for later
-      await _scheduleNotification(i, "اذكر الله", zekr, scheduledTime);
+      await _scheduleNotification(
+        i,
+        "اذكر الله",
+        zekr,
+        scheduledTime,
+        canScheduleExact,
+      );
     }
   }
 
@@ -137,6 +158,7 @@ class NotificationService {
     String title,
     String body,
     DateTime scheduledDate,
+    bool canScheduleExact,
   ) async {
     await _notificationsPlugin.zonedSchedule(
       id,
@@ -153,7 +175,9 @@ class NotificationService {
         ),
         iOS: DarwinNotificationDetails(),
       ),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: canScheduleExact
+          ? AndroidScheduleMode.exactAllowWhileIdle
+          : AndroidScheduleMode.inexactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,

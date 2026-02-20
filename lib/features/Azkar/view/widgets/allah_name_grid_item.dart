@@ -1,6 +1,9 @@
+import 'package:azkar/core/manager/app_cubit.dart';
+import 'package:azkar/core/theme/app_theme_enum.dart';
 import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/features/Azkar/manager/model/allah_names_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui';
 
 class AllahNameGridItem extends StatelessWidget {
@@ -16,6 +19,11 @@ class AllahNameGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final isMidnight =
+        context.read<AppCubit>().state.theme == AppTheme.midnight;
+    final primaryColor = isMidnight
+        ? const Color(0xFFFFD700)
+        : colors.secondary!;
 
     return TweenAnimationBuilder<double>(
       duration: Duration(milliseconds: 500 + (index % 10 * 50)),
@@ -38,14 +46,10 @@ class AllahNameGridItem extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                colors.surface!,
-                colors.surface!.withValues(alpha: 0.8),
-              ],
+              colors: [colors.surface!, colors.surface!.withValues(alpha: 0.8)],
             ),
             border: Border.all(
-              color:
-                  const Color(0xFFFFD700).withValues(alpha: 0.4), // Gold border
+              color: colors.primary!.withValues(alpha: 0.2),
               width: 1.5,
             ),
             boxShadow: [
@@ -67,8 +71,9 @@ class AllahNameGridItem extends StatelessWidget {
                   child: Icon(
                     Icons.mosque,
                     size: 80,
-                    color: const Color(0xFFFFD700)
-                        .withValues(alpha: 0.1), // Gold accent icon
+                    color: colors.primary!.withValues(
+                      alpha: 0.05,
+                    ), // Subtle theme accent icon
                   ),
                 ),
                 Center(
@@ -80,16 +85,16 @@ class AllahNameGridItem extends StatelessWidget {
                         model.name,
                         textAlign: TextAlign.center,
                         maxLines: 1,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Nabi',
-                          fontSize: 26,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFFFFD700), // Premium Gold
+                          color: primaryColor,
                           shadows: [
                             Shadow(
-                              color: Colors.black45,
-                              offset: Offset(1, 1),
-                              blurRadius: 3,
+                              color: primaryColor.withValues(alpha: 0.1),
+                              offset: const Offset(1, 1),
+                              blurRadius: 2,
                             ),
                           ],
                         ),
@@ -107,25 +112,32 @@ class AllahNameGridItem extends StatelessWidget {
 
   void _showDetail(BuildContext context) {
     final colors = context.colors;
+    final isMidnight =
+        context.read<AppCubit>().state.theme == AppTheme.midnight;
+    final primaryColor = isMidnight
+        ? const Color(0xFFFFD700)
+        : colors.secondary!;
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (context) {
         return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          filter: ImageFilter.blur(sigmaX: .1, sigmaY: .1),
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.4,
+            // height: MediaQuery.of(context).size.height * 0.4,
             decoration: BoxDecoration(
               color: colors.background?.withValues(alpha: 0.9),
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(30)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(30),
+              ),
               border: Border.all(
                 color: colors.secondary!.withValues(alpha: 0.2),
                 width: 1,
               ),
             ),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 15),
                 Container(
@@ -136,29 +148,27 @@ class AllahNameGridItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 16),
                 Text(
                   model.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Nabi',
-                    fontSize: 38,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFFFFD700), // Premium Gold
+                    color: primaryColor,
                   ),
                 ),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Text(
-                      model.description,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 20,
-                        color: colors.text,
-                        height: 1.6,
-                      ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    model.description,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Cairo',
+                      fontSize: 20,
+                      color: colors.text,
+                      height: 1.6,
                     ),
                   ),
                 ),

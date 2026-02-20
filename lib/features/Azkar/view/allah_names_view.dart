@@ -1,9 +1,12 @@
+import 'package:azkar/core/manager/app_cubit.dart';
+import 'package:azkar/core/theme/app_theme_enum.dart';
 import 'package:azkar/core/localization/app_localizations.dart';
 import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:azkar/core/utils/app_images.dart';
 import 'package:azkar/features/Azkar/manager/model/allah_names_model.dart';
 import 'package:azkar/features/Azkar/view/widgets/allah_name_grid_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AllahNamesView extends StatelessWidget {
   const AllahNamesView({super.key});
@@ -11,6 +14,11 @@ class AllahNamesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final isMidnight =
+        context.read<AppCubit>().state.theme == AppTheme.midnight;
+    final accentColor = isMidnight
+        ? const Color(0xFFFFD700)
+        : colors.secondary!;
     final locale = Localizations.localeOf(context);
     return Scaffold(
       // backgroundColor is handled by global theme (primary)
@@ -30,10 +38,7 @@ class AllahNamesView extends StatelessWidget {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset(
-                    AppImages.allahnames,
-                    fit: BoxFit.cover,
-                  ),
+                  Image.asset(AppImages.allahnames, fit: BoxFit.cover),
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -58,11 +63,13 @@ class AllahNamesView extends StatelessWidget {
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         style: TextStyle(
-                          color: const Color(0xFFFFD700), // Gold
+                          color: Colors
+                              .white, // Standard white for dark app bar background
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
-                          fontFamily:
-                              locale.languageCode == 'ar' ? 'Cairo' : null,
+                          fontFamily: locale.languageCode == 'ar'
+                              ? 'Cairo'
+                              : null,
                           shadows: const [
                             Shadow(
                               color: Colors.black45,
@@ -86,8 +93,7 @@ class AllahNamesView extends StatelessWidget {
                 color: colors.surface?.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: const Color(0xFFFFD700)
-                      .withValues(alpha: 0.3), // Gold border
+                  color: colors.primary!.withValues(alpha: 0.2),
                   width: 1,
                 ),
               ),
@@ -96,15 +102,17 @@ class AllahNamesView extends StatelessWidget {
                   Text(
                     context.translate('allah_verse'),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Nabi',
                       fontSize: 24,
-                      color: Color(0xFFFFD700), // Premium Gold
+                      color: accentColor,
                       height: 1.8,
                       shadows: [
                         Shadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 2),
+                          color: isMidnight
+                              ? Colors.black26
+                              : accentColor.withValues(alpha: 0.1),
+                          offset: const Offset(0, 2),
                           blurRadius: 4,
                         ),
                       ],
@@ -133,20 +141,15 @@ class AllahNamesView extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
               ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return AllahNameGridItem(
-                    model: AllahNamesModel.allahNames[index],
-                    index: index,
-                  );
-                },
-                childCount: AllahNamesModel.allahNames.length,
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return AllahNameGridItem(
+                  model: AllahNamesModel.allahNames[index],
+                  index: index,
+                );
+              }, childCount: AllahNamesModel.allahNames.length),
             ),
           ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 50),
-          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 50)),
         ],
       ),
     );
