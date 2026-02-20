@@ -6,11 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ZekrSection extends StatelessWidget {
-  const ZekrSection({
-    super.key,
-    required this.model,
-    required this.zekrName,
-  });
+  const ZekrSection({super.key, required this.model, required this.zekrName});
   final ZekrModel model;
   final String zekrName;
   @override
@@ -22,12 +18,11 @@ class ZekrSection extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Column(
         children: [
+          const SizedBox(height: 8),
           (model.title == null)
-              ? const SizedBox(
-                  height: 18,
-                )
+              ? const SizedBox(height: 16)
               : Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 18.0),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(
                     textAlign: TextAlign.center,
                     textWidthBasis: TextWidthBasis.parent,
@@ -49,15 +44,14 @@ class ZekrSection extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                fontFamily: "Nabi",
+                height: 1.6,
+                fontFamily: "Cairo",
                 color: colors.text,
               ),
             ),
           ),
           (model.leading == null)
-              ? const SizedBox(
-                  height: 18,
-                )
+              ? const SizedBox(height: 18)
               : Padding(
                   padding: const EdgeInsets.only(top: 32, bottom: 12.0),
                   child: Text(
@@ -65,10 +59,11 @@ class ZekrSection extends StatelessWidget {
                     textWidthBasis: TextWidthBasis.parent,
                     model.leading!,
                     style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Cairo',
-                        color: colors.subtext),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Cairo',
+                      color: colors.subtext,
+                    ),
                   ),
                 ),
           if (model.loop != null)
@@ -81,36 +76,35 @@ class ZekrSection extends StatelessWidget {
                 unselectedColor: colors.secondary!.withValues(alpha: 0.5),
                 width: 60,
                 height: 60,
-                selectedStepSize: 3,
-                unselectedStepSize: 1,
+                selectedStepSize: 3.2,
+                unselectedStepSize: 1.5,
                 child: Center(
-                    child: _down(cubit) == 0
-                        ? Icon(
-                            Icons.check_rounded,
-                            size: 40,
-                            color: colors.secondary,
-                          )
-                        : Text(
-                            _down(cubit).toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: colors.text,
-                              shadows: [
-                                Shadow(
-                                  color: colors.primary!.withValues(alpha: 0.3),
-                                  offset: const Offset(0, 1),
-                                  blurRadius: 2,
-                                ),
-                              ],
-                            ),
-                          )),
+                  child: _down(cubit) == 0
+                      ? Icon(
+                          Icons.check_rounded,
+                          size: 40,
+                          color: colors.primary,
+                        )
+                      : Text(
+                          _down(cubit).toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: colors.text,
+                            shadows: [
+                              Shadow(
+                                color: colors.primary!.withValues(alpha: 0.3),
+                                offset: const Offset(0, 1),
+                                blurRadius: 2,
+                              ),
+                            ],
+                          ),
+                        ),
+                ),
                 roundedCap: (_, __) => true,
               ),
             ),
-          SizedBox(
-            height: 50.h,
-          )
+          SizedBox(height: 50.h),
         ],
       ),
     );

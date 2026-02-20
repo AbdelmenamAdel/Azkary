@@ -93,7 +93,7 @@ class ERosarySection extends StatelessWidget {
                           width: 60,
                         ),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 16),
                       // Text
                       Expanded(
                         child: Column(
@@ -129,11 +129,15 @@ class ERosarySection extends StatelessWidget {
                           ],
                         ),
                       ),
+                      const SizedBox(width: 16),
                       // Arrow
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: colors.secondary,
-                        size: 24,
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: colors.secondary,
+                          size: 22,
+                        ),
                       ),
                     ],
                   ),
