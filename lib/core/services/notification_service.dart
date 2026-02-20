@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:azkar/core/services/services_locator.dart';
 import 'package:azkar/core/utils/azkar.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +45,47 @@ class NotificationService {
     );
 
     await _requestPermissions();
+    await _checkFirstRun();
     await scheduleDailyAzkar();
     _startForegroundTimer();
+  }
+
+  Future<void> _checkFirstRun() async {
+    const String firstRunKey = 'is_first_run';
+    final storage = sl<FlutterSecureStorage>();
+    final isFirstRun = await storage.read(key: firstRunKey);
+
+    if (isFirstRun == null) {
+      // First time opening the app
+      await _showImmediateNotification(
+        999,
+        "مرحباً بك في تطبيق أذكاري",
+        "نسأل الله أن يجعل هذا التطبيق سبباً في ذكرك لله دائماً",
+      );
+      await storage.write(key: firstRunKey, value: 'false');
+    }
+  }
+
+  Future<void> _showImmediateNotification(
+    int id,
+    String title,
+    String body,
+  ) async {
+    await _notificationsPlugin.show(
+      id,
+      title,
+      body,
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          channelId,
+          channelName,
+          channelDescription: channelDescription,
+          importance: Importance.max,
+          priority: Priority.high,
+        ),
+        iOS: DarwinNotificationDetails(),
+      ),
+    );
   }
 
   Future<void> _requestPermissions() async {

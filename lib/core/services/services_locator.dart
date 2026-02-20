@@ -8,6 +8,7 @@ import '../../features/rosary/manager/rosary_cubit.dart';
 import '../manager/app_cubit.dart';
 import '../services/sound_service.dart';
 import '../services/notification_service.dart';
+import '../utils/azkar.dart';
 
 final sl = GetIt.instance;
 
@@ -15,6 +16,7 @@ Future<void> initServiceLocator() async {
   // External
   const storage = FlutterSecureStorage();
   sl.registerLazySingleton<FlutterSecureStorage>(() => storage);
+  sl.registerLazySingleton<Azkar>(() => Azkar());
   sl.registerLazySingleton<AudioPlayer>(() => AudioPlayer());
   sl.registerLazySingleton<SoundService>(() => SoundService(sl()));
   sl.registerLazySingleton<GlobalKey<NavigatorState>>(
