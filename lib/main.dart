@@ -9,11 +9,13 @@ import 'package:azkar/core/localization/app_localizations.dart';
 import 'package:azkar/features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import 'package:azkar/features/home/home_view.dart';
 import 'package:azkar/core/services/services_locator.dart';
+import 'package:azkar/core/services/notification_service.dart';
 import 'package:azkar/features/rosary/manager/rosary_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initServiceLocator();
+  await sl<NotificationService>().init();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -39,6 +41,7 @@ class MyApp extends StatelessWidget {
         return BlocBuilder<AppCubit, AppState>(
           builder: (context, state) {
             return MaterialApp(
+              navigatorKey: sl<GlobalKey<NavigatorState>>(),
               debugShowCheckedModeBanner: false,
               locale: state.locale,
               supportedLocales: const [

@@ -572,7 +572,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
             style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
             child: Text(
               context.translate('delete'),
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],

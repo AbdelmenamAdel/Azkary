@@ -7,6 +7,7 @@ import '../../features/Azkar/manager/Counter/zekr_counter_cubit.dart';
 import '../../features/rosary/manager/rosary_cubit.dart';
 import '../manager/app_cubit.dart';
 import '../services/sound_service.dart';
+import '../services/notification_service.dart';
 
 final sl = GetIt.instance;
 
@@ -16,6 +17,10 @@ Future<void> initServiceLocator() async {
   sl.registerLazySingleton<FlutterSecureStorage>(() => storage);
   sl.registerLazySingleton<AudioPlayer>(() => AudioPlayer());
   sl.registerLazySingleton<SoundService>(() => SoundService(sl()));
+  sl.registerLazySingleton<GlobalKey<NavigatorState>>(
+    () => GlobalKey<NavigatorState>(),
+  );
+  sl.registerLazySingleton<NotificationService>(() => NotificationService());
 
   // Pre-load Settings
   final String? langCode = await storage.read(key: 'lang_code');

@@ -76,7 +76,7 @@ class RosaryCubit extends Cubit<RosaryState> {
         ),
       );
     } catch (e) {
-      print('Error loading rosary data: $e');
+      // Error loading data
     }
   }
 
