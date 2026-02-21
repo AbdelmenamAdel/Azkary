@@ -129,7 +129,7 @@ class AutherMedia extends StatelessWidget {
                               const whatsapp = '+201556878109';
                               await urlLauncher(
                                 context,
-                                'whatsapp://send?phone=$whatsapp',
+                                'https://wa.me/$whatsapp',
                               );
                             },
                           ),

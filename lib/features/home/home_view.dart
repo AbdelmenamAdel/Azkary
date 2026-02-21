@@ -8,6 +8,8 @@ import 'package:azkar/features/home/widgets/doaa_image_section.dart';
 import 'package:azkar/features/home/widgets/e_rosary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:azkar/core/services/notification_service.dart';
+import 'package:azkar/core/services/services_locator.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -81,6 +83,25 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 onTap: () {
                   _showThemeDialog(context);
+                },
+              ),
+              // if (false)
+              ListTile(
+                leading: Icon(
+                  Icons.notifications_active,
+                  color: colors.secondary,
+                ),
+                title: const Text(
+                  "تجربة التنبيهات",
+                  style: TextStyle(fontFamily: 'Cairo'),
+                ),
+                trailing: Icon(
+                  Icons.play_arrow,
+                  color: colors.text?.withValues(alpha: 0.5),
+                  size: 16,
+                ),
+                onTap: () {
+                  sl<NotificationService>().testNotification();
                 },
               ),
               Divider(color: colors.text?.withValues(alpha: 0.1)),

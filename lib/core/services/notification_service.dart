@@ -14,7 +14,7 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
   Timer? _foregroundTimer;
 
-  static const String channelId = 'azkar_reminders';
+  static const String channelId = 'azkar_reminders_v6';
   static const String channelName = 'Azkar Reminders';
   static const String channelDescription = 'Daily Azkar notifications';
 
@@ -50,6 +50,14 @@ class NotificationService {
     _startForegroundTimer();
   }
 
+  Future<void> testNotification() async {
+    await _showImmediateNotification(
+      888,
+      "تجربة التنبيهات",
+      "إذا كنت تسمع الصوت الآن، فهذا يعني أن التنبيهات تعمل بنجاح مع الصوت المخصص",
+    );
+  }
+
   Future<void> _checkFirstRun() async {
     const String firstRunKey = 'is_first_run';
     final storage = sl<FlutterSecureStorage>();
@@ -71,21 +79,45 @@ class NotificationService {
     String title,
     String body,
   ) async {
-    await _notificationsPlugin.show(
-      id,
-      title,
-      body,
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          channelId,
-          channelName,
-          channelDescription: channelDescription,
-          importance: Importance.max,
-          priority: Priority.high,
+    try {
+      await _notificationsPlugin.show(
+        id,
+        title,
+        body,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            channelId,
+            channelName,
+            channelDescription: channelDescription,
+            importance: Importance.max,
+            priority: Priority.high,
+            sound: RawResourceAndroidNotificationSound('azkar_notification'),
+            playSound: true,
+          ),
+          iOS: DarwinNotificationDetails(
+            presentSound: true,
+            sound: 'azkar_notification.mp3',
+          ),
         ),
-        iOS: DarwinNotificationDetails(),
-      ),
-    );
+      );
+    } catch (e) {
+      await _notificationsPlugin.show(
+        id,
+        title,
+        body,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            channelId,
+            channelName,
+            channelDescription: channelDescription,
+            importance: Importance.max,
+            priority: Priority.high,
+            playSound: true,
+          ),
+          iOS: DarwinNotificationDetails(presentSound: true),
+        ),
+      );
+    }
   }
 
   Future<void> _requestPermissions() async {
@@ -115,6 +147,8 @@ class NotificationService {
             channelName,
             description: channelDescription,
             importance: Importance.max,
+            playSound: true,
+            sound: RawResourceAndroidNotificationSound('azkar_notification'),
           ),
         );
   }
@@ -160,28 +194,59 @@ class NotificationService {
     DateTime scheduledDate,
     bool canScheduleExact,
   ) async {
-    await _notificationsPlugin.zonedSchedule(
-      id,
-      title,
-      body,
-      tz.TZDateTime.from(scheduledDate, tz.local),
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          channelId,
-          channelName,
-          channelDescription: channelDescription,
-          importance: Importance.max,
-          priority: Priority.high,
+    try {
+      await _notificationsPlugin.zonedSchedule(
+        id,
+        title,
+        body,
+        tz.TZDateTime.from(scheduledDate, tz.local),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            channelId,
+            channelName,
+            channelDescription: channelDescription,
+            importance: Importance.max,
+            priority: Priority.high,
+            sound: RawResourceAndroidNotificationSound('azkar_notification'),
+            playSound: true,
+          ),
+          iOS: DarwinNotificationDetails(
+            presentSound: true,
+            sound: 'azkar_notification.mp3',
+          ),
         ),
-        iOS: DarwinNotificationDetails(),
-      ),
-      androidScheduleMode: canScheduleExact
-          ? AndroidScheduleMode.exactAllowWhileIdle
-          : AndroidScheduleMode.inexactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
-    );
+        androidScheduleMode: canScheduleExact
+            ? AndroidScheduleMode.exactAllowWhileIdle
+            : AndroidScheduleMode.inexactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    } catch (e) {
+      await _notificationsPlugin.zonedSchedule(
+        id,
+        title,
+        body,
+        tz.TZDateTime.from(scheduledDate, tz.local),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            channelId,
+            channelName,
+            channelDescription: channelDescription,
+            importance: Importance.max,
+            priority: Priority.high,
+            playSound: true,
+          ),
+          iOS: DarwinNotificationDetails(presentSound: true),
+        ),
+        androidScheduleMode: canScheduleExact
+            ? AndroidScheduleMode.exactAllowWhileIdle
+            : AndroidScheduleMode.inexactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    }
   }
 
   void _startForegroundTimer() {
