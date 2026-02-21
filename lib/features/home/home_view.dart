@@ -7,6 +7,7 @@ import 'package:azkar/features/home/widgets/azkar_names_section.dart';
 import 'package:azkar/features/home/widgets/doaa_image_section.dart';
 import 'package:azkar/features/home/widgets/e_rosary.dart';
 import 'package:azkar/features/home/widgets/prayer_times_section.dart';
+import 'package:azkar/features/home/widgets/permissions_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:azkar/core/services/notification_service.dart';
@@ -86,23 +87,45 @@ class _HomeViewState extends State<HomeView> {
                   _showThemeDialog(context);
                 },
               ),
-              // if (false)
-              ListTile(
-                leading: Icon(
-                  Icons.notifications_active,
-                  color: colors.secondary,
+              if (false)
+                ListTile(
+                  leading: Icon(
+                    Icons.notifications_active,
+                    color: colors.secondary,
+                  ),
+                  title: const Text(
+                    "تجربة التنبيهات",
+                    style: TextStyle(fontFamily: 'Cairo'),
+                  ),
+                  trailing: Icon(
+                    Icons.play_arrow,
+                    color: colors.text?.withValues(alpha: 0.5),
+                    size: 16,
+                  ),
+                  onTap: () {
+                    sl<NotificationService>().testNotification();
+                  },
                 ),
-                title: const Text(
-                  "تجربة التنبيهات",
-                  style: TextStyle(fontFamily: 'Cairo'),
+              Divider(color: colors.text?.withValues(alpha: 0.1)),
+              ListTile(
+                leading: Icon(Icons.security_rounded, color: colors.secondary),
+                title: Text(
+                  context.translate('permissions'),
+                  style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
                 ),
                 trailing: Icon(
-                  Icons.play_arrow,
+                  Icons.arrow_forward_ios,
                   color: colors.text?.withValues(alpha: 0.5),
                   size: 16,
                 ),
                 onTap: () {
-                  sl<NotificationService>().testNotification();
+                  Navigator.pop(context);
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (_) => const PermissionsBottomSheet(),
+                  );
                 },
               ),
               Divider(color: colors.text?.withValues(alpha: 0.1)),
@@ -155,8 +178,8 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             children: [
               PrayerTimesSection(),
-              AzkarNamesSection(),
               ERosarySection(),
+              AzkarNamesSection(),
               DoaaImageSection(),
             ],
           ),

@@ -107,6 +107,25 @@ class PrayerTimeService {
 
   String formatTime(DateTime time) => DateFormat.jm().format(time);
 
+  String getPrayerKey(Prayer prayer) {
+    switch (prayer) {
+      case Prayer.fajr:
+        return 'prayer_fajr';
+      case Prayer.sunrise:
+        return 'prayer_sunrise';
+      case Prayer.dhuhr:
+        return 'prayer_dhuhr';
+      case Prayer.asr:
+        return 'prayer_asr';
+      case Prayer.maghrib:
+        return 'prayer_maghrib';
+      case Prayer.isha:
+        return 'prayer_isha';
+      default:
+        return '';
+    }
+  }
+
   String getPrayerName(Prayer prayer) {
     switch (prayer) {
       case Prayer.fajr:

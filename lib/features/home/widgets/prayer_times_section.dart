@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:adhan/adhan.dart';
+import 'package:azkar/core/localization/app_localizations.dart';
 import 'package:azkar/core/services/prayer_time_service.dart';
 import 'package:azkar/core/services/services_locator.dart';
 import 'package:azkar/core/theme/app_colors_extension.dart';
@@ -116,7 +117,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
               ),
               const SizedBox(height: 10),
               Text(
-                'جاري تحميل المواقيت...',
+                context.translate('prayer_times_loading'),
                 style: TextStyle(
                   fontFamily: 'Cairo',
                   color: subtext,
@@ -164,9 +165,9 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'الصلاة القادمة',
-                      style: TextStyle(
+                    Text(
+                      context.translate('next_prayer'),
+                      style: const TextStyle(
                         fontFamily: 'Cairo',
                         color: Colors.white70,
                         fontSize: 13,
@@ -174,7 +175,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${service.getPrayerIcon(nextPrayer)}  ${service.getPrayerName(nextPrayer)}',
+                      '${service.getPrayerIcon(nextPrayer)}  ${context.translate(service.getPrayerKey(nextPrayer))}',
                       style: const TextStyle(
                         fontFamily: 'Cairo',
                         color: Colors.white,
@@ -211,9 +212,9 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                 ),
                 child: Column(
                   children: [
-                    const Text(
-                      'متبقي',
-                      style: TextStyle(
+                    Text(
+                      context.translate('time_remaining'),
+                      style: const TextStyle(
                         fontFamily: 'Cairo',
                         color: Colors.white70,
                         fontSize: 11,
@@ -281,7 +282,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      service.getPrayerName(prayer),
+                      context.translate(service.getPrayerKey(prayer)),
                       style: TextStyle(
                         fontFamily: 'Cairo',
                         fontSize: 11,

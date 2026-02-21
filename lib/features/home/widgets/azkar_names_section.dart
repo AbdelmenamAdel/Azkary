@@ -30,7 +30,7 @@ class AzkarNamesSection extends StatelessWidget {
             crossAxisSpacing: 0,
             mainAxisExtent: 250.h,
           ),
-          padding: const EdgeInsets.all(2),
+          padding: const EdgeInsets.only(left: 2, right: 2, top: 0, bottom: 2),
           children: [
             AzkarNameCard(
               azkarName: context.translate('after_pray_azkar'),
