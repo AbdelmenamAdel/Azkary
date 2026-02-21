@@ -13,9 +13,15 @@ import 'package:azkar/core/services/notification_service.dart';
 import 'package:azkar/features/rosary/manager/rosary_cubit.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await initServiceLocator();
-  await sl<NotificationService>().init();
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await initServiceLocator();
+    sl<NotificationService>()
+        .init(); // Don't await here to avoid blocking startup
+  } catch (e) {
+    debugPrint("Initialization error: $e");
+  }
+
   runApp(
     MultiBlocProvider(
       providers: [

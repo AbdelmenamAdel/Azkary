@@ -6,6 +6,7 @@ import 'package:azkar/core/remote-config/auther_media.dart';
 import 'package:azkar/features/home/widgets/azkar_names_section.dart';
 import 'package:azkar/features/home/widgets/doaa_image_section.dart';
 import 'package:azkar/features/home/widgets/e_rosary.dart';
+import 'package:azkar/features/home/widgets/prayer_times_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:azkar/core/services/notification_service.dart';
@@ -153,6 +154,7 @@ class _HomeViewState extends State<HomeView> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              PrayerTimesSection(),
               DoaaImageSection(),
               AzkarNamesSection(),
               ERosarySection(),

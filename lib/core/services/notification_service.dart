@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:azkar/core/services/services_locator.dart';
@@ -14,40 +15,53 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
   Timer? _foregroundTimer;
 
-  static const String channelId = 'azkar_reminders_v6';
+  static const String channelId = 'azkar_reminders_v8';
   static const String channelName = 'Azkar Reminders';
   static const String channelDescription = 'Daily Azkar notifications';
 
   Future<void> init() async {
-    tz.initializeTimeZones();
+    try {
+      tz.initializeTimeZones();
 
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+      const AndroidInitializationSettings initializationSettingsAndroid =
+          AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    const DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
-          requestAlertPermission: true,
-          requestBadgePermission: true,
-          requestSoundPermission: true,
-        );
+      const DarwinInitializationSettings initializationSettingsIOS =
+          DarwinInitializationSettings(
+            requestAlertPermission: true,
+            requestBadgePermission: true,
+            requestSoundPermission: true,
+          );
 
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
-          android: initializationSettingsAndroid,
-          iOS: initializationSettingsIOS,
-        );
+      const InitializationSettings initializationSettings =
+          InitializationSettings(
+            android: initializationSettingsAndroid,
+            iOS: initializationSettingsIOS,
+          );
 
-    await _notificationsPlugin.initialize(
-      initializationSettings,
-      onDidReceiveNotificationResponse: (details) {
-        // Handle notification click
-      },
-    );
+      await _notificationsPlugin.initialize(
+        initializationSettings,
+        onDidReceiveNotificationResponse: (details) {
+          // Handle notification click
+        },
+      );
 
-    await _requestPermissions();
-    await _checkFirstRun();
-    await scheduleDailyAzkar();
-    _startForegroundTimer();
+      // Do these in background to not block app launch if they take time
+      unawaited(_initTasks());
+    } catch (e) {
+      debugPrint("Notification Service init error: $e");
+    }
+  }
+
+  Future<void> _initTasks() async {
+    try {
+      await _requestPermissions();
+      await _checkFirstRun();
+      await scheduleDailyAzkar();
+      _startForegroundTimer();
+    } catch (e) {
+      debugPrint("Notification Service tasks error: $e");
+    }
   }
 
   Future<void> testNotification() async {
@@ -91,12 +105,12 @@ class NotificationService {
             channelDescription: channelDescription,
             importance: Importance.max,
             priority: Priority.high,
-            sound: RawResourceAndroidNotificationSound('azkar_notification'),
+            sound: RawResourceAndroidNotificationSound('notification_sound'),
             playSound: true,
           ),
           iOS: DarwinNotificationDetails(
             presentSound: true,
-            sound: 'azkar_notification.mp3',
+            sound: 'notification_sound.mp3',
           ),
         ),
       );
@@ -125,8 +139,14 @@ class NotificationService {
       await Permission.notification.request();
     }
 
-    if (await Permission.scheduleExactAlarm.isDenied) {
-      await Permission.scheduleExactAlarm.request();
+    if (Platform.isAndroid) {
+      if (await Permission.scheduleExactAlarm.isDenied) {
+        try {
+          await Permission.scheduleExactAlarm.request();
+        } catch (e) {
+          debugPrint("ScheduleExactAlarm permission request failed: $e");
+        }
+      }
     }
 
     // iOS specific permissions
@@ -148,7 +168,7 @@ class NotificationService {
             description: channelDescription,
             importance: Importance.max,
             playSound: true,
-            sound: RawResourceAndroidNotificationSound('azkar_notification'),
+            sound: RawResourceAndroidNotificationSound('notification_sound'),
           ),
         );
   }
@@ -207,12 +227,12 @@ class NotificationService {
             channelDescription: channelDescription,
             importance: Importance.max,
             priority: Priority.high,
-            sound: RawResourceAndroidNotificationSound('azkar_notification'),
+            sound: RawResourceAndroidNotificationSound('notification_sound'),
             playSound: true,
           ),
           iOS: DarwinNotificationDetails(
             presentSound: true,
-            sound: 'azkar_notification.mp3',
+            sound: 'notification_sound.mp3',
           ),
         ),
         androidScheduleMode: canScheduleExact
