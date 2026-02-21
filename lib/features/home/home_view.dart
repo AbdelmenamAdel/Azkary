@@ -155,9 +155,9 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             children: [
               PrayerTimesSection(),
-              DoaaImageSection(),
               AzkarNamesSection(),
               ERosarySection(),
+              DoaaImageSection(),
             ],
           ),
         ),

@@ -107,8 +107,13 @@ class NotificationService {
             priority: Priority.high,
             sound: RawResourceAndroidNotificationSound('notification_sound'),
             playSound: true,
+            enableVibration: true,
+            ticker: 'أذكاري',
+            showWhen: true,
           ),
           iOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
             presentSound: true,
             sound: 'notification_sound.mp3',
           ),
