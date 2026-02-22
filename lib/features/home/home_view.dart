@@ -106,6 +106,7 @@ class _HomeViewState extends State<HomeView> {
                   size: 16,
                 ),
                 onTap: () {
+                  Navigator.pop(context);
                   sl<NotificationService>().testNotification();
                 },
               ),

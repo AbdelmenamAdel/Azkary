@@ -51,16 +51,21 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
   }
 
   Future<void> _loadStatuses() async {
-    final notif = await Permission.notification.status;
-    final loc = await Permission.locationWhenInUse.status;
+    bool notif = true;
+    bool loc = true;
     bool exactAlarm = false;
-    if (Platform.isAndroid) {
-      exactAlarm = await Permission.scheduleExactAlarm.isGranted;
+
+    if (!Platform.isMacOS && !Platform.isWindows && !Platform.isLinux) {
+      notif = await Permission.notification.status.then((s) => s.isGranted);
+      loc = await Permission.locationWhenInUse.status.then((s) => s.isGranted);
+      if (Platform.isAndroid) {
+        exactAlarm = await Permission.scheduleExactAlarm.isGranted;
+      }
     }
     if (mounted) {
       setState(() {
-        _notifGranted = notif.isGranted;
-        _locationGranted = loc.isGranted;
+        _notifGranted = notif;
+        _locationGranted = loc;
         _exactAlarmGranted = exactAlarm;
         _isLoading = false;
       });
@@ -69,6 +74,7 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
   }
 
   Future<void> _toggle(Permission permission, bool current) async {
+    if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) return;
     if (current) {
       // Opening app settings so user can manually revoke it.
       setState(() => _isLoading = true);

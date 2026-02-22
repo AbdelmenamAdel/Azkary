@@ -16,8 +16,8 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
   Timer? _foregroundTimer;
 
-  static const String channelId = 'azkar_reminders_v8';
-  static const String channelName = 'Azkar Reminders';
+  static const String channelId = 'azkar_reminders_v9';
+  static const String channelName = 'Azkar Reminders v9';
   static const String channelDescription = 'Daily Azkar notifications';
 
   Future<void> init() async {
@@ -27,7 +27,7 @@ class NotificationService {
       tz.setLocalLocation(tz.getLocation(tzInfo.identifier));
 
       const AndroidInitializationSettings initializationSettingsAndroid =
-          AndroidInitializationSettings('@mipmap/ic_launcher');
+          AndroidInitializationSettings('@mipmap/launcher_icon');
 
       const DarwinInitializationSettings initializationSettingsIOS =
           DarwinInitializationSettings(
@@ -69,11 +69,27 @@ class NotificationService {
   }
 
   Future<void> testNotification() async {
-    await _showImmediateNotification(
-      888,
-      "تجربة التنبيهات",
-      "إذا كنت تسمع الصوت الآن، فهذا يعني أن التنبيهات تعمل بنجاح مع الصوت المخصص",
-    );
+    try {
+      await _showImmediateNotification(
+        888,
+        "تجربة التنبيهات",
+        "إذا كنت تسمع الصوت الآن، فهذا يعني أن التنبيهات تعمل بنجاح مع الصوت المخصص",
+      );
+      final context = sl<GlobalKey<NavigatorState>>().currentState?.context;
+      if (context != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('تم إرسال التنبيه. تحقق من الإشعارات!')),
+        );
+      }
+    } catch (e) {
+      debugPrint("Test Notification error: $e");
+      final context = sl<GlobalKey<NavigatorState>>().currentState?.context;
+      if (context != null) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('خطأ في الإشعار: $e')));
+      }
+    }
   }
 
   Future<void> _checkFirstRun() async {
@@ -119,13 +135,16 @@ class NotificationService {
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
+            presentBanner: true,
+            presentList: true,
             sound: 'notification_sound.mp3',
           ),
           macOS: DarwinNotificationDetails(
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
-            sound: 'notification_sound.mp3',
+            presentBanner: true,
+            presentList: true,
           ),
         ),
       );
@@ -147,11 +166,15 @@ class NotificationService {
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
+            presentBanner: true,
+            presentList: true,
           ),
           macOS: DarwinNotificationDetails(
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
+            presentBanner: true,
+            presentList: true,
           ),
         ),
       );
@@ -159,8 +182,10 @@ class NotificationService {
   }
 
   Future<void> _requestPermissions() async {
-    if (await Permission.notification.isDenied) {
-      await Permission.notification.request();
+    if (!Platform.isMacOS && !Platform.isWindows && !Platform.isLinux) {
+      if (await Permission.notification.isDenied) {
+        await Permission.notification.request();
+      }
     }
 
     if (Platform.isAndroid) {
@@ -212,7 +237,10 @@ class NotificationService {
     final random = Random();
 
     // Check if we can use exact alarms
-    final bool canScheduleExact = await Permission.scheduleExactAlarm.isGranted;
+    bool canScheduleExact = false;
+    if (Platform.isAndroid) {
+      canScheduleExact = await Permission.scheduleExactAlarm.isGranted;
+    }
 
     // Schedule 50 notifications for today
     // We'll spread them between 6 AM and 11 PM
@@ -265,13 +293,16 @@ class NotificationService {
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
+            presentBanner: true,
+            presentList: true,
             sound: 'notification_sound.mp3',
           ),
           macOS: DarwinNotificationDetails(
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
-            sound: 'notification_sound.mp3',
+            presentBanner: true,
+            presentList: true,
           ),
         ),
         androidScheduleMode: canScheduleExact
@@ -300,11 +331,15 @@ class NotificationService {
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
+            presentBanner: true,
+            presentList: true,
           ),
           macOS: DarwinNotificationDetails(
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
+            presentBanner: true,
+            presentList: true,
           ),
         ),
         androidScheduleMode: canScheduleExact

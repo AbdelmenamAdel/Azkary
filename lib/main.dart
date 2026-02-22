@@ -24,25 +24,13 @@ void main() async {
   }
 
   runApp(
-    DevicePreview(
-      //  enabled: !kReleaseMode,
-      // devices: [
-      //   DeviceInfo.genericPhone(
-      //     platform: TargetPlatform.android,
-      //     id: "99",
-      //     name: 'Infinix X612B',
-      //     screenSize: const Size(360, 780), // logical size
-      //     pixelRatio: 2.0,
-      //   ),
-      // ],
-      builder: (context) => MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => sl<ZekrCounterCubit>()),
-          BlocProvider(create: (context) => sl<AppCubit>()),
-          BlocProvider(create: (context) => sl<RosaryCubit>()),
-        ],
-        child: const MyApp(),
-      ),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<ZekrCounterCubit>()),
+        BlocProvider(create: (context) => sl<AppCubit>()),
+        BlocProvider(create: (context) => sl<RosaryCubit>()),
+      ],
+      child: const MyApp(),
     ),
   );
 }
