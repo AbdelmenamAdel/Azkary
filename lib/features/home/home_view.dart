@@ -87,25 +87,25 @@ class _HomeViewState extends State<HomeView> {
                   _showThemeDialog(context);
                 },
               ),
-              if (false)
-                ListTile(
-                  leading: Icon(
-                    Icons.notifications_active,
-                    color: colors.secondary,
-                  ),
-                  title: const Text(
-                    "تجربة التنبيهات",
-                    style: TextStyle(fontFamily: 'Cairo'),
-                  ),
-                  trailing: Icon(
-                    Icons.play_arrow,
-                    color: colors.text?.withValues(alpha: 0.5),
-                    size: 16,
-                  ),
-                  onTap: () {
-                    sl<NotificationService>().testNotification();
-                  },
+              // if (false)
+              ListTile(
+                leading: Icon(
+                  Icons.notifications_active,
+                  color: colors.secondary,
                 ),
+                title: const Text(
+                  "تجربة التنبيهات",
+                  style: TextStyle(fontFamily: 'Cairo'),
+                ),
+                trailing: Icon(
+                  Icons.play_arrow,
+                  color: colors.text?.withValues(alpha: 0.5),
+                  size: 16,
+                ),
+                onTap: () {
+                  sl<NotificationService>().testNotification();
+                },
+              ),
               Divider(color: colors.text?.withValues(alpha: 0.1)),
               ListTile(
                 leading: Icon(Icons.security_rounded, color: colors.secondary),

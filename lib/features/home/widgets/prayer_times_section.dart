@@ -241,7 +241,6 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
         // ── Daily Prayer List ──────────────────────────────────
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 4),
-
           decoration: BoxDecoration(
             color: surface,
             borderRadius: const BorderRadius.vertical(
@@ -256,7 +255,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: _prayerEnums.map((prayer) {
@@ -273,67 +272,80 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                   indicatorColor = Colors.transparent;
                 }
 
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      service.getPrayerIcon(prayer),
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      context.translate(service.getPrayerKey(prayer)),
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 11,
-                        color: isCurrent
-                            ? primary
-                            : isNext
-                            ? secondary
-                            : textColor.withValues(alpha: 0.6),
-                        fontWeight: (isCurrent || isNext)
-                            ? FontWeight.bold
-                            : FontWeight.normal,
+                return Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Container(
+                      constraints: const BoxConstraints(
+                        // maxHeight: 120,
+                        minHeight: 90,
+                        // maxWidth: 120,
+                        // minWidth: 100,
+                      ),
+                      child: Column(
+                        // mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            service.getPrayerIcon(prayer),
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            context.translate(service.getPrayerKey(prayer)),
+                            style: TextStyle(
+                              fontFamily: 'Cairo',
+                              fontSize: 11,
+                              color: isCurrent
+                                  ? primary
+                                  : isNext
+                                  ? secondary
+                                  : textColor.withValues(alpha: 0.6),
+                              fontWeight: (isCurrent || isNext)
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isCurrent
+                                  ? primary.withValues(alpha: 0.12)
+                                  : isNext
+                                  ? secondary.withValues(alpha: 0.12)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              time != null ? service.formatTime(time) : '--:--',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: isCurrent
+                                    ? primary
+                                    : isNext
+                                    ? secondary
+                                    : textColor.withValues(alpha: 0.5),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          // dot indicator
+                          Container(
+                            width: 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: indicatorColor,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 6),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isCurrent
-                            ? primary.withValues(alpha: 0.12)
-                            : isNext
-                            ? secondary.withValues(alpha: 0.12)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        time != null ? service.formatTime(time) : '--:--',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: isCurrent
-                              ? primary
-                              : isNext
-                              ? secondary
-                              : textColor.withValues(alpha: 0.5),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    // dot indicator
-                    Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: indicatorColor,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ],
+                  ),
                 );
               }).toList(),
             ),

@@ -9,6 +9,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 
 class NotificationService {
   final FlutterLocalNotificationsPlugin _notificationsPlugin =
@@ -22,6 +23,8 @@ class NotificationService {
   Future<void> init() async {
     try {
       tz.initializeTimeZones();
+      final tzInfo = await FlutterTimezone.getLocalTimezone();
+      tz.setLocalLocation(tz.getLocation(tzInfo.identifier));
 
       const AndroidInitializationSettings initializationSettingsAndroid =
           AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -37,6 +40,7 @@ class NotificationService {
           InitializationSettings(
             android: initializationSettingsAndroid,
             iOS: initializationSettingsIOS,
+            macOS: initializationSettingsIOS,
           );
 
       await _notificationsPlugin.initialize(
@@ -117,6 +121,12 @@ class NotificationService {
             presentSound: true,
             sound: 'notification_sound.mp3',
           ),
+          macOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+            sound: 'notification_sound.mp3',
+          ),
         ),
       );
     } catch (e) {
@@ -133,7 +143,16 @@ class NotificationService {
             priority: Priority.high,
             playSound: true,
           ),
-          iOS: DarwinNotificationDetails(presentSound: true),
+          iOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+          ),
+          macOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+          ),
         ),
       );
     }
@@ -158,6 +177,13 @@ class NotificationService {
     await _notificationsPlugin
         .resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin
+        >()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
+
+    // macOS specific permissions
+    await _notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+          MacOSFlutterLocalNotificationsPlugin
         >()
         ?.requestPermissions(alert: true, badge: true, sound: true);
 
@@ -236,6 +262,14 @@ class NotificationService {
             playSound: true,
           ),
           iOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+            sound: 'notification_sound.mp3',
+          ),
+          macOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
             presentSound: true,
             sound: 'notification_sound.mp3',
           ),
@@ -262,7 +296,16 @@ class NotificationService {
             priority: Priority.high,
             playSound: true,
           ),
-          iOS: DarwinNotificationDetails(presentSound: true),
+          iOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+          ),
+          macOS: DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+          ),
         ),
         androidScheduleMode: canScheduleExact
             ? AndroidScheduleMode.exactAllowWhileIdle

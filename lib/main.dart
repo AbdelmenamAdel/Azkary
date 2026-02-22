@@ -1,6 +1,7 @@
 import 'package:azkar/core/manager/app_cubit.dart';
 import 'package:azkar/core/manager/app_state.dart';
 import 'package:azkar/core/theme/app_themes.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,13 +24,25 @@ void main() async {
   }
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => sl<ZekrCounterCubit>()),
-        BlocProvider(create: (context) => sl<AppCubit>()),
-        BlocProvider(create: (context) => sl<RosaryCubit>()),
-      ],
-      child: const MyApp(),
+    DevicePreview(
+      //  enabled: !kReleaseMode,
+      // devices: [
+      //   DeviceInfo.genericPhone(
+      //     platform: TargetPlatform.android,
+      //     id: "99",
+      //     name: 'Infinix X612B',
+      //     screenSize: const Size(360, 780), // logical size
+      //     pixelRatio: 2.0,
+      //   ),
+      // ],
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => sl<ZekrCounterCubit>()),
+          BlocProvider(create: (context) => sl<AppCubit>()),
+          BlocProvider(create: (context) => sl<RosaryCubit>()),
+        ],
+        child: const MyApp(),
+      ),
     ),
   );
 }
