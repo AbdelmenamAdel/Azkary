@@ -93,9 +93,12 @@ class _HomeViewState extends State<HomeView> {
                   Icons.notifications_active,
                   color: colors.secondary,
                 ),
-                title: const Text(
+                title: Text(
                   "تجربة التنبيهات",
-                  style: TextStyle(fontFamily: 'Cairo'),
+                  style: TextStyle(
+                    fontFamily: 'Cairo',
+                    color: context.colors.text,
+                  ),
                 ),
                 trailing: Icon(
                   Icons.play_arrow,

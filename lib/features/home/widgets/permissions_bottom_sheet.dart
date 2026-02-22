@@ -12,7 +12,7 @@ class PermissionsBottomSheet extends StatefulWidget {
 }
 
 class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _notifGranted = false;
   bool _locationGranted = false;
   bool _exactAlarmGranted = false;
@@ -24,6 +24,7 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _slideController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -37,8 +38,16 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _slideController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _loadStatuses();
+    }
   }
 
   Future<void> _loadStatuses() async {
@@ -61,13 +70,15 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
 
   Future<void> _toggle(Permission permission, bool current) async {
     if (current) {
+      // Opening app settings so user can manually revoke it.
+      setState(() => _isLoading = true);
       await openAppSettings();
     } else {
+      setState(() => _isLoading = true);
       final result = await permission.request();
       if (result.isPermanentlyDenied) await openAppSettings();
+      await _loadStatuses();
     }
-    setState(() => _isLoading = true);
-    await _loadStatuses();
   }
 
   @override
