@@ -195,6 +195,9 @@ class NotificationService {
       if (await Permission.notification.isDenied) {
         await Permission.notification.request();
       }
+      if (await Permission.locationWhenInUse.isDenied) {
+        await Permission.locationWhenInUse.request();
+      }
     }
 
     if (Platform.isAndroid) {

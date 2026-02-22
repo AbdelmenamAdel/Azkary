@@ -68,7 +68,7 @@ class _AzkarNameCardState extends State<AzkarNameCard>
         scale: _scaleAnimation,
         child: Container(
           height: widget.height ?? 220.h,
-          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+          // margin: const EdgeInsets.symmetric(horizontal: , vertical: 2),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             gradient: LinearGradient(
