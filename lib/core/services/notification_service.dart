@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'package:azkar/core/theme/app_colors_extension.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:azkar/core/services/services_locator.dart';
 import 'package:azkar/core/utils/azkar.dart';
@@ -78,16 +79,22 @@ class NotificationService {
       final context = sl<GlobalKey<NavigatorState>>().currentState?.context;
       if (context != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تم إرسال التنبيه. تحقق من الإشعارات!')),
+          SnackBar(
+            content: const Text('تم إرسال التنبيه. تحقق من الإشعارات!'),
+            backgroundColor: context.colors.primary,
+          ),
         );
       }
     } catch (e) {
       debugPrint("Test Notification error: $e");
       final context = sl<GlobalKey<NavigatorState>>().currentState?.context;
       if (context != null) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('خطأ في الإشعار: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('خطأ في الإشعار: $e'),
+            backgroundColor: context.colors.secondary,
+          ),
+        );
       }
     }
   }
@@ -168,6 +175,8 @@ class NotificationService {
             presentSound: true,
             presentBanner: true,
             presentList: true,
+
+            sound: 'notification_sound.mp3',
           ),
           macOS: DarwinNotificationDetails(
             presentAlert: true,

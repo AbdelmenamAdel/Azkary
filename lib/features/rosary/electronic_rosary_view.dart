@@ -137,7 +137,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                             child: Text(
                               context.translate('electronic_rosary'),
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Cairo',
                                 color: colors.secondary,

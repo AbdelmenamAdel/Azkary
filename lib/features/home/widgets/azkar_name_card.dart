@@ -128,7 +128,7 @@ class _AzkarNameCardState extends State<AzkarNameCard>
                         child: Text(
                           widget.azkarName,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontFamily: 'Cairo',
                             fontWeight: FontWeight.bold,
                             color: colors.text,

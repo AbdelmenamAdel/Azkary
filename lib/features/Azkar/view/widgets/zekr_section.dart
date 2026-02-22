@@ -76,8 +76,8 @@ class ZekrSection extends StatelessWidget {
                 unselectedColor: context.colors.text!.withValues(alpha: 0.4),
                 width: 60,
                 height: 60,
-                selectedStepSize: 3.2,
-                unselectedStepSize: 1.5,
+                selectedStepSize: 4,
+                unselectedStepSize: 2,
                 child: Center(
                   child: _down(cubit) == 0
                       ? Icon(
@@ -89,7 +89,7 @@ class ZekrSection extends StatelessWidget {
                           _down(cubit).toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 20,
                             color: context.colors.text,
                             shadows: [
                               Shadow(

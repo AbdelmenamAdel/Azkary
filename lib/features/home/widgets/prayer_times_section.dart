@@ -140,10 +140,14 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
         Container(
           width: double.infinity,
           margin: const EdgeInsets.symmetric(horizontal: 4),
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [primary, primary.withValues(alpha: 0.75)],
+              colors: [
+                colors.primary!,
+                secondary.withValues(alpha: .8),
+                colors.primary!,
+              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -170,7 +174,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                       style: const TextStyle(
                         fontFamily: 'Cairo',
                         color: Colors.white70,
-                        fontSize: 13,
+                        fontSize: 14,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -179,7 +183,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                       style: const TextStyle(
                         fontFamily: 'Cairo',
                         color: Colors.white,
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
@@ -190,7 +194,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                           : '--:--',
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -217,7 +221,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                       style: const TextStyle(
                         fontFamily: 'Cairo',
                         color: Colors.white70,
-                        fontSize: 11,
+                        fontSize: 10,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -225,7 +229,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                       _formatCountdown(_timeUntilNext),
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.5,
                         fontFeatures: [FontFeature.tabularFigures()],
@@ -265,7 +269,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
 
                 Color indicatorColor;
                 if (isCurrent) {
-                  indicatorColor = primary;
+                  indicatorColor = textColor;
                 } else if (isNext) {
                   indicatorColor = secondary;
                 } else {
@@ -296,7 +300,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                               fontFamily: 'Cairo',
                               fontSize: 11,
                               color: isCurrent
-                                  ? primary
+                                  ? textColor
                                   : isNext
                                   ? secondary
                                   : textColor.withValues(alpha: 0.6),
@@ -313,7 +317,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                             ),
                             decoration: BoxDecoration(
                               color: isCurrent
-                                  ? primary.withValues(alpha: 0.12)
+                                  ? textColor.withValues(alpha: 0.12)
                                   : isNext
                                   ? secondary.withValues(alpha: 0.12)
                                   : Colors.transparent,
@@ -325,7 +329,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
                                 color: isCurrent
-                                    ? primary
+                                    ? textColor
                                     : isNext
                                     ? secondary
                                     : textColor.withValues(alpha: 0.5),

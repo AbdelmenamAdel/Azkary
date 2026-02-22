@@ -1,7 +1,6 @@
 import 'package:azkar/core/manager/app_cubit.dart';
 import 'package:azkar/core/manager/app_state.dart';
 import 'package:azkar/core/theme/app_themes.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

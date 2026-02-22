@@ -114,101 +114,111 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // ── Drag handle ──────────────────────────────────────
-          Padding(
-            padding: const EdgeInsets.only(top: 14, bottom: 4),
-            child: Container(
-              width: 44,
-              height: 4,
-              decoration: BoxDecoration(
-                color: isDark
-                    ? Colors.white.withValues(alpha: 0.25)
-                    : Colors.black.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-
           // ── Header ────────────────────────────────────────────
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(24, 16, 24, 18),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  primary.withValues(alpha: isDark ? 0.25 : 0.12),
-                  primary.withValues(alpha: 0.0),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: primary.withValues(alpha: 0.15),
-                    shape: BoxShape.circle,
+          Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(24, 36, 24, 18),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      primary.withValues(alpha: isDark ? 0.50 : 0.2),
+                      primary.withValues(alpha: 0.00),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
-                  child: Icon(Icons.security_rounded, color: primary, size: 24),
                 ),
-                const SizedBox(width: 14),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    Text(
-                      context.translate('permissions'),
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w900,
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: textColor.withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.security_rounded,
                         color: textColor,
+                        size: 24,
                       ),
                     ),
-                    Text(
-                      context.translate('permissions_subtitle'),
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 12,
-                        color: subtext,
-                      ),
+                    const SizedBox(width: 14),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.translate('permissions'),
+                          style: TextStyle(
+                            fontFamily: 'Cairo',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            color: textColor,
+                          ),
+                        ),
+                        Text(
+                          context.translate('permissions_subtitle'),
+                          style: TextStyle(
+                            fontFamily: 'Cairo',
+                            fontSize: 10,
+                            color: subtext,
+                          ),
+                        ),
+                      ],
                     ),
+                    const Spacer(),
+                    // Global status badge
+                    if (!_isLoading)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: _allGranted
+                              ? Colors.green.withValues(alpha: 0.15)
+                              : secondary.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: _allGranted
+                                ? Colors.green.withValues(alpha: 0.4)
+                                : secondary.withValues(alpha: 0.4),
+                          ),
+                        ),
+                        child: Text(
+                          _allGranted
+                              ? context.translate('perm_all_granted')
+                              : context.translate('perm_incomplete'),
+                          style: TextStyle(
+                            fontFamily: 'Cairo',
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: _allGranted ? Colors.green : secondary,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
-                const Spacer(),
-                // Global status badge
-                if (!_isLoading)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
+              ),
+
+              Align(
+                child: // ── Drag handle ──────────────────────────────────────
+                Padding(
+                  padding: const EdgeInsets.only(top: 14, bottom: 4),
+                  child: Container(
+                    width: 44,
+                    height: 4,
                     decoration: BoxDecoration(
-                      color: _allGranted
-                          ? Colors.green.withValues(alpha: 0.15)
-                          : secondary.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: _allGranted
-                            ? Colors.green.withValues(alpha: 0.4)
-                            : secondary.withValues(alpha: 0.4),
-                      ),
-                    ),
-                    child: Text(
-                      _allGranted
-                          ? context.translate('perm_all_granted')
-                          : context.translate('perm_incomplete'),
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        color: _allGranted ? Colors.green : secondary,
-                      ),
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.25)
+                          : Colors.black.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(2),
                     ),
                   ),
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
 
           Divider(color: dividerColor, height: 1),
@@ -319,17 +329,23 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
                       setState(() => _isLoading = true);
                       _loadStatuses();
                     },
-                    icon: Icon(Icons.refresh_rounded, color: primary, size: 18),
+                    icon: Icon(
+                      Icons.refresh_rounded,
+                      color: textColor,
+                      size: 18,
+                    ),
                     label: Text(
                       context.translate('perm_refresh'),
                       style: TextStyle(
                         fontFamily: 'Cairo',
-                        color: primary,
+                        color: textColor,
+                        fontSize: 12,
+
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: primary.withValues(alpha: 0.4)),
+                      side: BorderSide(color: textColor.withValues(alpha: 0.4)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
@@ -350,6 +366,7 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
                       context.translate('perm_open_settings'),
                       style: const TextStyle(
                         fontFamily: 'Cairo',
+                        fontSize: 12,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -440,7 +457,7 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
                       style: TextStyle(
                         fontFamily: 'Cairo',
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontSize: 12,
                         color: textColor,
                       ),
                     ),
@@ -449,7 +466,7 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
                       subtitle,
                       style: TextStyle(
                         fontFamily: 'Cairo',
-                        fontSize: 12,
+                        fontSize: 10,
                         color: subtext,
                       ),
                     ),
@@ -476,7 +493,7 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
                           : context.translate('perm_disabled'),
                       style: TextStyle(
                         fontFamily: 'Cairo',
-                        fontSize: 11,
+                        fontSize: 8,
                         fontWeight: FontWeight.bold,
                         color: statusColor,
                       ),
@@ -490,7 +507,7 @@ class _PermissionsBottomSheetState extends State<PermissionsBottomSheet>
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                       width: 50,
-                      height: 26,
+                      height: 24,
                       decoration: BoxDecoration(
                         color: isGranted
                             ? Colors.green
