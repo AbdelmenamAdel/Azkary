@@ -69,7 +69,7 @@ ${example.isEmpty ? 'Not specified' : example}
 
     await urlLauncher(
       context,
-      "mailto:abdelmoneim.adel5@gmail.com?subject=Azkary Feature Suggestion&body=${Uri.encodeComponent(body)}",
+      "https://mail.google.com/mail/u/0/?view=cm&fs=1&to=abdelmoneim.adel5@gmail.com&su=Athkary Feature Suggestion&body=${Uri.encodeComponent(body)}",
     );
     if (mounted) Navigator.pop(context);
   }
@@ -102,8 +102,7 @@ ${why.isEmpty ? 'Not specified' : why}
 📱 Example:
 ${example.isEmpty ? 'Not specified' : example}''';
 
-    String url =
-        "whatsapp://send?phone=$whatsapp&text=${Uri.encodeComponent(message)}";
+    String url = "https://wa.me/$whatsapp?text=${Uri.encodeComponent(message)}";
 
     await urlLauncher(context, url);
     if (mounted) Navigator.pop(context);

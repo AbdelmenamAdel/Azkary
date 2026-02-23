@@ -80,7 +80,7 @@ $actual
 
     await urlLauncher(
       context,
-      "mailto:abdelmoneim.adel5@gmail.com?subject=Azkary Bug Report&body=${Uri.encodeComponent(body)}",
+      "https://mail.google.com/mail/u/0/?view=cm&fs=1&to=abdelmoneim.adel5@gmail.com&su=Athkary Bug Report&body=${Uri.encodeComponent(body)}",
     );
     if (mounted) Navigator.pop(context);
   }
@@ -117,8 +117,7 @@ $expected
 ❌ Actual:
 $actual''';
 
-    String url =
-        "whatsapp://send?phone=$whatsapp&text=${Uri.encodeComponent(message)}";
+    String url = "https://wa.me/$whatsapp?text=${Uri.encodeComponent(message)}";
 
     await urlLauncher(context, url);
     if (mounted) Navigator.pop(context);
