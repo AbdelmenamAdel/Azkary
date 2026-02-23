@@ -317,25 +317,45 @@ class NotificationService {
     // Timing: Early morning, mid-morning, midday, afternoon, evening, night
     final notificationTimes = [
       (hour: 3, minute: 0), // Early morning
+      (hour: 3, minute: 30), // Early morning
       (hour: 4, minute: 0), // Early morning
+      (hour: 4, minute: 30), // Early morning
       (hour: 5, minute: 0), // Early morning
+      (hour: 5, minute: 30), // Early morning
       (hour: 6, minute: 0), // Early morning
+      (hour: 6, minute: 30), // Early morning
       (hour: 7, minute: 0), // Early morning
+      (hour: 7, minute: 30), // Early morning
       (hour: 8, minute: 0), // Early morning
+      (hour: 8, minute: 30), // Early morning
       (hour: 9, minute: 0), // Mid-morning
+      (hour: 9, minute: 30), // Mid-morning
       (hour: 10, minute: 0), // Mid-morning
+      (hour: 10, minute: 30), // Mid-morning
       (hour: 11, minute: 0), // Mid-morning
+      (hour: 11, minute: 30), // Mid-morning
       (hour: 12, minute: 0), // Midday
+      (hour: 12, minute: 30), // Midday
       (hour: 13, minute: 0), // Afternoon
+      (hour: 13, minute: 30), // Afternoon
       (hour: 14, minute: 0), // Afternoon
+      (hour: 14, minute: 30), // Afternoon
       (hour: 15, minute: 0), // Afternoon
+      (hour: 15, minute: 30), // Afternoon
       (hour: 16, minute: 0), // Evening
+      (hour: 16, minute: 30), // Evening
       (hour: 17, minute: 0), // Evening
+      (hour: 17, minute: 30), // Evening
       (hour: 18, minute: 0), // Evening
+      (hour: 18, minute: 30), // Evening
       (hour: 19, minute: 0), // Night
+      (hour: 19, minute: 30), // Night
       (hour: 20, minute: 0), // Night
+      (hour: 20, minute: 30), // Night
       (hour: 21, minute: 0), // Night
+      (hour: 21, minute: 30), // Night
       (hour: 22, minute: 0), // Night
+      (hour: 22, minute: 30), // Night
       (hour: 23, minute: 0), // Night
     ];
 
