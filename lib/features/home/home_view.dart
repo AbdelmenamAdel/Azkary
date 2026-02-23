@@ -8,8 +8,12 @@ import 'package:azkar/features/home/widgets/doaa_image_section.dart';
 import 'package:azkar/features/home/widgets/e_rosary.dart';
 import 'package:azkar/features/home/widgets/prayer_times_section.dart';
 import 'package:azkar/features/home/widgets/permissions_bottom_sheet.dart';
+import 'package:azkar/features/home/widgets/bug_report_sheet.dart';
+import 'package:azkar/features/home/widgets/suggestions_sheet.dart';
+import 'package:azkar/features/home/widgets/support_developer_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:azkar/core/services/notification_service.dart';
 import 'package:azkar/core/services/services_locator.dart';
 
@@ -87,29 +91,29 @@ class _HomeViewState extends State<HomeView> {
                   _showThemeDialog(context);
                 },
               ),
-              if (false)
-                ListTile(
-                  leading: Icon(
-                    Icons.notifications_active,
-                    color: colors.secondary,
-                  ),
-                  title: Text(
-                    "تجربة التنبيهات",
-                    style: TextStyle(
-                      fontFamily: 'Cairo',
-                      color: context.colors.text,
-                    ),
-                  ),
-                  trailing: Icon(
-                    Icons.play_arrow,
-                    color: colors.text?.withValues(alpha: 0.5),
-                    size: 16,
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    sl<NotificationService>().testNotification();
-                  },
+              // if (false)
+              ListTile(
+                leading: Icon(
+                  Icons.notifications_active,
+                  color: colors.secondary,
                 ),
+                title: Text(
+                  "تجربة التنبيهات",
+                  style: TextStyle(
+                    fontFamily: 'Cairo',
+                    color: context.colors.text,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.play_arrow,
+                  color: colors.text?.withValues(alpha: 0.5),
+                  size: 16,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  sl<NotificationService>().testNotification();
+                },
+              ),
               Divider(color: colors.text?.withValues(alpha: 0.1)),
               ListTile(
                 leading: Icon(Icons.security_rounded, color: colors.secondary),
@@ -153,6 +157,112 @@ class _HomeViewState extends State<HomeView> {
                     builder: (context) => const AutherMedia(),
                   );
                 },
+              ),
+              Divider(color: colors.text?.withValues(alpha: 0.1)),
+              // Feedback Expansion Tile
+              Theme(
+                data: Theme.of(
+                  context,
+                ).copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  leading: Icon(
+                    Icons.feedback_rounded,
+                    color: colors.secondary,
+                  ),
+                  title: Text(
+                    context.translate('feedback_title'),
+                    style: TextStyle(
+                      color: colors.text,
+                      fontFamily: 'Cairo',
+                      // fontSize: 14,
+                    ),
+                  ),
+                  children: [
+                    Container(
+                      color: colors.primary?.withValues(alpha: 0.05),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.bug_report_rounded,
+                          color: Colors.red,
+                        ),
+                        title: Text(
+                          context.translate('feedback_bugs'),
+                          style: TextStyle(
+                            color: colors.text,
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (_) => const BugReportSheet(),
+                          );
+                        },
+                      ),
+                    ),
+                    Divider(
+                      color: colors.text?.withValues(alpha: 0.1),
+                      height: 1,
+                    ),
+                    Container(
+                      color: colors.primary?.withValues(alpha: 0.025),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.lightbulb_rounded,
+                          color: Colors.amber,
+                        ),
+                        title: Text(
+                          context.translate('feedback_suggestions'),
+                          style: TextStyle(
+                            color: colors.text,
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (_) => const SuggestionsSheet(),
+                          );
+                        },
+                      ),
+                    ),
+                    Divider(
+                      color: colors.text?.withValues(alpha: 0.1),
+                      height: 1,
+                    ),
+                    Container(
+                      color: colors.primary?.withValues(alpha: 0.05),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.favorite_rounded,
+                          color: Colors.pink,
+                        ),
+                        title: Text(
+                          context.translate('feedback_support'),
+                          style: TextStyle(
+                            color: colors.text,
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (_) => const SupportDeveloperSheet(),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
