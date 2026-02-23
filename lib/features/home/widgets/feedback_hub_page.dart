@@ -216,7 +216,7 @@ ${_suggestionExampleController.text.trim().isEmpty ? 'Not specified' : _suggesti
   Future<void> _contactSupportViaEmail() async {
     const email = "abdelmoneim.adel5@gmail.com";
     final message = _supportMessageController.text.trim();
-    final subject = 'Support for Azkary App Development';
+    const subject = 'Support for Azkary App Development';
     final body = message.isEmpty
         ? "Hi Abdelmoneim,\n\nI want to support your app development.\n\nBest regards"
         : "Hi Abdelmoneim,\n\n$message\n\nBest regards";
@@ -377,7 +377,7 @@ ${_suggestionExampleController.text.trim().isEmpty ? 'Not specified' : _suggesti
                                   const SizedBox(width: 8),
                                   Text(
                                     context.translate('bug_severity_low'),
-                                    style: TextStyle(fontFamily: 'Cairo'),
+                                    style: const TextStyle(fontFamily: 'Cairo'),
                                   ),
                                 ],
                               ),
@@ -397,7 +397,7 @@ ${_suggestionExampleController.text.trim().isEmpty ? 'Not specified' : _suggesti
                                   const SizedBox(width: 8),
                                   Text(
                                     context.translate('bug_severity_medium'),
-                                    style: TextStyle(fontFamily: 'Cairo'),
+                                    style: const TextStyle(fontFamily: 'Cairo'),
                                   ),
                                 ],
                               ),
@@ -417,7 +417,7 @@ ${_suggestionExampleController.text.trim().isEmpty ? 'Not specified' : _suggesti
                                   const SizedBox(width: 8),
                                   Text(
                                     context.translate('bug_severity_high'),
-                                    style: TextStyle(fontFamily: 'Cairo'),
+                                    style: const TextStyle(fontFamily: 'Cairo'),
                                   ),
                                 ],
                               ),
@@ -437,7 +437,7 @@ ${_suggestionExampleController.text.trim().isEmpty ? 'Not specified' : _suggesti
                                   const SizedBox(width: 8),
                                   Text(
                                     context.translate('bug_critical'),
-                                    style: TextStyle(fontFamily: 'Cairo'),
+                                    style: const TextStyle(fontFamily: 'Cairo'),
                                   ),
                                 ],
                               ),

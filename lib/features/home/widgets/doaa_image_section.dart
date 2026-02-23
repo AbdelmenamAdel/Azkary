@@ -30,7 +30,7 @@ class DoaaImageSection extends StatelessWidget {
             children: [
               Image.asset(
                 AppImages.doaa,
-                height: 350.h,
+                height: 300.h,
                 width: double.infinity,
                 fit: BoxFit.fill,
               ),
