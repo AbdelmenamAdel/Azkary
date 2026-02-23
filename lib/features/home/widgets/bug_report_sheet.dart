@@ -489,35 +489,31 @@ $actual''';
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: _submitViaWhatsApp,
-                        icon: const Icon(
-                          FontAwesomeIcons.whatsapp,
-                          color: Colors.green,
-                          size: 18,
-                        ),
-                        label: Text(
-                          context.translate('feedback_whatsapp'),
-                          style: TextStyle(
-                            fontFamily: 'Cairo',
-                            color: textColor,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          side: BorderSide(
-                            color: Colors.green.withValues(alpha: 0.5),
-                            width: 1.5,
-                          ),
-                        ),
+                  OutlinedButton.icon(
+                    onPressed: _submitViaWhatsApp,
+                    icon: const Icon(
+                      FontAwesomeIcons.whatsapp,
+                      color: Colors.green,
+                      size: 18,
+                    ),
+                    label: Text(
+                      context.translate('feedback_whatsapp'),
+                      style: TextStyle(
+                        fontFamily: 'Cairo',
+                        color: textColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(48),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      side: BorderSide(
+                        color: Colors.green.withValues(alpha: 0.5),
+                        width: 1.5,
                       ),
                     ),
                   ),

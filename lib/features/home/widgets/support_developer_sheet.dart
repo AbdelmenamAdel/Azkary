@@ -63,15 +63,15 @@ class _SupportDeveloperSheetState extends State<SupportDeveloperSheet>
     if (mounted) Navigator.pop(context);
   }
 
-  Future<void> _openPayPal() async {
+  Future<void> _openInstaPay() async {
     // Replace with actual PayPal link
-    const paypalLink = "https://www.paypal.com/paypalme/AbdelmoneimAdel";
-    await urlLauncher(context, paypalLink);
+    const instaPayLink = "https://ipn.eg/S/abdelmoneim.adel5/instapay/11p1DV";
+    await urlLauncher(context, instaPayLink);
   }
 
   Future<void> _openBuyMeCoffee() async {
     // Replace with actual Buy Me a Coffee link
-    const coffeeLink = "https://buymeacoffee.com/abdelmoneim";
+    const coffeeLink = "https://buymeacoffee.com/abdelmoneim.adel";
     await urlLauncher(context, coffeeLink);
   }
 
@@ -309,7 +309,7 @@ class _SupportDeveloperSheetState extends State<SupportDeveloperSheet>
                     icon: FontAwesomeIcons.paypal,
                     iconColor: const Color(0xFF003087),
                     label: context.translate('support_paypal'),
-                    onTap: _openPayPal,
+                    onTap: _openInstaPay,
                   ),
                 ],
               ),
@@ -339,33 +339,24 @@ class _SupportButton extends StatelessWidget {
     final colors = context.colors;
     final textColor = colors.text ?? Colors.black87;
 
-    return SizedBox(
-      width: double.infinity,
-      child: Expanded(
-        child: OutlinedButton.icon(
-          onPressed: onTap,
-          icon: Icon(icon, color: iconColor, size: 18.sp),
-          label: Text(
-            label,
-            style: TextStyle(
-              fontFamily: 'Cairo',
-              color: textColor,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            side: BorderSide(
-              color: iconColor.withValues(alpha: 0.5),
-              width: 1.5,
-            ),
-            backgroundColor: iconColor.withValues(alpha: 0.08),
-          ),
+    return OutlinedButton.icon(
+      onPressed: onTap,
+      icon: Icon(icon, color: iconColor, size: 18.sp),
+      label: Text(
+        label,
+        style: TextStyle(
+          fontFamily: 'Cairo',
+          color: textColor,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.bold,
         ),
+      ),
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        minimumSize: const Size.fromHeight(48),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        side: BorderSide(color: iconColor.withValues(alpha: 0.5), width: 1.5),
+        backgroundColor: iconColor.withValues(alpha: 0.08),
       ),
     );
   }

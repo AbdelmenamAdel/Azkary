@@ -18,6 +18,8 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
   bool _isLoading = true;
   Timer? _countdownTimer;
   Duration _timeUntilNext = Duration.zero;
+  bool _ishaPrefetched =
+      false; // Track if tomorrow's data was prefetched after Isha
 
   final _prayerEnums = const [
     Prayer.fajr,
@@ -46,6 +48,7 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
     setState(() {
       _prayerTimes = times;
       _isLoading = false;
+      _ishaPrefetched = false; // Reset for new day
     });
     _startCountdown();
   }
@@ -60,13 +63,34 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
 
   void _updateCountdown() {
     if (_prayerTimes == null) return;
+
+    final now = DateTime.now();
+    final ishaTime = _prayerTimes!.isha;
+
+    // Check if Isha has passed and prefetch tomorrow's data
+    if (!_ishaPrefetched && now.isAfter(ishaTime)) {
+      _ishaPrefetched = true;
+      _prefetchTomorrowData();
+    }
+
     final next = _prayerTimes!.nextPrayer();
     final nextTime = _prayerTimes!.timeForPrayer(next);
     if (nextTime == null) return;
-    final remaining = nextTime.difference(DateTime.now());
+    final remaining = nextTime.difference(now);
     setState(() {
       _timeUntilNext = remaining.isNegative ? Duration.zero : remaining;
     });
+  }
+
+  void _prefetchTomorrowData() {
+    sl<PrayerTimeService>()
+        .prefetchTomorrowPrayerTimes()
+        .then((result) {
+          debugPrint('Tomorrow prayer times prefetched: $result');
+        })
+        .catchError((e) {
+          debugPrint('Error prefetching tomorrow prayer times: $e');
+        });
   }
 
   String _formatCountdown(Duration d) {

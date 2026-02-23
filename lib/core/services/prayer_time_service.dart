@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 class PrayerTimeService {
   static const _cacheKey = 'prayer_times_cache';
+  static const _tomorrowCacheKey = 'prayer_times_tomorrow_cache';
 
   // Returns cached prayer times if available for today, otherwise fetches fresh
   Future<PrayerTimes> getPrayerTimes() async {
@@ -37,6 +38,37 @@ class PrayerTimeService {
     await _saveToCache(lat, lng, now);
 
     return prayerTimes;
+  }
+
+  // Prefetch tomorrow's prayer times and cache them
+  Future<PrayerTimes?> prefetchTomorrowPrayerTimes() async {
+    try {
+      final position = await _getCurrentLocation();
+
+      double lat = 30.0444; // Default: Cairo
+      double lng = 31.2357;
+      if (position != null) {
+        lat = position.latitude;
+        lng = position.longitude;
+      }
+
+      final coordinates = Coordinates(lat, lng);
+      final params = CalculationMethod.egyptian.getParameters();
+      params.madhab = Madhab.shafi;
+
+      final tomorrow = DateTime.now().add(const Duration(days: 1));
+      final date = DateComponents.from(tomorrow);
+      final prayerTimes = PrayerTimes(coordinates, date, params);
+
+      // Save tomorrow's data to cache
+      await _saveTomorrowToCache(lat, lng, tomorrow);
+
+      debugPrint('Tomorrow prayer times prefetched and cached successfully');
+      return prayerTimes;
+    } catch (e) {
+      debugPrint('Error prefetching tomorrow prayer times: $e');
+      return null;
+    }
   }
 
   Future<PrayerTimes?> _loadFromCache() async {
@@ -77,6 +109,24 @@ class PrayerTimeService {
       await storage.write(key: _cacheKey, value: data);
     } catch (e) {
       debugPrint('Prayer cache write error: $e');
+    }
+  }
+
+  Future<void> _saveTomorrowToCache(
+    double lat,
+    double lng,
+    DateTime date,
+  ) async {
+    try {
+      final storage = sl<FlutterSecureStorage>();
+      final data = jsonEncode({
+        'date': DateFormat('yyyy-MM-dd').format(date),
+        'lat': lat,
+        'lng': lng,
+      });
+      await storage.write(key: _tomorrowCacheKey, value: data);
+    } catch (e) {
+      debugPrint('Tomorrow prayer cache write error: $e');
     }
   }
 

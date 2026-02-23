@@ -131,6 +131,7 @@ class AppLocalizations {
       'support_whatsapp': 'تواصل عبر واتس آب',
       'support_coffee': 'اشتر لي قهوة ☕',
       'support_paypal': 'تبرع عبر PayPal',
+      'support_instaPay': 'تبرع عبر InstaPay',
       'support_bank': 'تحويل بنكي',
     },
     'en': {
@@ -258,6 +259,7 @@ class AppLocalizations {
       'support_whatsapp': 'Contact via WhatsApp',
       'support_coffee': 'Buy me a coffee ☕',
       'support_paypal': 'Donate via PayPal',
+      'support_instaPay': 'Donate via InstaPay',
       'support_bank': 'Bank Transfer',
     },
     'fr': {
@@ -378,6 +380,7 @@ class AppLocalizations {
       'support_whatsapp': 'Contactez via WhatsApp',
       'support_coffee': 'Offrez-moi un café ☕',
       'support_paypal': 'Faire un don via PayPal',
+      'support_instaPay': 'Faire un don via InstaPay',
       'support_bank': 'Virement Bancaire',
     },
     'de': {
@@ -452,6 +455,15 @@ class AppLocalizations {
       'prayer_asr': 'Asr',
       'prayer_maghrib': 'Maghrib',
       'prayer_isha': 'Ischa',
+      // Support Developer
+      'support_title': 'Unterstützer des Entwicklers',
+      'support_message': 'Danke für die Unterstützung der App-Entwicklung',
+      'support_method': 'Unterstützungsart wählen',
+      'support_whatsapp': 'Kontakt über WhatsApp',
+      'support_coffee': 'Kauf mir einen Kaffee ☕',
+      'support_paypal': 'Spende über PayPal',
+      'support_instaPay': 'Spende über InstaPay',
+      'support_bank': 'Banküberweisung',
       'feedback_title': 'Feedback / Vorschläge',
       'feedback_label': 'Wie können wir uns verbessern?',
       'feedback_hint':

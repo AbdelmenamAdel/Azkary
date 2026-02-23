@@ -10,12 +10,12 @@ import 'package:azkar/features/home/widgets/prayer_times_section.dart';
 import 'package:azkar/features/home/widgets/permissions_bottom_sheet.dart';
 import 'package:azkar/features/home/widgets/bug_report_sheet.dart';
 import 'package:azkar/features/home/widgets/suggestions_sheet.dart';
-import 'package:azkar/features/home/widgets/support_developer_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:azkar/core/services/notification_service.dart';
 import 'package:azkar/core/services/services_locator.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -26,6 +26,293 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLocationPermissionOnFirstLaunch();
+  }
+
+  Future<void> _checkLocationPermissionOnFirstLaunch() async {
+    try {
+      final storage = sl<FlutterSecureStorage>();
+      final hasShownLocationDialog = await storage.read(
+        key: 'location_permission_shown',
+      );
+
+      if (hasShownLocationDialog == null) {
+        // First launch, show location dialog
+        await storage.write(key: 'location_permission_shown', value: 'true');
+        final status = await Geolocator.checkPermission();
+        if (mounted && status == LocationPermission.denied) {
+          _showLocationPermissionDialog();
+        }
+      } else {
+        // Not first launch, but still check if permission is disabled
+        final status = await Geolocator.checkPermission();
+        if (mounted && status == LocationPermission.denied) {
+          // Location is not enabled, show dialog if user hasn't used app yet today
+          final lastCheck = await storage.read(key: 'last_location_check');
+          final today = DateTime.now().toString().split(' ')[0];
+
+          if (lastCheck != today) {
+            await storage.write(key: 'last_location_check', value: today);
+            _showLocationPermissionDialog();
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Error checking location permission: $e');
+    }
+  }
+
+  void _showLocationPermissionDialog() {
+    final colors = context.colors;
+    final textColor = colors.text ?? Colors.black87;
+
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.blue.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.location_on,
+                  color: Colors.blue,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  context.translate('perm_location'),
+                  style: TextStyle(
+                    fontFamily: 'Cairo',
+                    fontWeight: FontWeight.w900,
+                    color: textColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'نحتاج إلى الوصول إلى موقعك لحساب أوقات الصلاة بدقة.',
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  fontSize: 14,
+                  color: textColor.withValues(alpha: 0.8),
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.blue.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: Colors.blue.withValues(alpha: 0.2),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.info_outline,
+                      color: Colors.blue,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'هذا سيساعدنا في تقديم أوقات صلاة دقيقة لموقعك.',
+                        style: TextStyle(
+                          fontFamily: 'Cairo',
+                          fontSize: 12,
+                          color: Colors.blue.withValues(alpha: 0.8),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(
+                'ليس الآن',
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  color: textColor.withValues(alpha: 0.6),
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                _requestLocationPermission();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+              ),
+              child: const Text(
+                'السماح',
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _requestLocationPermission() async {
+    try {
+      final status = await Geolocator.requestPermission();
+      if (mounted) {
+        if (status == LocationPermission.denied) {
+          // User denied permission
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'لم تسمح بالوصول إلى الموقع. سيتم استخدام القاهرة كموقع افتراضي.',
+                style: TextStyle(fontFamily: 'Cairo'),
+              ),
+              backgroundColor: Colors.orange,
+            ),
+          );
+        } else if (status == LocationPermission.deniedForever) {
+          // User denied permanently, open app settings
+          _showOpenSettingsDialog();
+        } else if (status == LocationPermission.whileInUse ||
+            status == LocationPermission.always) {
+          // Permission granted
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'شكراً! سيتم استخدام موقعك لحساب أوقات الصلاة.',
+                style: TextStyle(fontFamily: 'Cairo'),
+              ),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('Error requesting location permission: $e');
+    }
+  }
+
+  void _showOpenSettingsDialog() {
+    final colors = context.colors;
+    final textColor = colors.text ?? Colors.black87;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.red.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.warning_outlined,
+                  color: Colors.red,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'السماح بالموقع',
+                  style: TextStyle(
+                    fontFamily: 'Cairo',
+                    fontWeight: FontWeight.w900,
+                    color: textColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            'قمت برفض إذن الموقع نهائياً. يرجى فتح إعدادات التطبيق والسماح بالوصول إلى الموقع.',
+            style: TextStyle(
+              fontFamily: 'Cairo',
+              fontSize: 14,
+              color: textColor.withValues(alpha: 0.8),
+              height: 1.5,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(
+                'إلغاء',
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  color: textColor.withValues(alpha: 0.6),
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                Geolocator.openAppSettings();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              child: const Text(
+                'فتح الإعدادات',
+                style: TextStyle(
+                  fontFamily: 'Cairo',
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,209 +348,206 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
               ),
-              ListTile(
-                leading: Icon(Icons.language, color: colors.secondary),
-                title: Text(
-                  context.translate('language'),
-                  style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: colors.text?.withValues(alpha: 0.5),
-                  size: 16,
-                ),
-                onTap: () {
-                  _showLanguageDialog(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.palette, color: colors.secondary),
-                title: Text(
-                  context.translate('themes'),
-                  style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: colors.text?.withValues(alpha: 0.5),
-                  size: 16,
-                ),
-                onTap: () {
-                  _showThemeDialog(context);
-                },
-              ),
-              // if (false)
-              ListTile(
-                leading: Icon(
-                  Icons.notifications_active,
-                  color: colors.secondary,
-                ),
-                title: Text(
-                  "تجربة التنبيهات",
-                  style: TextStyle(
-                    fontFamily: 'Cairo',
-                    color: context.colors.text,
-                  ),
-                ),
-                trailing: Icon(
-                  Icons.play_arrow,
-                  color: colors.text?.withValues(alpha: 0.5),
-                  size: 16,
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  sl<NotificationService>().testNotification();
-                },
-              ),
-              Divider(color: colors.text?.withValues(alpha: 0.1)),
-              ListTile(
-                leading: Icon(Icons.security_rounded, color: colors.secondary),
-                title: Text(
-                  context.translate('permissions'),
-                  style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: colors.text?.withValues(alpha: 0.5),
-                  size: 16,
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (_) => const PermissionsBottomSheet(),
-                  );
-                },
-              ),
-              Divider(color: colors.text?.withValues(alpha: 0.1)),
-              ListTile(
-                leading: Icon(Icons.person, color: colors.secondary),
-                title: Text(
-                  context.translate('contact_developer'),
-                  style: TextStyle(color: colors.text, fontFamily: 'Cairo'),
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: colors.text?.withValues(alpha: 0.5),
-                  size: 16,
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => const AutherMedia(),
-                  );
-                },
-              ),
-              Divider(color: colors.text?.withValues(alpha: 0.1)),
-              // Feedback Expansion Tile
-              Theme(
-                data: Theme.of(
-                  context,
-                ).copyWith(dividerColor: Colors.transparent),
-                child: ExpansionTile(
-                  leading: Icon(
-                    Icons.feedback_rounded,
-                    color: colors.secondary,
-                  ),
-                  title: Text(
-                    context.translate('feedback_title'),
-                    style: TextStyle(
-                      color: colors.text,
-                      fontFamily: 'Cairo',
-                      // fontSize: 14,
-                    ),
-                  ),
+              SingleChildScrollView(
+                child: Column(
                   children: [
-                    Container(
-                      color: colors.primary?.withValues(alpha: 0.05),
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.bug_report_rounded,
-                          color: Colors.red,
+                    ListTile(
+                      leading: Icon(Icons.language, color: colors.secondary),
+                      title: Text(
+                        context.translate('language'),
+                        style: TextStyle(
+                          color: colors.text,
+                          fontFamily: 'Cairo',
                         ),
-                        title: Text(
-                          context.translate('feedback_bugs'),
-                          style: TextStyle(
-                            color: colors.text,
-                            fontFamily: 'Cairo',
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (_) => const BugReportSheet(),
-                          );
-                        },
                       ),
-                    ),
-                    Divider(
-                      color: colors.text?.withValues(alpha: 0.1),
-                      height: 1,
-                    ),
-                    Container(
-                      color: colors.primary?.withValues(alpha: 0.025),
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.lightbulb_rounded,
-                          color: Colors.amber,
-                        ),
-                        title: Text(
-                          context.translate('feedback_suggestions'),
-                          style: TextStyle(
-                            color: colors.text,
-                            fontFamily: 'Cairo',
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (_) => const SuggestionsSheet(),
-                          );
-                        },
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: colors.text?.withValues(alpha: 0.5),
+                        size: 16,
                       ),
+                      onTap: () {
+                        _showLanguageDialog(context);
+                      },
                     ),
-                    Divider(
-                      color: colors.text?.withValues(alpha: 0.1),
-                      height: 1,
+                    ListTile(
+                      leading: Icon(Icons.palette, color: colors.secondary),
+                      title: Text(
+                        context.translate('themes'),
+                        style: TextStyle(
+                          color: colors.text,
+                          fontFamily: 'Cairo',
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: colors.text?.withValues(alpha: 0.5),
+                        size: 16,
+                      ),
+                      onTap: () {
+                        _showThemeDialog(context);
+                      },
                     ),
-                    Container(
-                      color: colors.primary?.withValues(alpha: 0.05),
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.favorite_rounded,
-                          color: Colors.pink,
+                    // if (false)
+                    ListTile(
+                      leading: Icon(
+                        Icons.notifications_active,
+                        color: colors.secondary,
+                      ),
+                      title: Text(
+                        "تجربة التنبيهات",
+                        style: TextStyle(
+                          fontFamily: 'Cairo',
+                          color: context.colors.text,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.play_arrow,
+                        color: colors.text?.withValues(alpha: 0.5),
+                        size: 16,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        sl<NotificationService>().testNotification();
+                      },
+                    ),
+                    Divider(color: colors.text?.withValues(alpha: 0.1)),
+                    ListTile(
+                      leading: Icon(
+                        Icons.security_rounded,
+                        color: colors.secondary,
+                      ),
+                      title: Text(
+                        context.translate('permissions'),
+                        style: TextStyle(
+                          color: colors.text,
+                          fontFamily: 'Cairo',
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: colors.text?.withValues(alpha: 0.5),
+                        size: 16,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (_) => const PermissionsBottomSheet(),
+                        );
+                      },
+                    ),
+                    Divider(color: colors.text?.withValues(alpha: 0.1)),
+                    // Feedback Expansion Tile
+                    Theme(
+                      data: Theme.of(
+                        context,
+                      ).copyWith(dividerColor: Colors.transparent),
+                      child: ExpansionTile(
+                        leading: Icon(
+                          Icons.feedback_rounded,
+                          color: colors.secondary,
                         ),
                         title: Text(
-                          context.translate('feedback_support'),
+                          context.translate('feedback_title'),
                           style: TextStyle(
                             color: colors.text,
                             fontFamily: 'Cairo',
+                            // fontSize: 14,
                           ),
                         ),
-                        onTap: () {
-                          Navigator.pop(context);
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (_) => const SupportDeveloperSheet(),
-                          );
-                        },
+                        children: [
+                          Container(
+                            color: colors.primary?.withValues(alpha: 0.05),
+                            child: ListTile(
+                              leading: const Icon(
+                                Icons.bug_report_rounded,
+                                color: Colors.red,
+                              ),
+                              title: Text(
+                                context.translate('feedback_bugs'),
+                                style: TextStyle(
+                                  color: colors.text,
+                                  fontFamily: 'Cairo',
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pop(context);
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) => const BugReportSheet(),
+                                );
+                              },
+                            ),
+                          ),
+                          Divider(
+                            color: colors.text?.withValues(alpha: 0.1),
+                            height: 1,
+                          ),
+                          Container(
+                            color: colors.primary?.withValues(alpha: 0.025),
+                            child: ListTile(
+                              leading: const Icon(
+                                Icons.lightbulb_rounded,
+                                color: Colors.amber,
+                              ),
+                              title: Text(
+                                context.translate('feedback_suggestions'),
+                                style: TextStyle(
+                                  color: colors.text,
+                                  fontFamily: 'Cairo',
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pop(context);
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) => const SuggestionsSheet(),
+                                );
+                              },
+                            ),
+                          ),
+                          Divider(
+                            color: colors.text?.withValues(alpha: 0.1),
+                            height: 1,
+                          ),
+                          Container(
+                            color: colors.primary?.withValues(alpha: 0.05),
+                            child: ListTile(
+                              leading: const Icon(
+                                Icons.person,
+                                color: Colors.teal,
+                              ),
+                              title: Text(
+                                context.translate('contact_developer'),
+                                style: TextStyle(
+                                  color: colors.text,
+                                  fontFamily: 'Cairo',
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pop(context);
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) => const AutherMedia(),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
+              // app current version
             ],
           ),
         ),
