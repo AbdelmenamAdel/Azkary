@@ -9,14 +9,14 @@ import 'package:intl/intl.dart';
 class PrayerTimeService {
   static const _cacheKey = 'prayer_times_cache';
   static const _tomorrowCacheKey = 'prayer_times_tomorrow_cache';
-  static const _locationCacheKey = 'location_cache';
-  
+  // static const _locationCacheKey = 'location_cache';
+
   // OPTIMIZATION: Cache location for 1 hour to reduce geolocation calls
   static const _locationCacheExpiration = Duration(hours: 1);
-  
+
   // OPTIMIZATION: Track when we last fetched tomorrow's prayer times
   static const _tomorrowPrefetchKey = 'tomorrow_prayer_prefetch_time';
-  
+
   Position? _cachedPosition;
   DateTime? _cachedPositionTime;
 
