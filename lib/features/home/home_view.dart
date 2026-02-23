@@ -17,6 +17,7 @@ import 'package:azkar/core/services/services_locator.dart';
 import 'package:azkar/core/services/version_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -27,6 +28,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _locationDialogShown = false; // OPTIMIZATION: Track dialog state
 
   @override
   void initState() {
@@ -37,31 +39,41 @@ class _HomeViewState extends State<HomeView> {
   Future<void> _checkLocationPermissionOnFirstLaunch() async {
     try {
       final storage = sl<FlutterSecureStorage>();
-      final hasShownLocationDialog = await storage.read(
-        key: 'location_permission_shown',
+
+      // OPTIMIZATION: Use a single storage key to track all permission checks
+      final permissionCheckData = await storage.read(
+        key: 'permission_check_data',
       );
 
-      if (hasShownLocationDialog == null) {
-        // First launch, show location dialog
-        await storage.write(key: 'location_permission_shown', value: 'true');
-        final status = await Geolocator.checkPermission();
-        if (mounted && status == LocationPermission.denied) {
-          _showLocationPermissionDialog();
-        }
-      } else {
-        // Not first launch, but still check if permission is disabled
-        final status = await Geolocator.checkPermission();
-        if (mounted && status == LocationPermission.denied) {
-          // Location is not enabled, show dialog if user hasn't used app yet today
-          final lastCheck = await storage.read(key: 'last_location_check');
-          final today = DateTime.now().toString().split(' ')[0];
+      final today = DateTime.now().toString().split(' ')[0];
+      Map<String, dynamic> data = {};
 
-          if (lastCheck != today) {
-            await storage.write(key: 'last_location_check', value: today);
-            _showLocationPermissionDialog();
-          }
-        }
+      if (permissionCheckData != null) {
+        data = jsonDecode(permissionCheckData) as Map<String, dynamic>;
       }
+
+      final lastCheckDate = data['last_check_date'] as String?;
+
+      // Only check once per day to reduce storage operations
+      if (lastCheckDate == today) {
+        return; // Already checked today
+      }
+
+      if (!mounted) return;
+
+      final status = await Geolocator.checkPermission();
+
+      if (status == LocationPermission.denied && !_locationDialogShown) {
+        _locationDialogShown = true;
+        _showLocationPermissionDialog();
+      }
+
+      // OPTIMIZATION: Update check data in one storage write
+      data['last_check_date'] = today;
+      await storage.write(
+        key: 'permission_check_data',
+        value: jsonEncode(data),
+      );
     } catch (e) {
       debugPrint('Error checking location permission: $e');
     }

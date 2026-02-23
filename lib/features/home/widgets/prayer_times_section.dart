@@ -13,13 +13,15 @@ class PrayerTimesSection extends StatefulWidget {
   State<PrayerTimesSection> createState() => _PrayerTimesSectionState();
 }
 
-class _PrayerTimesSectionState extends State<PrayerTimesSection> {
+class _PrayerTimesSectionState extends State<PrayerTimesSection>
+    with WidgetsBindingObserver {
   PrayerTimes? _prayerTimes;
   bool _isLoading = true;
   Timer? _countdownTimer;
   Duration _timeUntilNext = Duration.zero;
   bool _ishaPrefetched =
       false; // Track if tomorrow's data was prefetched after Isha
+  bool _isWidgetVisible = true; // OPTIMIZATION: Track widget visibility
 
   final _prayerEnums = const [
     Prayer.fajr,
@@ -33,13 +35,31 @@ class _PrayerTimesSectionState extends State<PrayerTimesSection> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _loadPrayerTimes();
   }
 
   @override
   void dispose() {
     _countdownTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  // OPTIMIZATION: Pause timer when app goes to background
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      if (!_isWidgetVisible) {
+        _isWidgetVisible = true;
+        _startCountdown();
+      }
+    } else if (state == AppLifecycleState.paused) {
+      if (_isWidgetVisible) {
+        _isWidgetVisible = false;
+        _countdownTimer?.cancel();
+      }
+    }
   }
 
   Future<void> _loadPrayerTimes() async {

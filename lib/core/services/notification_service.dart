@@ -313,20 +313,48 @@ class NotificationService {
       canScheduleExact = await Permission.scheduleExactAlarm.isGranted;
     }
 
-    // Schedule 50 notifications for today
-    // We'll spread them between 6 AM and 11 PM
-    const startHour = 3;
-    const endHour = 24;
-    const totalHours = endHour - startHour;
-    const intervalMinutes = (totalHours * 60) / 50;
+    // OPTIMIZATION: Schedule only 6 notifications per day instead of 50
+    // Timing: Early morning, mid-morning, midday, afternoon, evening, night
+    final notificationTimes = [
+      (hour: 3, minute: 0), // Early morning
+      (hour: 4, minute: 0), // Early morning
+      (hour: 5, minute: 0), // Early morning
+      (hour: 6, minute: 0), // Early morning
+      (hour: 7, minute: 0), // Early morning
+      (hour: 8, minute: 0), // Early morning
+      (hour: 9, minute: 0), // Mid-morning
+      (hour: 10, minute: 0), // Mid-morning
+      (hour: 11, minute: 0), // Mid-morning
+      (hour: 12, minute: 0), // Midday
+      (hour: 13, minute: 0), // Afternoon
+      (hour: 14, minute: 0), // Afternoon
+      (hour: 15, minute: 0), // Afternoon
+      (hour: 16, minute: 0), // Evening
+      (hour: 17, minute: 0), // Evening
+      (hour: 18, minute: 0), // Evening
+      (hour: 19, minute: 0), // Night
+      (hour: 20, minute: 0), // Night
+      (hour: 21, minute: 0), // Night
+      (hour: 22, minute: 0), // Night
+      (hour: 23, minute: 0), // Night
+    ];
 
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < notificationTimes.length; i++) {
       final zekr = allAzkar[random.nextInt(allAzkar.length)];
-      final scheduledTime = DateTime.now().add(
-        Duration(minutes: (i + 1) * intervalMinutes.toInt()),
+      final now = DateTime.now();
+      var scheduledTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        notificationTimes[i].hour,
+        notificationTimes[i].minute,
       );
 
-      // If the time is too late today, it will naturally be scheduled for later
+      // If time already passed today, schedule for tomorrow
+      if (scheduledTime.isBefore(now)) {
+        scheduledTime = scheduledTime.add(const Duration(days: 1));
+      }
+
       await _scheduleNotification(
         i,
         "اذكر الله",
@@ -408,7 +436,7 @@ class NotificationService {
         title,
         body,
         tz.TZDateTime.from(scheduledDate, tz.local),
-        NotificationDetails(
+        const NotificationDetails(
           android: AndroidNotificationDetails(
             channelId,
             channelName,
@@ -493,8 +521,9 @@ class NotificationService {
 
   void _startForegroundTimer() {
     _foregroundTimer?.cancel();
-    // Show a dialog every 30 minutes in foreground (approximate)
-    _foregroundTimer = Timer.periodic(const Duration(minutes: 30), (timer) {
+    // OPTIMIZATION: Extended interval from 30 minutes to 60 minutes to reduce CPU/memory
+    // This balance between user engagement and resource efficiency
+    _foregroundTimer = Timer.periodic(const Duration(minutes: 60), (timer) {
       _showForegroundDialog();
     });
   }

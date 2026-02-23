@@ -10,7 +10,6 @@ class PrayerTimeService {
   static const _cacheKey = 'prayer_times_cache';
   static const _tomorrowCacheKey = 'prayer_times_tomorrow_cache';
 
-  // Returns cached prayer times if available for today, otherwise fetches fresh
   Future<PrayerTimes> getPrayerTimes() async {
     // Try to load from cache first
     final cached = await _loadFromCache();
@@ -43,6 +42,18 @@ class PrayerTimeService {
   // Prefetch tomorrow's prayer times and cache them
   Future<PrayerTimes?> prefetchTomorrowPrayerTimes() async {
     try {
+      // OPTIMIZATION: Only prefetch once per day to reduce operations
+      final storage = sl<FlutterSecureStorage>();
+      final lastPrefetch = await storage.read(key: _tomorrowPrefetchKey);
+      final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+      if (lastPrefetch == today) {
+        debugPrint(
+          'Tomorrow prayer times already prefetched today, skipping...',
+        );
+        return null; // Already prefetched today
+      }
+
       final position = await _getCurrentLocation();
 
       double lat = 30.0444; // Default: Cairo
@@ -62,6 +73,9 @@ class PrayerTimeService {
 
       // Save tomorrow's data to cache
       await _saveTomorrowToCache(lat, lng, tomorrow);
+
+      // OPTIMIZATION: Track when we prefetched to avoid duplicate operations
+      await storage.write(key: _tomorrowPrefetchKey, value: today);
 
       debugPrint('Tomorrow prayer times prefetched and cached successfully');
       return prayerTimes;
@@ -132,6 +146,15 @@ class PrayerTimeService {
 
   Future<Position?> _getCurrentLocation() async {
     try {
+      // OPTIMIZATION: Check if cached location is still valid (less than 1 hour old)
+      if (_cachedPosition != null && _cachedPositionTime != null) {
+        final age = DateTime.now().difference(_cachedPositionTime!);
+        if (age < _locationCacheExpiration) {
+          debugPrint('Using cached location (age: ${age.inMinutes} minutes)');
+          return _cachedPosition;
+        }
+      }
+
       bool serviceEnabled;
       LocationPermission permission;
 
@@ -145,10 +168,17 @@ class PrayerTimeService {
       }
       if (permission == LocationPermission.deniedForever) return null;
 
-      return await Geolocator.getCurrentPosition(
+      // OPTIMIZATION: Request with low accuracy and shorter timeout to reduce battery drain
+      final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low,
-        timeLimit: const Duration(seconds: 5),
+        timeLimit: const Duration(seconds: 3),
       );
+
+      // OPTIMIZATION: Cache the location and associated timestamp
+      _cachedPosition = position;
+      _cachedPositionTime = DateTime.now();
+
+      return position;
     } catch (e) {
       debugPrint('Error getting location: $e');
       return null;
