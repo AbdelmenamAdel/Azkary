@@ -34,8 +34,55 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+/// App lifecycle observer to manage notifications in background/terminated states
+class AppLifecycleObserver extends WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final notificationService = sl<NotificationService>();
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        debugPrint('App resumed - resuming notifications');
+        notificationService.resumeNotifications();
+        break;
+      case AppLifecycleState.paused:
+        debugPrint('App paused - pausing foreground notifications');
+        notificationService.pauseNotifications();
+        break;
+      case AppLifecycleState.detached:
+        debugPrint('App detached - notifications will continue in background');
+        break;
+      case AppLifecycleState.hidden:
+        debugPrint('App hidden');
+        break;
+      case AppLifecycleState.inactive:
+        debugPrint('App inactive');
+        break;
+    }
+  }
+}
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final _lifecycleObserver = AppLifecycleObserver();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(_lifecycleObserver);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(_lifecycleObserver);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
