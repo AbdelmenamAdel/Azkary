@@ -1,5 +1,6 @@
 import 'package:azkar/core/manager/app_cubit.dart';
 import 'package:azkar/core/manager/app_state.dart';
+import 'package:azkar/core/services/permession_services.dart';
 import 'package:azkar/core/theme/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,6 +77,13 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(_lifecycleObserver);
+
+    // اطلب كل الأذونات هنا
+    Future.delayed(Duration.zero, () {
+      PermissionsService.requestAllPermissions(
+        sl<GlobalKey<NavigatorState>>().currentContext!,
+      );
+    });
   }
 
   @override
