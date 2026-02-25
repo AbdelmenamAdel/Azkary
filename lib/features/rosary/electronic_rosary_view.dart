@@ -439,6 +439,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
                       child: Center(
                         child: Text(
                           zekr,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: isSelected ? colors.background : colors.text,
                             fontWeight: isSelected
@@ -458,7 +459,7 @@ class _ElectronicRosaryViewState extends State<ElectronicRosaryView>
               state.currentZekr,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: colors.secondary,
                 fontFamily: 'Cairo',
