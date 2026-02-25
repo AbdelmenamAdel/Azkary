@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 
 class PermissionsService {
   static Future<void> requestAllPermissions(BuildContext context) async {
+    if (Platform.isIOS) {
+      return;
+    }
+    // Android 13+
     final androidInfo = await DeviceInfoPlugin().androidInfo;
     final sdk = androidInfo.version.sdkInt;
 
@@ -34,10 +38,10 @@ class PermissionsService {
       final isIgnored = await Permission.ignoreBatteryOptimizations.isGranted;
       if (!isIgnored) {
         await Permission.ignoreBatteryOptimizations.request();
-        _showMessage(
-          context,
-          "يفضل تعطيل Battery Optimization لضمان وصول الإشعارات.",
-        );
+        // _showMessage(
+        //   context,
+        //   "يفضل تعطيل Battery Optimization لضمان وصول الإشعارات.",
+        // );
       }
     }
   }
