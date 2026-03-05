@@ -1,0 +1,70 @@
+name: Android Release Build and Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-aab:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Java
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      # Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          cache: true
+
+      # Decode keystore
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/keystore.jks
+
+      # Create key.properties
+      - name: Create key.properties
+        run: |
+          cat > android/key.properties <<EOF
+          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=${{ github.workspace }}/android/keystore.jks
+          EOF
+
+      # Dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Build AAB
+      - name: Build AAB
+        run: flutter build appbundle --release
+
+      # Upload artifact (optional for download)
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: build/app/outputs/bundle/release/app-release.aab
+
+      # Upload to Google Play
+      - name: Publish to Production (Google Play)
+        if: contains(github.event.head_commit.message, 'google deploy')
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.abdelmoneim.athkary
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          track: production
+          status: completed
