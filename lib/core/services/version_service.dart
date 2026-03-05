@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:http/http.dart' as http;
 
 class VersionService {
   static const String _playStoreLink =
@@ -36,6 +37,35 @@ class VersionService {
     } catch (e) {
       debugPrint('Error getting full version string: $e');
       return 'v0.0.0+0';
+    }
+  }
+
+  // Fetch the latest version from the Play Store
+  static Future<String?> getStoreVersion() async {
+    try {
+      final response = await http.get(Uri.parse(_playStoreLink));
+      if (response.statusCode == 200) {
+        // Play Store often hides the version in a specific pattern
+        // This is a common heuristic to find it
+        final RegExp regExp = RegExp(r'\[\[\["(\d+\.\d+\.\d+)"\]\]');
+        final match = regExp.firstMatch(response.body);
+        if (match != null) {
+          return match.group(1);
+        }
+
+        // Fallback for newer Play Store layout if available
+        final RegExp altRegExp = RegExp(
+          r'"softwareVersion"\s*:\s*"(\d+\.\d+\.\d+)"',
+        );
+        final altMatch = altRegExp.firstMatch(response.body);
+        if (altMatch != null) {
+          return altMatch.group(1);
+        }
+      }
+      return null;
+    } catch (e) {
+      debugPrint('Error fetching store version: $e');
+      return null;
     }
   }
 
