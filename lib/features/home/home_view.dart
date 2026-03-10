@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:azkar/core/services/notification_service.dart';
 import 'package:azkar/core/services/services_locator.dart';
 import 'package:azkar/core/services/version_service.dart';
+import 'package:azkar/features/home/widgets/update_dialog.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
@@ -34,6 +35,43 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     _checkLocationPermissionOnFirstLaunch();
+    _checkAppUpdate();
+  }
+
+  Future<void> _checkAppUpdate() async {
+    try {
+      final storage = sl<FlutterSecureStorage>();
+      final lastUpdateCheck = await storage.read(key: 'last_update_check_date');
+      final today = DateTime.now().toString().split(' ')[0];
+
+      if (lastUpdateCheck == today) return;
+
+      final currentVersion = await VersionService.getAppVersion();
+      final storeVersion = await VersionService.getStoreVersion();
+
+      if (storeVersion != null) {
+        final comparison = VersionService.compareVersions(
+          currentVersion,
+          storeVersion,
+        );
+
+        if (comparison < 0) {
+          if (!mounted) return;
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (context) => UpdateDialog(
+              version: storeVersion,
+              playStoreLink: VersionService.getPlayStoreLink(),
+            ),
+          );
+        }
+      }
+
+      await storage.write(key: 'last_update_check_date', value: today);
+    } catch (e) {
+      debugPrint('Error checking app update: $e');
+    }
   }
 
   Future<void> _checkLocationPermissionOnFirstLaunch() async {
